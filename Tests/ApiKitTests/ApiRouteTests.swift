@@ -32,13 +32,24 @@ final class ApiRouteTests: XCTestCase {
         XCTAssertEqual(items[0].value, "let\'s%20search%20for%20%26")
     }
 
+    func testUrlRequestsArePropertyConfiguredForGetRequests() throws {
+        let env = TestEnvironment.production
+        let route = TestRoute.search(query: "movies&+")
+        let request = route.urlRequest(for: env)
+        let contentType = request.allHTTPHeaderFields?["Content-Type"]
+        XCTAssertEqual(contentType, "application/json")
+        XCTAssertEqual(request.url?.absoluteString, "https://prod.api/search?q=movies%2526+")
+        XCTAssertEqual(request.httpMethod, "GET")
+    }
+
     func testUrlRequestsArePropertyConfiguredForPostRequests() throws {
         let env = TestEnvironment.production
         let route = TestRoute.postLogin(userName: "danielsaidi", password: "password+")
         let request = route.urlRequest(for: env)
         let contentType = request.allHTTPHeaderFields?["Content-Type"]
         XCTAssertEqual(contentType, "application/json")
-        XCTAssertEqual(request.httpMethod, "GET")
+        XCTAssertEqual(request.url?.absoluteString, "https://prod.api/postLogin?")
+        XCTAssertEqual(request.httpMethod, "POST")
         guard
             let bodyData = request.httpBody,
             let request = try? JSONDecoder().decode(TestLoginRequest.self, from: bodyData)
@@ -80,10 +91,18 @@ private enum TestRoute: ApiRoute {
     case postLogin(userName: String, password: String)
     case search(query: String)
 
+    var httpMethod: HttpMethod {
+        switch self {
+        case .formLogin: return .post
+        case .postLogin: return .post
+        case .search: return .get
+        }
+    }
+
     var path: String {
         switch self {
-        case .formLogin: return "login"
-        case .postLogin: return "login"
+        case .formLogin: return "formLogin"
+        case .postLogin: return "postLogin"
         case .search: return "search"
         }
     }

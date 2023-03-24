@@ -1,6 +1,6 @@
 //
 //  ApiRoute.swift
-//  SwiftKit
+//  ApiKit
 //
 //  Created by Daniel Saidi on 2023-03-24.
 //  Copyright © 2023 Daniel Saidi. All rights reserved.
@@ -14,10 +14,15 @@ import Foundation
  information required to perform an api request.
  */
 public protocol ApiRoute {
-    
+
     /**
-     The route's environment-relative path, that is appended
-     to the environment's url when performing a request.
+     The HTTP method that should be used for the route.
+     */
+    var httpMethod: HttpMethod { get }
+
+    /**
+     The route's ``ApiEnvironment`` relative path, that will
+     appended to the environment's url.
      */
     var path: String { get }
 
@@ -50,7 +55,7 @@ public extension ApiRoute {
      with `Content-Type` `application/x-www-form-urlencoded`.
      */
     func formRequest(for env: ApiEnvironment) -> URLRequest {
-        var req = urlRequest(for: env, httpMethod: .post)
+        var req = urlRequest(for: env)
         req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         req.httpBody = formRequestData
         return req
@@ -90,10 +95,7 @@ public extension ApiRoute {
      This function returns a `URLRequest` that is configured
      for the given `httpMethod` and the route's `queryItems`.
      */
-    func urlRequest(
-        for env: ApiEnvironment,
-        httpMethod: HttpMethod = .get
-    ) -> URLRequest {
+    func urlRequest(for env: ApiEnvironment) -> URLRequest {
         let url = self.url(in: env)
         guard var components = URLComponents(
             url: url,
