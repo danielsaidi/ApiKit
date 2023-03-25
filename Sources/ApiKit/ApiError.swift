@@ -15,5 +15,5 @@ public enum ApiError: Error {
 
     /// This error can be thrown when try to fetch data from
     /// an external API and map it to a `Decodable` type.
-    case noDataInResponse
+    case noDataInResponse(URLResponse?)
 }

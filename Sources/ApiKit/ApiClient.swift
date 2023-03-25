@@ -22,44 +22,48 @@ import Foundation
 public protocol ApiClient: AnyObject {
 
     /**
-     Try to perform a certain `URLRequest`.
+     Try to perform a `URLRequest` and return the raw result.
      */
-    func fetch(_ request: URLRequest) async throws -> ApiResult
+    func fetch(_ request: URLRequest) async throws -> ApiResult<Data>
 }
 
 extension URLSession: ApiClient {}
 
 public extension URLSession {
 
-    func fetch(_ request: URLRequest) async throws -> ApiResult {
+    func fetch(
+        _ request: URLRequest
+    ) async throws -> ApiResult<Data> {
         let result = try await data(for: request)
-        return ApiResult(data: result.0, response: result.1)
+        let data = result.0
+        let response = result.1
+        return ApiResult(data: data, response: response)
     }
 }
 
 public extension ApiClient {
 
     /**
-     Fetch data at an ``ApiRoute`` in an ``ApiEnvironment``.
+     Try to perform a `URLRequest` and return a result where
+     the raw `Data` is mapped to a certain type.
      */
-    func fetch(
-        _ route: ApiRoute,
-        in env: ApiEnvironment
-    ) async throws -> ApiResult {
-        let request = route.urlRequest(for: env)
-        return try await fetch(request)
+    func fetchItem<T: Decodable>(
+        with request: URLRequest
+    ) async throws -> T? {
+        let result = try await fetch(request)
+        guard let data = result.data else { throw ApiError.noDataInResponse(result.response) }
+        return try JSONDecoder().decode(T.self, from: data)
     }
 
     /**
-     Fetch a type at an ``ApiRoute`` in an ``ApiEnvironment``.
+     Try to perform a `URLRequest` and return a result where
+     the raw `Data` is mapped to a certain type.
      */
-    func fetchType<T: Decodable>(
+    func fetchItem<T: Decodable>(
         at route: ApiRoute,
-        in env: ApiEnvironment
-    ) async throws -> T {
-        let result = try await fetch(route, in: env)
-        guard let data = result.data else { throw ApiError.noDataInResponse }
-        let decoder = JSONDecoder()
-        return try decoder.decode(T.self, from: data)
+        in environment: ApiEnvironment
+    ) async throws -> T? {
+        let request = route.urlRequest(for: environment)
+        return try await fetchItem(with: request)
     }
 }
