@@ -16,3 +16,22 @@ public protocol ApiEnvironment {
     
     var url: URL { get }
 }
+
+public extension ApiEnvironment {
+
+    /**
+     Create a `URLRequest` that is configured for being used
+     with `Content-Type` `application/x-www-form-urlencoded`.
+     */
+    func formRequest(for route: ApiRoute) -> URLRequest {
+        route.formRequest(for: self)
+    }
+
+    /**
+     This function returns a `URLRequest` that is configured
+     for the given `httpMethod` and the route's `queryItems`.
+     */
+    func urlRequest(for route: ApiRoute) -> URLRequest {
+        route.urlRequest(for: self)
+    }
+}
