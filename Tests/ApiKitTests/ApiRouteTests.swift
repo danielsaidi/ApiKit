@@ -11,10 +11,26 @@ import XCTest
 
 final class ApiRouteTests: XCTestCase {
 
-    func testFormRequestsArePropertyAdjusted() throws {
+    func testQueryItemValuesAreUrlEncoded() throws {
+        let route = TestRoute.search(query: "let's search for &")
+        let items = route.queryItems
+        XCTAssertEqual(items[0].value, "let\'s%20search%20for%20%26")
+    }
+
+    func testUrlRequestIsPropertyConfiguredForGetRequests() throws {
+        let env = TestEnvironment.production
+        let route = TestRoute.search(query: "movies&+")
+        let request = route.urlRequest(for: env)
+        let contentType = request.allHTTPHeaderFields?["Content-Type"]
+        XCTAssertEqual(contentType, "application/json")
+        XCTAssertEqual(request.url?.absoluteString, "https://prod.api/search?q=movies%2526+")
+        XCTAssertEqual(request.httpMethod, "GET")
+    }
+
+    func testUrlRequestIsPropertyConfiguredForFormRequests() throws {
         let env = TestEnvironment.production
         let route = TestRoute.formLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
-        let request = route.formRequest(for: env)
+        let request = route.urlRequest(for: env)
         let contentType = request.allHTTPHeaderFields?["Content-Type"]
         XCTAssertEqual(contentType, "application/x-www-form-urlencoded")
         guard
@@ -26,23 +42,7 @@ final class ApiRouteTests: XCTestCase {
         XCTAssertEqual(bodyString, "password=let's%20code,%20shall%20we%3F%20%26%20do%20more%20stuff%20%2B&username=danielsaidi")
     }
 
-    func testQueryItemValuesAreUrlEncoded() throws {
-        let route = TestRoute.search(query: "let's search for &")
-        let items = route.queryItems
-        XCTAssertEqual(items[0].value, "let\'s%20search%20for%20%26")
-    }
-
-    func testUrlRequestsArePropertyConfiguredForGetRequests() throws {
-        let env = TestEnvironment.production
-        let route = TestRoute.search(query: "movies&+")
-        let request = route.urlRequest(for: env)
-        let contentType = request.allHTTPHeaderFields?["Content-Type"]
-        XCTAssertEqual(contentType, "application/json")
-        XCTAssertEqual(request.url?.absoluteString, "https://prod.api/search?q=movies%2526+")
-        XCTAssertEqual(request.httpMethod, "GET")
-    }
-
-    func testUrlRequestsArePropertyConfiguredForPostRequests() throws {
+    func testUrlRequestIsPropertyConfiguredForPostRequests() throws {
         let env = TestEnvironment.production
         let route = TestRoute.postLogin(userName: "danielsaidi", password: "password+")
         let request = route.urlRequest(for: env)

@@ -9,13 +9,17 @@
 import Foundation
 
 /**
- This protocol represents an API route, for instance `login`
- or `user`.
+ This protocol can be used to define API routes.
 
- Each route defines all information that is required to make
- a request to an API endpoint, including a ``HttpMethod``, a
- relative path within a certain ``ApiEnvironment``, post and
- query data etc.
+ Each route should define all information required to make a
+ request to an API endpoint, including the ``HttpMethod`` to
+ use, an environment root-relative path, request data etc.
+
+ Routes can also specify ``formParams`` which are parameters
+ that are send as URL encoded data within a request body. If
+ this property defines any parameters, the URL requests will
+ be setup to use `application/x-www-form-urlencoded` instead
+ of `application/json` as content type.
  */
 public protocol ApiRoute {
 
@@ -55,20 +59,10 @@ public protocol ApiRoute {
 public extension ApiRoute {
 
     /**
-     Create a `URLRequest` that is configured for being used
-     with `Content-Type` `application/x-www-form-urlencoded`.
+     Convert `formParams` to encoded, `.utf8` data.
      */
-    func formRequest(for env: ApiEnvironment) -> URLRequest {
-        var req = urlRequest(for: env)
-        req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        req.httpBody = formRequestData
-        return req
-    }
-
-    /**
-     Convert ``formParams`` to encoded, `.utf8` data.
-     */
-    var formRequestData: Data? {
+    var formData: Data? {
+        if formParams.isEmpty { return nil }
         var params = URLComponents()
         params.queryItems = formParams
             .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
@@ -99,9 +93,11 @@ public extension ApiRoute {
         components.queryItems = queryItems
         guard let requestUrl = components.url else { fatalError("Could not create URLRequest for \(url.absoluteString)") }
         var request = URLRequest(url: requestUrl)
+        request.httpBody = formData ?? postData
         request.httpMethod = httpMethod.method
-        request.httpBody = postData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let isFormRequest = formData != nil
+        let contentType = isFormRequest ? "application/x-www-form-urlencoded" : "application/json"
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return request
     }
 }

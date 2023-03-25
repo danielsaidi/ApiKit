@@ -11,12 +11,6 @@ import XCTest
 
 final class ApiEnvironmentTests: XCTestCase {
 
-    func testFormRequestIsNotNilForRouteWithFormData() throws {
-        let env = TestEnvironment.production
-        let route = TestRoute.formLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
-        XCTAssertNotNil(env.formRequest(for: route))
-    }
-
     func testUrlRequestIsNotNilForRoute() throws {
         let env = TestEnvironment.production
         let route = TestRoute.postLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
