@@ -81,22 +81,13 @@ public extension ApiRoute {
             .map { URLQueryItem(name: $0.key, value: $0.value.urlEncoded()) }
             .sorted { $0.name < $1.name }
     }
-    
-    /**
-     The route's url in a certain api environment.
-     */
-    func url(
-        in environment: ApiEnvironment
-    ) -> URL {
-        environment.url.appendingPathComponent(path)
-    }
 
     /**
      This function returns a `URLRequest` that is configured
      for the given `httpMethod` and the route's `queryItems`.
      */
     func urlRequest(for env: ApiEnvironment) -> URLRequest {
-        let url = self.url(in: env)
+        let url = env.url.appendingPathComponent(path)
         guard var components = URLComponents(
             url: url,
             resolvingAgainstBaseURL: true
