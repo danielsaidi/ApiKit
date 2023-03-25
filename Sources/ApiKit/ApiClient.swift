@@ -8,40 +8,58 @@
 import Foundation
 
 /**
- This protocol can be implemented by any types that can be
- used to communicate with an external api.
+ This protocol can be implemented by types that can make api
+ requests and return the raw data.
 
- This protocol is implemented by `URLSession`.
+ The protocol just requires you to implement one function to
+ fetch data for a `URLRequest`, after which it provides more
+ ``ApiRoute`` and ``ApiEnvironment`` based functions as well
+ as functions that can map the data to any `Decodable` types.
+
+ This protocol is implemented by `URLSession` so you can use
+ it as is, without having to create custom implementations.
  */
 public protocol ApiClient: AnyObject {
 
-    func fetch(
-        _ route: ApiRoute,
-        for env: ApiEnvironment
-    ) async throws -> ApiResult
+    /**
+     Try to perform a certain `URLRequest`.
+     */
+    func fetch(_ request: URLRequest) async throws -> ApiResult
+}
+
+extension URLSession: ApiClient {}
+
+public extension URLSession {
+
+    func fetch(_ request: URLRequest) async throws -> ApiResult {
+        let result = try await data(for: request)
+        return ApiResult(data: result.0, response: result.1)
+    }
 }
 
 public extension ApiClient {
 
+    /**
+     Fetch data at an ``ApiRoute`` in an ``ApiEnvironment``.
+     */
+    func fetch(
+        _ route: ApiRoute,
+        in env: ApiEnvironment
+    ) async throws -> ApiResult {
+        let request = route.urlRequest(for: env)
+        return try await fetch(request)
+    }
+
+    /**
+     Fetch a type at an ``ApiRoute`` in an ``ApiEnvironment``.
+     */
     func fetchType<T: Decodable>(
-        for route: ApiRoute,
-        from env: ApiEnvironment
+        at route: ApiRoute,
+        in env: ApiEnvironment
     ) async throws -> T {
-        let result = try await fetch(route, for: env)
+        let result = try await fetch(route, in: env)
         guard let data = result.data else { throw ApiError.noDataInResponse }
         let decoder = JSONDecoder()
         return try decoder.decode(T.self, from: data)
-    }
-}
-
-public extension URLSession {
-
-    func fetch(
-        _ route: ApiRoute,
-        for env: ApiEnvironment
-    ) async throws -> ApiResult {
-        let urlRequest = route.urlRequest(for: env)
-        let result = try await data(for: urlRequest)
-        return ApiResult(data: result.0, response: result.1)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- This enum lists various REST HTTP methods.
+ This enum defines various HTTP methods.
  */
 public enum HttpMethod: String, CaseIterable, Identifiable {
 

@@ -9,9 +9,13 @@
 import Foundation
 
 /**
- This protocol represents an external api route, e.g. `login`
- or `user`. Each route is a separate action that defines all
- information required to perform an api request.
+ This protocol represents an API route, for instance `login`
+ or `user`.
+
+ Each route defines all information that is required to make
+ a request to an API endpoint, including a ``HttpMethod``, a
+ relative path within a certain ``ApiEnvironment``, post and
+ query data etc.
  */
 public protocol ApiRoute {
 
