@@ -49,7 +49,7 @@ public extension ApiClient {
      */
     func fetchItem<T: Decodable>(
         with request: URLRequest
-    ) async throws -> T? {
+    ) async throws -> T {
         let result = try await fetch(request)
         guard let data = result.data else { throw ApiError.noDataInResponse(result.response) }
         return try JSONDecoder().decode(T.self, from: data)
@@ -62,7 +62,7 @@ public extension ApiClient {
     func fetchItem<T: Decodable>(
         at route: ApiRoute,
         in environment: ApiEnvironment
-    ) async throws -> T? {
+    ) async throws -> T {
         let request = route.urlRequest(for: environment)
         return try await fetchItem(with: request)
     }

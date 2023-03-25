@@ -53,8 +53,8 @@ final class ApiClientTests: XCTestCase {
         let data = try? JSONEncoder().encode(movie)
         let client = TestClient(data: data, error: nil)
         do {
-            let movie: TestMovie? = try await client.fetchItem(at: route, in: env)
-            XCTAssertEqual(movie?.name, "Godfather")
+            let movie: TestMovie = try await client.fetchItem(at: route, in: env)
+            XCTAssertEqual(movie.name, "Godfather")
         } catch {
             XCTFail("Should fail")
         }
