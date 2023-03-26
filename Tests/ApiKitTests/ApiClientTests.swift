@@ -98,7 +98,7 @@ private enum TestRoute: ApiRoute {
 
     var path: String { "" }
 
-    var formParams: [String : String] { [:] }
+    var formParams: [String: String] { [:] }
 
     var postData: Data? {
         let movie = TestMovie(id: "abc123", name: "Fargo")
@@ -106,7 +106,7 @@ private enum TestRoute: ApiRoute {
         return try? encoder.encode(movie)
     }
 
-    var queryParams: [String : String] { [:] }
+    var queryParams: [String: String] { [:] }
 }
 
 private class TestClient: ApiClient {

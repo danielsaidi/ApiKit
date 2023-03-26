@@ -64,7 +64,7 @@ private enum TestRoute: ApiRoute {
         }
     }
 
-    var formParams: [String : String] {
+    var formParams: [String: String] {
         switch self {
         case .formLogin(let userName, let password):
             return ["username": userName, "password": password]
@@ -86,7 +86,7 @@ private enum TestRoute: ApiRoute {
         }
     }
 
-    var queryParams: [String : String] {
+    var queryParams: [String: String] {
         switch self {
         case .formLogin: return [:]
         case .postLogin: return [:]

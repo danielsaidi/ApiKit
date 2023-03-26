@@ -25,7 +25,7 @@ public enum HttpMethod: String, CaseIterable, Identifiable {
     /**
      The unique identifier of the HTTP method.
      */
-    public var id: String{ rawValue }
+    public var id: String { rawValue }
 
     /**
      The uppercased name of the HTTP method.
