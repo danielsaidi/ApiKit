@@ -124,7 +124,7 @@ private class TestClient: ApiClient {
 
     func fetch(
         _ request: URLRequest
-    ) async throws -> ApiResult<Data> {
+    ) async throws -> ApiResult {
         if let error { throw error }
         return ApiResult(data: data, response: .init())
     }

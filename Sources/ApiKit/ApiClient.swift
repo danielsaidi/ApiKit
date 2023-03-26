@@ -24,7 +24,7 @@ public protocol ApiClient: AnyObject {
     /**
      Try to perform a `URLRequest` and return the raw result.
      */
-    func fetch(_ request: URLRequest) async throws -> ApiResult<Data>
+    func fetch(_ request: URLRequest) async throws -> ApiResult
 }
 
 extension URLSession: ApiClient {}
@@ -33,7 +33,7 @@ public extension URLSession {
 
     func fetch(
         _ request: URLRequest
-    ) async throws -> ApiResult<Data> {
+    ) async throws -> ApiResult {
         let result = try await data(for: request)
         let data = result.0
         let response = result.1

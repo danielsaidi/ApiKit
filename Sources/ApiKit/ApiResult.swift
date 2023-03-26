@@ -11,16 +11,16 @@ import Foundation
  This type can be returned used by an ``ApiClient`` when the
  client requests data from an external API.
  */
-public struct ApiResult<T> {
+public struct ApiResult {
 
     public init(
-        data: T?,
+        data: Data?,
         response: URLResponse?
     ) {
         self.data = data
         self.response = response
     }
 
-    public var data: T?
+    public var data: Data?
     public var response: URLResponse?
 }
