@@ -32,19 +32,19 @@ final class ApiRouteTests: XCTestCase {
         XCTAssertNotNil(request(for: .movie(id: "ABC123")))
         XCTAssertNotNil(request(for: .formLogin(userName: "danielsaidi", password: "super-secret")))
         XCTAssertNotNil(request(for: .postLogin(userName: "danielsaidi", password: "super-secret")))
-        XCTAssertNotNil(request(for: .search(query: "A nice movie")))
+        XCTAssertNotNil(request(for: .search(query: "A nice movie", page: 1)))
     }
 
-    func testUrlRequestIsPropertyConfiguredForGetRequests() throws {
+    func testUrlRequestIsPropertyConfiguredForGetRequestsWithQueryParameters() throws {
         let env = TestEnvironment.production
-        let route = TestRoute.search(query: "movies&+")
+        let route = TestRoute.search(query: "movies&+", page: 1)
         let request = route.urlRequest(for: env)
         XCTAssertEqual(request.allHTTPHeaderFields, [
             "Content-Type": "application/json",
             "locale": "sv-SE"
         ])
         XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/search?q=movies%2526+")
+        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+")
     }
 
     func testUrlRequestIsPropertyConfiguredForFormRequests() throws {
@@ -78,7 +78,7 @@ final class ApiRouteTests: XCTestCase {
             "Content-Type": "application/json",
             "locale": "sv-SE"
         ])
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/postLogin?")
+        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/postLogin")
         XCTAssertEqual(request.httpMethod, "POST")
         XCTAssertEqual(loginRequest.userName, "danielsaidi")
         XCTAssertEqual(loginRequest.password, "password+")

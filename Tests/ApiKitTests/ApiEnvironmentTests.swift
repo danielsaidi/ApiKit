@@ -20,6 +20,6 @@ final class ApiEnvironmentTests: XCTestCase {
         XCTAssertNotNil(request(for: .movie(id: "ABC123")))
         XCTAssertNotNil(request(for: .formLogin(userName: "danielsaidi", password: "super-secret")))
         XCTAssertNotNil(request(for: .postLogin(userName: "danielsaidi", password: "super-secret")))
-        XCTAssertNotNil(request(for: .search(query: "A nice movie")))
+        XCTAssertNotNil(request(for: .search(query: "A nice movie", page: 1)))
     }
 }

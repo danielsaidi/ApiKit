@@ -19,14 +19,14 @@ import Foundation
 public protocol ApiRequestData {
 
     /**
-     Optional header data.
+     Optional header parameters.
      */
-    var headers: [String: String] { get }
+    var headers: [String: String]? { get }
 
     /**
      Optional query params.
      */
-    var queryParams: [String: String] { get }
+    var queryParams: [String: String]? { get }
 }
 
 public extension ApiRequestData {
@@ -34,8 +34,8 @@ public extension ApiRequestData {
     /**
      URL encoded and sorted ``queryParams``.
      */
-    var encodedQueryItems: [URLQueryItem] {
-        queryParams
+    var encodedQueryItems: [URLQueryItem]? {
+        queryParams?
             .map { URLQueryItem(name: $0.key, value: $0.value.urlEncoded()) }
             .sorted { $0.name < $1.name }
     }

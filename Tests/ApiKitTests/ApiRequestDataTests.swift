@@ -12,10 +12,12 @@ import XCTest
 final class ApiRequestDataTests: XCTestCase {
 
     func testEncodedQueryItemsAreSortedAndEncoded() throws {
-        let route = TestRoute.search(query: "let's search for &")
+        let route = TestRoute.search(query: "let's search for &", page: 1)
         let items = route.encodedQueryItems
-        XCTAssertEqual(items.count, 1)
-        XCTAssertEqual(items[0].name, "q")
-        XCTAssertEqual(items[0].value, "let\'s%20search%20for%20%26")
+        XCTAssertEqual(items?.count, 2)
+        XCTAssertEqual(items?[0].name, "p")
+        XCTAssertEqual(items?[0].value, "1")
+        XCTAssertEqual(items?[1].name, "q")
+        XCTAssertEqual(items?[1].value, "let\'s%20search%20for%20%26")
     }
 }

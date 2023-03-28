@@ -57,7 +57,7 @@ enum TestRoute: ApiRoute {
     case formLogin(userName: String, password: String)
     case movie(id: String)
     case postLogin(userName: String, password: String)
-    case search(query: String)
+    case search(query: String, page: Int)
 
     var httpMethod: HttpMethod {
         switch self {
@@ -77,7 +77,7 @@ enum TestRoute: ApiRoute {
         }
     }
 
-    var headers: [String : String] {
+    var headers: [String : String]? {
         ["locale": "sv-SE"]
     }
 
@@ -105,12 +105,12 @@ enum TestRoute: ApiRoute {
         }
     }
 
-    var queryParams: [String: String] {
+    var queryParams: [String: String]? {
         switch self {
-        case .movie: return [:]
-        case .formLogin: return [:]
-        case .postLogin: return [:]
-        case .search(let query): return ["q": query]
+        case .movie: return nil
+        case .formLogin: return nil
+        case .postLogin: return nil
+        case .search(let query, let page): return ["q": query, "p": "\(page)"]
         }
     }
 }
