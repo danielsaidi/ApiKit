@@ -14,6 +14,7 @@ This version adds supports for headers and for the environment to define global 
 
 * `ApiRequestData` is a new protocol that is implemented by both `ApiEnvironment` and `ApiRoute`.
 * `ApiEnvironment` and `ApiRoute` can now define custom headers.
+* `TheMovieDB` is a new type that can be used to integrate with The Movie DB api. 
 
 ### 💡 Behavior Changes
 

@@ -14,7 +14,7 @@ import Foundation
 public enum ApiError: Error, Equatable {
 
     /// This error should be thrown when an ``ApiEnvironment``
-    /// has a ``url`` that can't be used to generate a `URL`.
+    /// has a url that can't be used to generate a `URL`.
     case invalidEnvironmentUrl(String)
 
     /// This error should be thrown when a `URLResponse` has

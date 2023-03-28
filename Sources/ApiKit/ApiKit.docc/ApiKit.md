@@ -20,3 +20,7 @@ Blah blah blah
 ### HTTP
 
 - ``HttpMethod``
+
+### Examples
+
+- ``TheMovieDB``

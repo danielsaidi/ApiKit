@@ -7,22 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9B2328A29D346C700B85203 /* DemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328929D346C700B85203 /* DemoScreen.swift */; };
+		A9B2328D29D346F700B85203 /* TheMovieDbScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328C29D346F700B85203 /* TheMovieDbScreen.swift */; };
+		A9B2328F29D348F300B85203 /* DemoKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328E29D348F300B85203 /* DemoKeys.swift */; };
 		A9C026AB29D2CEFA00371AE0 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */; };
 		A9C026AD29D2CEFA00371AE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C026AC29D2CEFA00371AE0 /* ContentView.swift */; };
 		A9C026AF29D2CEFB00371AE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */; };
 		A9C026B329D2CEFB00371AE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C026B229D2CEFB00371AE0 /* Preview Assets.xcassets */; };
-		A9C026BA29D2D00500371AE0 /* TheMovieDb.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C026B929D2D00500371AE0 /* TheMovieDb.swift */; };
+		A9C026C029D3228100371AE0 /* ApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9C026BF29D3228100371AE0 /* ApiKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A9B2328929D346C700B85203 /* DemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoScreen.swift; sourceTree = "<group>"; };
+		A9B2328C29D346F700B85203 /* TheMovieDbScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieDbScreen.swift; sourceTree = "<group>"; };
+		A9B2328E29D348F300B85203 /* DemoKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoKeys.swift; sourceTree = "<group>"; };
 		A9C026A729D2CEFA00371AE0 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 		A9C026AC29D2CEFA00371AE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9C026B029D2CEFB00371AE0 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		A9C026B229D2CEFB00371AE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A9C026B929D2D00500371AE0 /* TheMovieDb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieDb.swift; sourceTree = "<group>"; };
-		A9C026BC29D2D01300371AE0 /* apikit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = apikit; path = ..; sourceTree = "<group>"; };
+		A9C026BD29D3225300371AE0 /* apikit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = apikit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,18 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9C026C029D3228100371AE0 /* ApiKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9B2328B29D346E900B85203 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				A9B2328C29D346F700B85203 /* TheMovieDbScreen.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		A9C0269E29D2CEFA00371AE0 = {
 			isa = PBXGroup;
 			children = (
 				A9C026BB29D2D01300371AE0 /* Packages */,
 				A9C026A929D2CEFA00371AE0 /* Demo */,
 				A9C026A829D2CEFA00371AE0 /* Products */,
+				A9C026BE29D3228100371AE0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +71,14 @@
 		A9C026A929D2CEFA00371AE0 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				A9B2328B29D346E900B85203 /* Screens */,
 				A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */,
+				A9B2328E29D348F300B85203 /* DemoKeys.swift */,
+				A9B2328929D346C700B85203 /* DemoScreen.swift */,
 				A9C026AC29D2CEFA00371AE0 /* ContentView.swift */,
 				A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */,
 				A9C026B029D2CEFB00371AE0 /* Demo.entitlements */,
 				A9C026B129D2CEFB00371AE0 /* Preview Content */,
-				A9C026B929D2D00500371AE0 /* TheMovieDb.swift */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -77,9 +94,16 @@
 		A9C026BB29D2D01300371AE0 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				A9C026BC29D2D01300371AE0 /* apikit */,
+				A9C026BD29D3225300371AE0 /* apikit */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		A9C026BE29D3228100371AE0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,6 +122,9 @@
 			dependencies = (
 			);
 			name = Demo;
+			packageProductDependencies = (
+				A9C026BF29D3228100371AE0 /* ApiKit */,
+			);
 			productName = Demo;
 			productReference = A9C026A729D2CEFA00371AE0 /* Demo.app */;
 			productType = "com.apple.product-type.application";
@@ -154,8 +181,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9C026AD29D2CEFA00371AE0 /* ContentView.swift in Sources */,
-				A9C026BA29D2D00500371AE0 /* TheMovieDb.swift in Sources */,
+				A9B2328D29D346F700B85203 /* TheMovieDbScreen.swift in Sources */,
+				A9B2328A29D346C700B85203 /* DemoScreen.swift in Sources */,
 				A9C026AB29D2CEFA00371AE0 /* DemoApp.swift in Sources */,
+				A9B2328F29D348F300B85203 /* DemoKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +398,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9C026BF29D3228100371AE0 /* ApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApiKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A9C0269F29D2CEFA00371AE0 /* Project object */;
 }
