@@ -44,7 +44,7 @@ public protocol ApiRoute: ApiRequestData {
     /**
      Optional form data, which will be sent as request body.
      */
-    var formParams: [String: String] { get }
+    var formParams: [String: String]? { get }
     
     /**
      Optional post data, which will be sent as request body.
@@ -58,7 +58,7 @@ public extension ApiRoute {
      Convert `formParams` to encoded, `.utf8` data.
      */
     var formData: Data? {
-        if formParams.isEmpty { return nil }
+        guard let formParams, !formParams.isEmpty else { return nil }
         var params = URLComponents()
         params.queryItems = encodedFormItems
         let paramString = params.query
@@ -93,8 +93,8 @@ public extension ApiRoute {
     /**
      Form encoded and sorted ``formParams``.
      */
-    var encodedFormItems: [URLQueryItem] {
-        formParams
+    var encodedFormItems: [URLQueryItem]? {
+        formParams?
             .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
             .sorted { $0.name < $1.name }
     }

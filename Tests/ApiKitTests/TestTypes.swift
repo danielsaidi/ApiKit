@@ -81,13 +81,11 @@ enum TestRoute: ApiRoute {
         ["locale": "sv-SE"]
     }
 
-    var formParams: [String: String] {
+    var formParams: [String: String]? {
         switch self {
         case .formLogin(let userName, let password):
             return ["username": userName, "password": password]
-        case .movie: return [:]
-        case .postLogin: return [:]
-        case .search: return [:]
+        default: return nil
         }
     }
 
@@ -107,10 +105,8 @@ enum TestRoute: ApiRoute {
 
     var queryParams: [String: String]? {
         switch self {
-        case .movie: return nil
-        case .formLogin: return nil
-        case .postLogin: return nil
         case .search(let query, let page): return ["q": query, "p": "\(page)"]
+        default: return nil
         }
     }
 }

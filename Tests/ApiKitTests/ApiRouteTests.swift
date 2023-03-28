@@ -20,11 +20,11 @@ final class ApiRouteTests: XCTestCase {
     func testEncodedFormItemsAreSortedAndEncoded() throws {
         let route = TestRoute.formLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
         let items = route.encodedFormItems
-        XCTAssertEqual(items.count, 2)
-        XCTAssertEqual(items[0].name, "password")
-        XCTAssertEqual(items[0].value, "let's%20code,%20shall%20we%3F%20%26%20do%20more%20stuff%20%2B")
-        XCTAssertEqual(items[1].name, "username")
-        XCTAssertEqual(items[1].value, "danielsaidi")
+        XCTAssertEqual(items?.count, 2)
+        XCTAssertEqual(items?[0].name, "password")
+        XCTAssertEqual(items?[0].value, "let's%20code,%20shall%20we%3F%20%26%20do%20more%20stuff%20%2B")
+        XCTAssertEqual(items?[1].name, "username")
+        XCTAssertEqual(items?[1].value, "danielsaidi")
     }
 
 
