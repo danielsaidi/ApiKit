@@ -21,6 +21,6 @@ Blah blah blah
 
 - ``HttpMethod``
 
-### Examples
+### Integrations
 
 - ``TheMovieDB``
