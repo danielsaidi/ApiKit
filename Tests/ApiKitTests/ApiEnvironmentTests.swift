@@ -11,9 +11,9 @@ import XCTest
 
 final class ApiEnvironmentTests: XCTestCase {
 
-    func request(for route: TestRoute) -> URLRequest {
+    func request(for route: TestRoute) -> URLRequest? {
         let env = TestEnvironment.production
-        return env.urlRequest(for: route)
+        return try? env.urlRequest(for: route)
     }
 
     func testUrlRequestIsCreatedWithRoute() throws {

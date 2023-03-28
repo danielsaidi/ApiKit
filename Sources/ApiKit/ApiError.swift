@@ -13,7 +13,19 @@ import Foundation
  */
 public enum ApiError: Error, Equatable {
 
-    /// This error can be thrown when try to fetch data from
-    /// an external API and map it to a `Decodable` type.
+    /// This error should be thrown when an ``ApiEnvironment``
+    /// has a ``url`` that can't be used to generate a `URL`.
+    case invalidEnvironmentUrl(String)
+
+    /// This error should be thrown when a `URLResponse` has
+    /// no `Data` in a situation were data is expected.
     case noDataInResponse(URLResponse?)
+
+    /// This error should be thrown when a `URLRequest` will
+    /// fail to be created due to invalid `URLComponents`.
+    case noUrlInComponents(URLComponents)
+
+    /// This error should be thrown when a `URLRequest` will
+    /// fail to be created due to an invalid `URL`.
+    case failedToCreateComponentsFromUrl(URL)
 }

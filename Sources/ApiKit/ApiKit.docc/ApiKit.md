@@ -10,12 +10,12 @@ Blah blah blah
 
 ### Foundation
 
-- ``ApiClient``
 - ``ApiEnvironment``
-- ``ApiError``
-- ``ApiRequestData``
-- ``ApiResult``
 - ``ApiRoute``
+- ``ApiRequestData``
+- ``ApiClient``
+- ``ApiError``
+- ``ApiResult``
 
 ### HTTP
 

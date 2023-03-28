@@ -63,7 +63,7 @@ public extension ApiClient {
         at route: ApiRoute,
         in environment: ApiEnvironment
     ) async throws -> T {
-        let request = route.urlRequest(for: environment)
+        let request = try route.urlRequest(for: environment)
         return try await fetchItem(with: request)
     }
 }

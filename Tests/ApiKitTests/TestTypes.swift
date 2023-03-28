@@ -35,12 +35,7 @@ enum TestEnvironment: ApiEnvironment {
     case staging
     case production
 
-    var url: URL {
-        guard let url = URL(string: urlString) else { fatalError("TODO: make throwing") }
-        return url
-    }
-
-    var urlString: String {
+    var url: String {
         switch self {
         case .staging: return "https://staging-api.imdb.com"
         case .production: return "https://api.imdb.com"
@@ -145,6 +140,7 @@ extension ApiError {
     var isNoDataInResponse: Bool {
         switch self {
         case .noDataInResponse: return true
+        default: return false
         }
     }
 }

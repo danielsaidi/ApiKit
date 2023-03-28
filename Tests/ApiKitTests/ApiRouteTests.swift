@@ -11,9 +11,9 @@ import XCTest
 
 final class ApiRouteTests: XCTestCase {
 
-    func request(for route: TestRoute) -> URLRequest {
+    func request(for route: TestRoute) -> URLRequest? {
         let env = TestEnvironment.production
-        return route.urlRequest(for: env)
+        return try? route.urlRequest(for: env)
     }
 
 
@@ -36,29 +36,27 @@ final class ApiRouteTests: XCTestCase {
     }
 
     func testUrlRequestIsPropertyConfiguredForGetRequestsWithQueryParameters() throws {
-        let env = TestEnvironment.production
         let route = TestRoute.search(query: "movies&+", page: 1)
-        let request = route.urlRequest(for: env)
-        XCTAssertEqual(request.allHTTPHeaderFields, [
+        let request = request(for: route)
+        XCTAssertEqual(request?.allHTTPHeaderFields, [
             "Content-Type": "application/json",
             "locale": "sv-SE",
             "api-secret": "APISECRET"
         ])
-        XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+&api-key=APIKEY")
+        XCTAssertEqual(request?.httpMethod, "GET")
+        XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+&api-key=APIKEY")
     }
 
     func testUrlRequestIsPropertyConfiguredForFormRequests() throws {
-        let env = TestEnvironment.production
         let route = TestRoute.formLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
-        let request = route.urlRequest(for: env)
+        let request = request(for: route)
         guard
-            let bodyData = request.httpBody,
+            let bodyData = request?.httpBody,
             let bodyString = String(data: bodyData, encoding: .utf8)
         else {
             return XCTFail("Invalid body data")
         }
-        XCTAssertEqual(request.allHTTPHeaderFields, [
+        XCTAssertEqual(request?.allHTTPHeaderFields, [
             "Content-Type": "application/x-www-form-urlencoded",
             "locale": "sv-SE",
             "api-secret": "APISECRET"
@@ -67,22 +65,21 @@ final class ApiRouteTests: XCTestCase {
     }
 
     func testUrlRequestIsPropertyConfiguredForPostRequests() throws {
-        let env = TestEnvironment.production
         let route = TestRoute.postLogin(userName: "danielsaidi", password: "password+")
-        let request = route.urlRequest(for: env)
+        let request = request(for: route)
         guard
-            let bodyData = request.httpBody,
+            let bodyData = request?.httpBody,
             let loginRequest = try? JSONDecoder().decode(TestLoginRequest.self, from: bodyData)
         else {
             return XCTFail("Invalid body data")
         }
-        XCTAssertEqual(request.allHTTPHeaderFields, [
+        XCTAssertEqual(request?.allHTTPHeaderFields, [
             "Content-Type": "application/json",
             "locale": "sv-SE",
             "api-secret": "APISECRET"
         ])
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/postLogin?api-key=APIKEY")
-        XCTAssertEqual(request.httpMethod, "POST")
+        XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/postLogin?api-key=APIKEY")
+        XCTAssertEqual(request?.httpMethod, "POST")
         XCTAssertEqual(loginRequest.userName, "danielsaidi")
         XCTAssertEqual(loginRequest.password, "password+")
     }

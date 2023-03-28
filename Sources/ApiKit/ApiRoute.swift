@@ -75,37 +75,15 @@ public extension ApiRoute {
     }
 
     /**
-     Merge the route and environment ``headers``.
-     */
-    func headers(for env: ApiEnvironment) -> [String: String] {
-        var result = env.headers ?? [:]
-        headers?.forEach {
-            result[$0.key] = $0.value
-        }
-        return result
-    }
-
-    /**
-     Merge the route and environment ``encodedQueryItems``.
-     */
-    func queryItems(for env: ApiEnvironment) -> [URLQueryItem] {
-        let routeData = encodedQueryItems ?? []
-        let envData = env.encodedQueryItems ?? []
-        return routeData + envData
-    }
-
-    /**
      This function returns a `URLRequest` that is configured
      for the given `httpMethod` and the route's `queryItems`.
      */
-    func urlRequest(for env: ApiEnvironment) -> URLRequest {
-        let url = env.url.appendingPathComponent(path)
-        guard var components = URLComponents(
-            url: url,
-            resolvingAgainstBaseURL: true
-        ) else { fatalError("TODO THROW: Could not create URLComponents for \(url.absoluteString)") }
+    func urlRequest(for env: ApiEnvironment) throws -> URLRequest {
+        guard let envUrl = URL(string: env.url) else { throw ApiError.invalidEnvironmentUrl(env.url) }
+        let routeUrl = envUrl.appendingPathComponent(path)
+        guard var components = urlComponents(from: routeUrl) else { throw ApiError.failedToCreateComponentsFromUrl(routeUrl) }
         components.queryItems = queryItems(for: env)
-        guard let requestUrl = components.url else { fatalError("Could not create URLRequest for \(url.absoluteString)") }
+        guard let requestUrl = components.url else { throw ApiError.noUrlInComponents(components) }
         var request = URLRequest(url: requestUrl)
         let formData = encodedFormData
         request.allHTTPHeaderFields = headers(for: env)
@@ -115,5 +93,26 @@ public extension ApiRoute {
         let contentType = isFormRequest ? "application/x-www-form-urlencoded" : "application/json"
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return request
+    }
+}
+
+private extension ApiRoute {
+
+    func headers(for env: ApiEnvironment) -> [String: String] {
+        var result = env.headers ?? [:]
+        headers?.forEach {
+            result[$0.key] = $0.value
+        }
+        return result
+    }
+
+    func queryItems(for env: ApiEnvironment) -> [URLQueryItem] {
+        let routeData = encodedQueryItems ?? []
+        let envData = env.encodedQueryItems ?? []
+        return routeData + envData
+    }
+
+    func urlComponents(from url: URL) -> URLComponents? {
+        URLComponents(url: url, resolvingAgainstBaseURL: true)
     }
 }

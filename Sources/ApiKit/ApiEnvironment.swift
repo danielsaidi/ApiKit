@@ -26,7 +26,7 @@ import Foundation
 public protocol ApiEnvironment: ApiRequestData {
 
     /// The base URL of the environment.
-    var url: URL { get }
+    var url: String { get }
 }
 
 public extension ApiEnvironment {
@@ -35,7 +35,7 @@ public extension ApiEnvironment {
      This function returns a `URLRequest` that is configured
      for the given `httpMethod` and the route's `queryItems`.
      */
-    func urlRequest(for route: ApiRoute) -> URLRequest {
-        route.urlRequest(for: self)
+    func urlRequest(for route: ApiRoute) throws -> URLRequest {
+        try route.urlRequest(for: self)
     }
 }
