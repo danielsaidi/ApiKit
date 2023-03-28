@@ -55,14 +55,43 @@ public protocol ApiRoute: ApiRequestData {
 public extension ApiRoute {
 
     /**
-     Convert `formParams` to encoded, `.utf8` data.
+     Convert ``encodedFormItems`` to `.utf8` encoded data.
      */
-    var formData: Data? {
+    var encodedFormData: Data? {
         guard let formParams, !formParams.isEmpty else { return nil }
         var params = URLComponents()
         params.queryItems = encodedFormItems
         let paramString = params.query
         return paramString?.data(using: .utf8)
+    }
+
+    /**
+     Convert ``formParams`` to form encoded query items.
+     */
+    var encodedFormItems: [URLQueryItem]? {
+        formParams?
+            .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
+            .sorted { $0.name < $1.name }
+    }
+
+    /**
+     Merge the route and environment ``headers``.
+     */
+    func headers(for env: ApiEnvironment) -> [String: String] {
+        var result = env.headers ?? [:]
+        headers?.forEach {
+            result[$0.key] = $0.value
+        }
+        return result
+    }
+
+    /**
+     Merge the route and environment ``encodedQueryItems``.
+     */
+    func queryItems(for env: ApiEnvironment) -> [URLQueryItem] {
+        let routeData = encodedQueryItems ?? []
+        let envData = env.encodedQueryItems ?? []
+        return routeData + envData
     }
 
     /**
@@ -75,27 +104,16 @@ public extension ApiRoute {
             url: url,
             resolvingAgainstBaseURL: true
         ) else { fatalError("TODO THROW: Could not create URLComponents for \(url.absoluteString)") }
-        components.queryItems = encodedQueryItems
+        components.queryItems = queryItems(for: env)
         guard let requestUrl = components.url else { fatalError("Could not create URLRequest for \(url.absoluteString)") }
         var request = URLRequest(url: requestUrl)
-        request.allHTTPHeaderFields = headers
+        let formData = encodedFormData
+        request.allHTTPHeaderFields = headers(for: env)
         request.httpBody = formData ?? postData
         request.httpMethod = httpMethod.method
         let isFormRequest = formData != nil
         let contentType = isFormRequest ? "application/x-www-form-urlencoded" : "application/json"
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return request
-    }
-}
-
-public extension ApiRoute {
-    
-    /**
-     Form encoded and sorted ``formParams``.
-     */
-    var encodedFormItems: [URLQueryItem]? {
-        formParams?
-            .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
-            .sorted { $0.name < $1.name }
     }
 }

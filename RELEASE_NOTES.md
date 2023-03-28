@@ -6,15 +6,21 @@ Until then, deprecated features may be removed in the next minor version.
 
 
 
-## 0.1
+## 0.2
 
 ### ✨ New Features
 
 * `ApiRequestData` is a new protocol that is implemented by both `ApiEnvironment` and `ApiRoute`.
+* `ApiEnvironment` and `ApiRoute` can now define custom headers.
 
 ### 💡 Behavior Changes
 
-* Data from both the `ApiEnvironment` and the `ApiRoute` will be used when creating the request.
+* All request data is now optional to simplify defining it in your environments and routes.
+* URL requests will by default combine data from both the `ApiEnvironment` and the `ApiRoute`.
+
+### 💥 Breaking Changes
+
+* Query and form parameters are now optional.
 
 
 

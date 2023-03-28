@@ -32,7 +32,7 @@ public protocol ApiRequestData {
 public extension ApiRequestData {
 
     /**
-     URL encoded and sorted ``queryParams``.
+     Convert ``queryParams`` to url encoded query items.
      */
     var encodedQueryItems: [URLQueryItem]? {
         queryParams?

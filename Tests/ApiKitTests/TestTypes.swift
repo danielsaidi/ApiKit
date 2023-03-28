@@ -47,8 +47,12 @@ enum TestEnvironment: ApiEnvironment {
         }
     }
 
-    var headers: [String : String] {
-        ["api-key": "123456"]
+    var headers: [String : String]? {
+        ["api-secret": "APISECRET"]
+    }
+
+    var queryParams: [String : String]? {
+        ["api-key": "APIKEY"]
     }
 }
 

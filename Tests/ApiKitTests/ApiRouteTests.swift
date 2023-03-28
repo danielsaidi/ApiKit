@@ -41,10 +41,11 @@ final class ApiRouteTests: XCTestCase {
         let request = route.urlRequest(for: env)
         XCTAssertEqual(request.allHTTPHeaderFields, [
             "Content-Type": "application/json",
-            "locale": "sv-SE"
+            "locale": "sv-SE",
+            "api-secret": "APISECRET"
         ])
         XCTAssertEqual(request.httpMethod, "GET")
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+")
+        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+&api-key=APIKEY")
     }
 
     func testUrlRequestIsPropertyConfiguredForFormRequests() throws {
@@ -59,7 +60,8 @@ final class ApiRouteTests: XCTestCase {
         }
         XCTAssertEqual(request.allHTTPHeaderFields, [
             "Content-Type": "application/x-www-form-urlencoded",
-            "locale": "sv-SE"
+            "locale": "sv-SE",
+            "api-secret": "APISECRET"
         ])
         XCTAssertEqual(bodyString, "password=let's%20code,%20shall%20we%3F%20%26%20do%20more%20stuff%20%2B&username=danielsaidi")
     }
@@ -76,9 +78,10 @@ final class ApiRouteTests: XCTestCase {
         }
         XCTAssertEqual(request.allHTTPHeaderFields, [
             "Content-Type": "application/json",
-            "locale": "sv-SE"
+            "locale": "sv-SE",
+            "api-secret": "APISECRET"
         ])
-        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/postLogin")
+        XCTAssertEqual(request.url?.absoluteString, "https://api.imdb.com/postLogin?api-key=APIKEY")
         XCTAssertEqual(request.httpMethod, "POST")
         XCTAssertEqual(loginRequest.userName, "danielsaidi")
         XCTAssertEqual(loginRequest.password, "password+")

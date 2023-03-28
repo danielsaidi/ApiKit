@@ -23,7 +23,7 @@ import Foundation
  is created. The environment can use this to define api keys,
  secrets etc. while the route can define route-specific data.
  */
-public protocol ApiEnvironment {
+public protocol ApiEnvironment: ApiRequestData {
 
     /// The base URL of the environment.
     var url: URL { get }
