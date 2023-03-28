@@ -36,7 +36,7 @@ public extension ApiRequestData {
      */
     var encodedQueryItems: [URLQueryItem]? {
         queryParams?
-            .map { URLQueryItem(name: $0.key, value: $0.value.urlEncoded()) }
+            .map { URLQueryItem(name: $0.key, value: $0.value) }
             .sorted { $0.name < $1.name }
     }
 }
