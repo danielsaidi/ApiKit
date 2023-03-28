@@ -22,6 +22,10 @@ This version adds supports for headers and for the environment to define global 
 * URL request creation is now throwing.
 * URL requests will now combine data from the environment and route.
 
+### 🐛 Bug fixes
+
+* `ApiRequestData` removes the not needed url encoding.
+
 ### 💥 Breaking Changes
 
 * `ApiEnvironment` now uses a `String` as url.
