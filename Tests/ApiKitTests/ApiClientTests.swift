@@ -11,10 +11,10 @@ import XCTest
 
 final class ApiClientTests: XCTestCase {
 
-    private let route = TestRoute.movie
-    private let env = TestEnvironment.prod
+    private let route = TestRoute.movie(id: "ABC123")
+    private let env = TestEnvironment.production
 
-    func testFetchingItemFailsIfServiceThrowsError() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceThrowsError() async {
         let client = TestClient(data: nil, error: TestError.baboooom)
         do {
             let _: TestMovie? = try await client.fetchItem(at: route, in: env)
@@ -25,7 +25,7 @@ final class ApiClientTests: XCTestCase {
         }
     }
 
-    func testFetchingItemFailsIfServiceDoesNotReturnAnyData() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceDoesNotReturnAnyData() async {
         let client = TestClient(data: nil, error: nil)
         do {
             let _: TestMovie? = try await client.fetchItem(at: route, in: env)
@@ -36,7 +36,7 @@ final class ApiClientTests: XCTestCase {
         }
     }
 
-    func testFetchingItemFailsIfServiceReturnsInvalidData() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceReturnsInvalidData() async {
         let person = TestPerson(id: "", firstName: "Al", lastName: "Pacino")
         let data = try? JSONEncoder().encode(person)
         let client = TestClient(data: data, error: nil)
@@ -48,7 +48,7 @@ final class ApiClientTests: XCTestCase {
         }
     }
 
-    func testFetchingItemSucceedsIfServiceReturnsValidData() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteSucceedsIfServiceReturnsValidData() async {
         let movie = TestMovie(id: "", name: "Godfather")
         let data = try? JSONEncoder().encode(movie)
         let client = TestClient(data: data, error: nil)
@@ -57,84 +57,6 @@ final class ApiClientTests: XCTestCase {
             XCTAssertEqual(movie.name, "Godfather")
         } catch {
             XCTFail("Should fail")
-        }
-    }
-}
-
-private enum TestError: Error, Equatable {
-
-    case baboooom
-}
-
-private struct TestMovie: Codable {
-
-    var id: String
-    var name: String
-}
-
-private struct TestPerson: Codable {
-
-    var id: String
-    var firstName: String
-    var lastName: String
-}
-
-private enum TestEnvironment: ApiEnvironment {
-
-    case prod
-
-    var url: URL {
-        let urlString = "http://api.imdb.com/"
-        guard let url = URL(string: urlString) else { fatalError("Invalid url") }
-        return url
-    }
-}
-
-private enum TestRoute: ApiRoute {
-
-    case movie
-
-    var httpMethod: HttpMethod { .get }
-
-    var path: String { "" }
-
-    var formParams: [String: String] { [:] }
-
-    var postData: Data? {
-        let movie = TestMovie(id: "abc123", name: "Fargo")
-        let encoder = JSONEncoder()
-        return try? encoder.encode(movie)
-    }
-
-    var queryParams: [String: String] { [:] }
-}
-
-private class TestClient: ApiClient {
-
-    init(
-        data: Data?,
-        error: Error?
-    ) {
-        self.data = data
-        self.error = error
-    }
-
-    let data: Data?
-    let error: Error?
-
-    func fetch(
-        _ request: URLRequest
-    ) async throws -> ApiResult {
-        if let error { throw error }
-        return ApiResult(data: data, response: .init())
-    }
-}
-
-private extension ApiError {
-
-    var isNoDataInResponse: Bool {
-        switch self {
-        case .noDataInResponse: return true
         }
     }
 }

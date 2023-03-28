@@ -9,19 +9,26 @@
 import Foundation
 
 /**
- This protocol can be used to define API routes.
+ This protocol can be implemented to define API routes.
 
- Each route should define all information required to make a
- request to an API endpoint, including the ``HttpMethod`` to
- use, an environment root-relative path, request data etc.
+ An ``ApiRoute`` should define a relative ``path`` within an
+ ``ApiEnvironment`` and an ``httpMethod`` to use when making
+ the request. You can use enums to group related routes in a
+ single enum, and use associated values to define route data
+ such as id, name, search queries etc. and use the data when
+ defining request data.
 
- Routes can also specify ``formParams`` which are parameters
- that are send as URL encoded data within a request body. If
- this property defines any parameters, the URL requests will
- be setup to use `application/x-www-form-urlencoded` instead
- of `application/json` as content type.
+ When a route defines ``formParams``, the URL request should
+ use `application/x-www-form-urlencoded` as content type and
+ ignore the ``postData``. The two are mutually exclusive and
+ ``formParams`` should take precedence when both are defined.
+
+ Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
+ and query parameters that should be merged when the request
+ is created. The environment can use this to define api keys,
+ secrets etc. while the route can define route-specific data.
  */
-public protocol ApiRoute {
+public protocol ApiRoute: ApiRequestData {
 
     /**
      The HTTP method that should be used for the route.
@@ -35,25 +42,14 @@ public protocol ApiRoute {
     var path: String { get }
 
     /**
-     The route's optional post data dictionary, which should
-     be added as a .utf8 encoded `httpBody` data string when
-     performing a request.
+     Optional form data, which will be sent as request body.
      */
     var formParams: [String: String] { get }
     
     /**
-     The route's optional post data, that should be added as
-     `httpBody` when performing a request. When defined, the
-     property takes precedence over `postParams`.
+     Optional post data, which will be sent as request body.
      */
     var postData: Data? { get }
-    
-    /**
-     The route's optional query data dictionary, that should
-     be added as a .utf8 encoded `httpBody` data string when
-     performing a request.
-     */
-    var queryParams: [String: String] { get }
 }
 
 public extension ApiRoute {
@@ -64,20 +60,9 @@ public extension ApiRoute {
     var formData: Data? {
         if formParams.isEmpty { return nil }
         var params = URLComponents()
-        params.queryItems = formParams
-            .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
-            .sorted { $0.name < $1.name }
+        params.queryItems = encodedFormItems
         let paramString = params.query
         return paramString?.data(using: .utf8)
-    }
-    
-    /**
-     The route's query items, which are mapped `queryParams`.
-     */
-    var queryItems: [URLQueryItem] {
-        queryParams
-            .map { URLQueryItem(name: $0.key, value: $0.value.urlEncoded()) }
-            .sorted { $0.name < $1.name }
     }
 
     /**
@@ -90,14 +75,27 @@ public extension ApiRoute {
             url: url,
             resolvingAgainstBaseURL: true
         ) else { fatalError("TODO THROW: Could not create URLComponents for \(url.absoluteString)") }
-        components.queryItems = queryItems
+        components.queryItems = encodedQueryItems
         guard let requestUrl = components.url else { fatalError("Could not create URLRequest for \(url.absoluteString)") }
         var request = URLRequest(url: requestUrl)
+        request.allHTTPHeaderFields = headers
         request.httpBody = formData ?? postData
         request.httpMethod = httpMethod.method
         let isFormRequest = formData != nil
         let contentType = isFormRequest ? "application/x-www-form-urlencoded" : "application/json"
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return request
+    }
+}
+
+public extension ApiRoute {
+    
+    /**
+     Form encoded and sorted ``formParams``.
+     */
+    var encodedFormItems: [URLQueryItem] {
+        formParams
+            .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
+            .sorted { $0.name < $1.name }
     }
 }

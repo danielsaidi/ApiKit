@@ -13,6 +13,7 @@ Blah blah blah
 - ``ApiClient``
 - ``ApiEnvironment``
 - ``ApiError``
+- ``ApiRequestData``
 - ``ApiResult``
 - ``ApiRoute``
 
