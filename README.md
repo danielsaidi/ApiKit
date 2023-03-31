@@ -93,5 +93,5 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 [Sponsors]: https://github.com/sponsors/danielsaidi
 
 [Documentation]: https://danielsaidi.github.io/ApiKit/documentation/apikit/
-[Getting-Started]: https://danielsaidi.github.io/ApiKit/documentation/ApiKit/getting-started
+[Getting-Started]: https://danielsaidi.github.io/ApiKit/documentation/apikit/getting-started
 [License]: https://github.com/danielsaidi/ApiKit/blob/master/LICENSE
