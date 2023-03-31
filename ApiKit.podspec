@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ApiKit'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.swift_versions   = ['5.7']
   s.summary          = 'ApiKit is something...'
   s.description      = 'ApiKit is something...great?'
