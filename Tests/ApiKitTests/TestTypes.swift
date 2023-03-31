@@ -42,11 +42,11 @@ enum TestEnvironment: ApiEnvironment {
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         ["api-secret": "APISECRET"]
     }
 
-    var queryParams: [String : String]? {
+    var queryParams: [String: String]? {
         ["api-key": "APIKEY"]
     }
 }
@@ -76,7 +76,7 @@ enum TestRoute: ApiRoute {
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         ["locale": "sv-SE"]
     }
 

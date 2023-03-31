@@ -36,9 +36,9 @@ public extension TheMovieDb {
             }
         }
 
-        public var headers: [String : String]? { nil }
+        public var headers: [String: String]? { nil }
 
-        public var queryParams: [String : String]? {
+        public var queryParams: [String: String]? {
             switch self {
             case .production(let key): return ["api_key": key]
             }
@@ -67,7 +67,7 @@ public extension TheMovieDb {
             }
         }
 
-        public var queryParams: [String : String]? {
+        public var queryParams: [String: String]? {
             switch self {
             case .discoverMovies(let page): return ["language": "en-US", "sort-by": "popularity", "page": "\(page)"]
             case .movie: return nil
@@ -78,9 +78,9 @@ public extension TheMovieDb {
 
         public var httpMethod: HttpMethod { .get }
 
-        public var headers: [String : String]? { nil }
+        public var headers: [String: String]? { nil }
 
-        public var formParams: [String : String]? { nil }
+        public var formParams: [String: String]? { nil }
 
         public var postData: Data? { nil }
     }
