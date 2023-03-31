@@ -17,7 +17,9 @@
 
 ## About ApiKit
 
-ApiKit is a Swift library that makes it easy to perform API requests and integrate with any external API.
+ApiKit has an ``ApiClient`` protocol that can fetch any ``URLRequest`` and decode the data to any `Decodable` type. It's implemented by `URLSession` so you can use `URLSession.shared` directly, or create your own services.
+
+ApiKit also has an `ApiEnvironment` and `ApiRoute` model that can be used to easily various APIs and define things, like the HTTP method to use for a certain route, which headers to send etc. Any `ApiClient` can then fetch any route from any environment.
 
 
 
@@ -41,10 +43,15 @@ ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
 
 ## Getting started
 
-The [online documentation][Documentation] has a [getting started guide][Getting-Started] guide to help you get started with ApiKit.
+Implementing API integrations with ApiKit is very easy. You can either fetch raw `URLRequest`s and handle the raw data, or create custom `ApiEnvironment` and `ApiRoute` types to model various APIs.
+
+For instance, with a TheMovieDb-specific environment and route, we could fetch movies like this:   
 
 ```
-TBD...
+let client = URLSession.shared
+let environment = TheMovieDb.Environment.production("API_KEY") 
+let route = TheMovieDb.Route.movie(id: 123) 
+let movie: TheMovieDb.Movie = try await client.fetchItem(at: route, in: environment)
 ```
 
 For more information, please see the [online documentation][Documentation] and [getting started guide][Getting-Started] guide. 
