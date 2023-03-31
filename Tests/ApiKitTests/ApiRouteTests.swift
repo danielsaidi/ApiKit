@@ -44,7 +44,7 @@ final class ApiRouteTests: XCTestCase {
             "api-secret": "APISECRET"
         ])
         XCTAssertEqual(request?.httpMethod, "GET")
-        XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%2526+&api-key=APIKEY")
+        XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%26+&api-key=APIKEY")
     }
 
     func testUrlRequestIsPropertyConfiguredForFormRequests() throws {

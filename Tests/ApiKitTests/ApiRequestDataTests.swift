@@ -18,6 +18,6 @@ final class ApiRequestDataTests: XCTestCase {
         XCTAssertEqual(items?[0].name, "p")
         XCTAssertEqual(items?[0].value, "1")
         XCTAssertEqual(items?[1].name, "q")
-        XCTAssertEqual(items?[1].value, "let\'s%20search%20for%20%26")
+        XCTAssertEqual(items?[1].value, "let's search for &")
     }
 }
