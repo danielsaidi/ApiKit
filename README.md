@@ -17,9 +17,13 @@
 
 ## About ApiKit
 
-ApiKit has an ``ApiClient`` protocol that can fetch any ``URLRequest`` and decode the data to any `Decodable` type. It's implemented by `URLSession` so you can use `URLSession.shared` directly, or create your own services.
+ApiKit is a Swift library that makes it easy to integrate with any external REST APIs.
 
-ApiKit also has an `ApiEnvironment` and `ApiRoute` model that can be used to easily various APIs and define things, like the HTTP method to use for a certain route, which headers to send etc. Any `ApiClient` can then fetch any route from any environment.
+ApiKit has an ``ApiClient`` protocol that can fetch any ``URLRequest`` and decode the data to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own custom service.
+
+ApiKit has an `ApiEnvironment` and `ApiRoute` model that can be used to model the available environments and routes for any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
+
+Any `ApiClient` can then fetch any `ApiRoute` from any `ApiEnvironment` and automatically have the result decoded to any `Decodable` type.
 
 
 
@@ -45,7 +49,56 @@ ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
 
 Implementing API integrations with ApiKit is very easy. You can either fetch raw `URLRequest`s and handle the raw data, or create custom `ApiEnvironment` and `ApiRoute` types to model various APIs.
 
-For instance, with a TheMovieDb-specific environment and route, we could fetch movies like this:   
+For instance, with a TheMovieDb-specific environment:
+
+```swift
+enum TheMovieDbEnvironment: ApiEnvironment {
+
+    case production(apiKey: String)
+
+    public var url: String {
+        switch self {
+        case .production: return "https://api.themoviedb.org/3"
+        }
+    }
+
+    public var headers: [String: String]? { nil }
+
+    public var queryParams: [String: String]? {
+        switch self {
+        case .production(let key): return ["api_key": key]
+        }
+    }
+}
+```
+
+and a TheMovieDb-specific route:
+
+```swift
+enum Route: ApiRoute {
+
+    case movie(id: Int)
+    
+    public var path: String {
+        switch self {
+        case .movie(let id): return "movie/\(id)"
+        }
+    }
+
+    public var queryParams: [String: String]? {
+        switch self {
+        case .movie: return nil
+        }
+    }
+
+    public var httpMethod: HttpMethod { .get }
+    public var headers: [String: String]? { nil }
+    public var formParams: [String: String]? { nil }
+    public var postData: Data? { nil }
+}
+```
+
+we could easily fetch movies like this:   
 
 ```
 let client = URLSession.shared

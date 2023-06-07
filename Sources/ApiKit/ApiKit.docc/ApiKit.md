@@ -27,15 +27,9 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 
 
-## Supported Platforms
-
-ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
-
-
-
 ## License
 
-ScrollKit is available under the MIT license. See the [LICENSE][License] file for more info.
+ApiKit is available under the MIT license. See the [LICENSE][License] file for more info.
 
 
 

@@ -1,11 +1,13 @@
 # Getting Started
 
-ScrollKit is a SwiftUI library that adds powerful scrolling features to SwiftUI, such as offset tracking and sticky scroll header views.
+This article explains how to get started with ApiKit.
 
 
 ## Overview
 
-Implementing API integrations with ApiKit is very easy. You can either fetch raw `URLRequest`s and handle the raw data, or create custom ``ApiEnvironment`` and ``ApiRoute`` types to model various APIs.
+ApiKit aims to make it easy to integrate with any external REST API. 
+
+With ApiKit, you can either fetch raw `URLRequest`s and handle the raw data, or create custom ``ApiEnvironment`` and ``ApiRoute`` types to model various APIs.
 
 For instance, this code defines  ``ApiEnvironment`` and ``ApiRoute``, where the environment defines how to send the API key as a query parameter, and the route defines how to fetch movies:
 
