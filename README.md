@@ -25,6 +25,8 @@ ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model 
 
 An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
 
+ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
+
 
 
 ## Installation
@@ -119,7 +121,7 @@ The demo app lets you explore the library on iOS and macOS. To try it out, just 
 
 
 
-## Support
+## Support this library
 
 I manage my various open-source projects in my free time and am really thankful for any help I can get from the community. 
 
@@ -135,12 +137,6 @@ Feel free to reach out if you have questions or if you want to contribute in any
 * Mastodon: [@danielsaidi@mastodon.social][Mastodon]
 * Twitter: [@danielsaidi][Twitter]
 * E-mail: [daniel.saidi@gmail.com][Email]
-
-
-
-## Supported Platforms
-
-ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
 
 
 

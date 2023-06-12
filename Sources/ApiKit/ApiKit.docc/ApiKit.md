@@ -13,6 +13,8 @@ ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model 
 
 An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
 
+ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
+
 
 
 ## Installation
@@ -36,6 +38,12 @@ The <doc:Getting-Started> article has a guide to help you get started with RichT
 ## Repository
 
 For more information, source code, an if you want to report issues, sponsor the project etc., visit the [project repository](https://github.com/danielsaidi/ApiKit).
+
+
+
+## About this documentation
+
+The online documentation is currently iOS only. To generate documentation for other platforms, open the package in Xcode, select a simulator then run `Product/Build Documentation`.
 
 
 
