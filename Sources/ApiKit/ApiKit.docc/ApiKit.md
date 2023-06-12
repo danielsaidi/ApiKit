@@ -1,17 +1,17 @@
 # ``ApiKit``
 
-ApiKit is a Swift library that makes it easy to integrate with REST-based web APIs over HTTP.
+ApiKit helps you integrate with external REST APIs.
 
 
 ## Overview
 
 ![Library logotype](Logo.png)
 
-ApiKit has an ``ApiClient`` protocol that can fetch any `URLRequest` and decode the data to any `Decodable` type. It's implemented by `URLSession` so you can use `URLSession.shared` directly, or create your own services.
+ApiKit has an ``ApiClient`` protocol that can fetch any `URLRequest` and decode the response to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own service.
 
-ApiKit also has an ``ApiEnvironment`` and ``ApiRoute`` model that can be used to easily model various APIs and define things, like the HTTP method to use for a certain route, which headers to send etc. Any ``ApiClient`` can then fetch any route from any environment.
+ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
 
-See the <doc:Getting-Started> guide for more information and code examples.
+An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
 
 
 
@@ -27,6 +27,18 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 
 
+## Getting started
+
+The <doc:Getting-Started> article has a guide to help you get started with RichTextKit.
+
+
+
+## Repository
+
+For more information, source code, an if you want to report issues, sponsor the project etc., visit the [project repository](https://github.com/danielsaidi/ApiKit).
+
+
+
 ## License
 
 ApiKit is available under the MIT license. See the [LICENSE][License] file for more info.
@@ -35,16 +47,16 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 
 ## Topics
 
-### Articles
+### Essentials
 
 - <doc:Getting-Started>
+- ``ApiClient``
+- ``ApiEnvironment``
+- ``ApiRoute``
 
 ### Foundation
 
-- ``ApiEnvironment``
-- ``ApiRoute``
 - ``ApiRequestData``
-- ``ApiClient``
 - ``ApiError``
 - ``ApiResult``
 

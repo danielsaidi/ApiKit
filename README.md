@@ -17,13 +17,13 @@
 
 ## About ApiKit
 
-ApiKit is a Swift library that makes it easy to integrate with any external REST APIs.
+ApiKit helps you integrate with external REST APIs.
 
-ApiKit has an ``ApiClient`` protocol that can fetch any ``URLRequest`` and decode the data to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own custom service.
+ApiKit has an ``ApiClient`` protocol that can fetch any `URLRequest` and decode the response to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own service.
 
-ApiKit has an `ApiEnvironment` and `ApiRoute` model that can be used to model the available environments and routes for any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
+ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
 
-Any `ApiClient` can then fetch any `ApiRoute` from any `ApiEnvironment` and automatically have the result decoded to any `Decodable` type.
+An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
 
 
 
@@ -39,17 +39,13 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 
 
-## Supported Platforms
-
-ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
-
-
-
 ## Getting started
 
-Implementing API integrations with ApiKit is very easy. You can either fetch raw `URLRequest`s and handle the raw data, or create custom `ApiEnvironment` and `ApiRoute` types to model various APIs.
+The [online documentation][Documentation] has a [getting started][Getting-Started] guide to help you get started with ApiKit.
 
-For instance, with a TheMovieDb-specific environment:
+In ApiKit, you can either fetch raw `URLRequest`s and handle the raw data, or create custom `ApiEnvironment` and `ApiRoute` types to model various APIs and return typed results.
+
+For instance, with this TheMovieDb-specific `ApiEnvironment`:
 
 ```swift
 enum TheMovieDbEnvironment: ApiEnvironment {
@@ -72,7 +68,7 @@ enum TheMovieDbEnvironment: ApiEnvironment {
 }
 ```
 
-and a TheMovieDb-specific route:
+and this TheMovieDb-specific `ApiRoute`:
 
 ```swift
 enum Route: ApiRoute {
@@ -98,13 +94,13 @@ enum Route: ApiRoute {
 }
 ```
 
-we could easily fetch movies like this:   
+we can now fetch movies like this:   
 
 ```
-let client = URLSession.shared
+let session = URLSession.shared
 let environment = TheMovieDb.Environment.production("API_KEY") 
 let route = TheMovieDb.Route.movie(id: 123) 
-let movie: TheMovieDb.Movie = try await client.fetchItem(at: route, in: environment)
+let movie: TheMovieDb.Movie = try await session.fetchItem(at: route, in: environment)
 ```
 
 For more information, please see the [online documentation][Documentation] and [getting started guide][Getting-Started] guide. 
@@ -113,7 +109,7 @@ For more information, please see the [online documentation][Documentation] and [
 
 ## Documentation
 
-The [online documentation][Documentation] contains more information, code examples, etc., and makes it easy to overview the various parts of the library.
+The [online documentation][Documentation] has more information, code examples, etc., and lets you overview the various parts of the library.
 
 
 
@@ -124,6 +120,8 @@ The demo app lets you explore the library on iOS and macOS. To try it out, just 
 
 
 ## Support
+
+I manage my various open-source projects in my free time and am really thankful for any help I can get from the community. 
 
 You can sponsor this project on [GitHub Sponsors][Sponsors] or get in touch for paid support.
 
@@ -137,6 +135,12 @@ Feel free to reach out if you have questions or if you want to contribute in any
 * Mastodon: [@danielsaidi@mastodon.social][Mastodon]
 * Twitter: [@danielsaidi][Twitter]
 * E-mail: [daniel.saidi@gmail.com][Email]
+
+
+
+## Supported Platforms
+
+ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
 
 
 
