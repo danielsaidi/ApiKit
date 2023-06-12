@@ -6,6 +6,16 @@ Until then, deprecated features may be removed in the next minor version.
 
 
 
+## 0.2.1
+
+This version makes ApiKit support PATCH requests.
+
+### ✨ New Features
+
+* `HttpMethod` now has a new `patch` case.
+
+
+
 ## 0.2
 
 This version adds supports for headers and for the environment to define global headers and query parameters.

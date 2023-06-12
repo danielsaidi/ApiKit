@@ -18,6 +18,7 @@ public enum HttpMethod: String, CaseIterable, Identifiable {
     case get
     case head
     case options
+    case patch
     case post
     case put
     case trace
