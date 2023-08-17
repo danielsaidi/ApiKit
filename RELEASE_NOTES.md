@@ -6,6 +6,17 @@ Until then, deprecated features may be removed in the next minor version.
 
 
 
+## 0.3
+
+This version adds a Yelp integration.
+
+### ✨ New Features
+
+* `YelpEnvironment` is a new `ApiEnvironment`.
+* `YelpRoute` is a new `ApiRoute`.
+
+
+
 ## 0.2.1
 
 This version makes ApiKit support PATCH requests.

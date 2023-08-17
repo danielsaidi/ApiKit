@@ -75,3 +75,4 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 ### Integrations
 
 - ``TheMovieDb``
+- ``Yelp``
