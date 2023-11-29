@@ -20,14 +20,13 @@ public extension Yelp.Environment {
     
     var url: String {
         switch self {
-        case .v3: return "https://api.yelp.com/v3/"
+        case .v3: "https://api.yelp.com/v3/"
         }
     }
  
     var headers: [String: String]? {
         switch self {
-        case .v3(let apiToken):
-            return ["Authorization": "Bearer \(apiToken)"]
+        case .v3(let apiToken): ["Authorization": "Bearer \(apiToken)"]
         }
     }
     

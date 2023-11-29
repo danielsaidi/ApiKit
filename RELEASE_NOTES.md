@@ -6,6 +6,12 @@ Until then, deprecated features may be removed in the next minor version.
 
 
 
+## 0.4
+
+This version uses Swift 5.9 and renames some integration types.
+
+
+
 ## 0.3
 
 ### ✨ New Features

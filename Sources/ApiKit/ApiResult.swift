@@ -23,5 +23,6 @@ public struct ApiResult {
     }
 
     public var data: Data?
+    
     public var response: URLResponse?
 }

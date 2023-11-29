@@ -20,7 +20,7 @@ public extension TheMovieDb.Environment {
  
     var url: String {
         switch self {
-        case .production: return "https://api.themoviedb.org/3"
+        case .production: "https://api.themoviedb.org/3"
         }
     }
 
@@ -28,7 +28,7 @@ public extension TheMovieDb.Environment {
 
     var queryParams: [String: String]? {
         switch self {
-        case .production(let key): return ["api_key": key]
+        case .production(let key): ["api_key": key]
         }
     }
 }

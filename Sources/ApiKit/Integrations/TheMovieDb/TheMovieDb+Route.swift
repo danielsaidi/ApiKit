@@ -23,10 +23,10 @@ public extension TheMovieDb.Route {
 
     var path: String {
         switch self {
-        case .discoverMovies: return "discover/movie"
-        case .movie(let id): return "movie/\(id)"
-        case .movieVideos(let id): return "movie/\(id)/movies"
-        case .searchMovies: return "search/movie"
+        case .discoverMovies: "discover/movie"
+        case .movie(let id): "movie/\(id)"
+        case .movieVideos(let id): "movie/\(id)/movies"
+        case .searchMovies: "search/movie"
         }
     }
 
@@ -40,10 +40,10 @@ public extension TheMovieDb.Route {
     
     var queryParams: [String: String]? {
         switch self {
-        case .discoverMovies(let page): return ["language": "en-US", "sort-by": "popularity", "page": "\(page)"]
-        case .movie: return nil
-        case .movieVideos: return nil
-        case .searchMovies(let query, let page): return ["query": query, "page": "\(page)"]
+        case .discoverMovies(let page): ["language": "en-US", "sort-by": "popularity", "page": "\(page)"]
+        case .movie: nil
+        case .movieVideos: nil
+        case .searchMovies(let query, let page): ["query": query, "page": "\(page)"]
         }
     }
 }

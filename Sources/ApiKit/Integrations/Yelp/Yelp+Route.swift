@@ -23,9 +23,9 @@ public extension Yelp.Route {
 
     var path: String {
         switch self {
-        case .restaurant(let id): return "businesses/\(id)"
-        case .restaurantReviews(let id): return "businesses/\(id)/reviews"
-        case .search: return "businesses/search"
+        case .restaurant(let id): "businesses/\(id)"
+        case .restaurantReviews(let id): "businesses/\(id)/reviews"
+        case .search: "businesses/search"
         }
     }
 
@@ -39,9 +39,9 @@ public extension Yelp.Route {
     
     var queryParams: [String: String]? {
         switch self {
-        case .restaurant: return nil
-        case .restaurantReviews: return nil
-        case .search(let params): return params.queryParams
+        case .restaurant: nil
+        case .restaurantReviews: nil
+        case .search(let params): params.queryParams
         }
     }
 }

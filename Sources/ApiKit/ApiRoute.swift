@@ -24,37 +24,26 @@ import Foundation
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
  and query parameters, which are then merged. An environment
  can use this to define global data, while routes can define
- route-specific data. 
+ route-specific data.
  */
 public protocol ApiRoute: ApiRequestData {
 
-    /**
-     The HTTP method that should be used for the route.
-     */
+    /// The HTTP method to use for the route.
     var httpMethod: HttpMethod { get }
 
-    /**
-     The route's ``ApiEnvironment`` relative path, that will
-     appended to the environment's url.
-     */
+    /// The route's ``ApiEnvironment`` relative path.
     var path: String { get }
 
-    /**
-     Optional form data, which will be sent as request body.
-     */
+    /// Optional form data, which is sent as request body.
     var formParams: [String: String]? { get }
     
-    /**
-     Optional post data, which will be sent as request body.
-     */
+    /// Optional post data, which is sent as request body.
     var postData: Data? { get }
 }
 
 public extension ApiRoute {
 
-    /**
-     Convert ``encodedFormItems`` to `.utf8` encoded data.
-     */
+    /// Convert ``encodedFormItems`` to `.utf8` encoded data.
     var encodedFormData: Data? {
         guard let formParams, !formParams.isEmpty else { return nil }
         var params = URLComponents()
@@ -63,19 +52,14 @@ public extension ApiRoute {
         return paramString?.data(using: .utf8)
     }
 
-    /**
-     Convert ``formParams`` to form encoded query items.
-     */
+    /// Convert ``formParams`` to form encoded query items.
     var encodedFormItems: [URLQueryItem]? {
         formParams?
             .map { URLQueryItem(name: $0.key, value: $0.value.formEncoded()) }
             .sorted { $0.name < $1.name }
     }
 
-    /**
-     This function returns a `URLRequest` that is configured
-     for the given `httpMethod` and the route's `queryItems`.
-     */
+    /// Get a `URLRequest` for the route and its properties.
     func urlRequest(for env: ApiEnvironment) throws -> URLRequest {
         guard let envUrl = URL(string: env.url) else { throw ApiError.invalidEnvironmentUrl(env.url) }
         let routeUrl = envUrl.appendingPathComponent(path)
