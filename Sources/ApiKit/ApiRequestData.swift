@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ApiRequestData.swift
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-03-28.
@@ -18,22 +18,16 @@ import Foundation
  */
 public protocol ApiRequestData {
 
-    /**
-     Optional header parameters.
-     */
+    /// Optional header parameters.
     var headers: [String: String]? { get }
 
-    /**
-     Optional query params.
-     */
+    /// Optional query params.
     var queryParams: [String: String]? { get }
 }
 
 public extension ApiRequestData {
 
-    /**
-     Convert ``queryParams`` to url encoded query items.
-     */
+    /// Convert ``queryParams`` to url encoded query items.
     var encodedQueryItems: [URLQueryItem]? {
         queryParams?
             .map { URLQueryItem(name: $0.key, value: $0.value) }

@@ -10,13 +10,13 @@ import Foundation
 
 public extension TheMovieDb {
 
-    enum ApiEnvironment: ApiKit.ApiEnvironment {
+    enum Environment: ApiEnvironment {
 
         case production(apiKey: String)
     }
 }
 
-public extension TheMovieDb.ApiEnvironment {
+public extension TheMovieDb.Environment {
  
     var url: String {
         switch self {

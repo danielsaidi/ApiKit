@@ -10,13 +10,13 @@ import Foundation
 
 public extension Yelp {
 
-    enum ApiEnvironment: ApiKit.ApiEnvironment {
+    enum Environment: ApiEnvironment {
 
         case v3(apiToken: String)
     }
 }
 
-public extension Yelp.ApiEnvironment {
+public extension Yelp.Environment {
     
     var url: String {
         switch self {

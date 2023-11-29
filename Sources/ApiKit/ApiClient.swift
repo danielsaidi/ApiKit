@@ -3,6 +3,7 @@
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-03-25.
+//  Copyright © 2023 Daniel Saidi. All rights reserved.
 //
 
 import Foundation
@@ -10,20 +11,19 @@ import Foundation
 /**
  This protocol can be implemented by types that can make api
  requests and return the raw data.
-
- The protocol just requires you to implement one function to
- fetch data for a `URLRequest`, after which it provides more
- ``ApiRoute`` and ``ApiEnvironment`` based functions as well
- as functions that can map the data to any `Decodable` types.
-
- This protocol is implemented by `URLSession` so you can use
- it as is, without having to create custom implementations.
+ 
+ Use ``fetch(_:)`` to fetch raw data, and ``fetchItem(with:)``
+ or ``fetchItem(at:in:)`` to fetch typed data.
+ 
+ The protocol is implemented by `URLSession`, so you can use
+ it without having to create a custom client implementation.
+ 
+ If you must create a custom client implementation, you only
+ have to implement ``fetch(_:)`` if you need to customize it.
  */
 public protocol ApiClient: AnyObject {
 
-    /**
-     Try to perform a `URLRequest` and return the raw result.
-     */
+    /// Perform a `URLRequest` and return the raw result.
     func fetch(_ request: URLRequest) async throws -> ApiResult
 }
 

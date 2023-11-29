@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="Resources/Logo_GitHub.png" alt="ApiKit Logo" title="ApiKit" width=600 />
+    <img src ="Resources/Logo_GitHub.png" alt="ApiKit Logo" title="ApiKit" />
 </p>
 
 <p align="center">
@@ -17,15 +17,9 @@
 
 ## About ApiKit
 
-ApiKit helps you integrate with external REST APIs.
+ApiKit provides lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs.
 
-ApiKit has an ``ApiClient`` protocol that can fetch any `URLRequest` and decode the response to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own service.
-
-ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
-
-An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
-
-ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
+With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation.
 
 
 
@@ -41,71 +35,108 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 
 
-## Getting started
+## Getting Started
 
-The [online documentation][Documentation] has a [getting started][Getting-Started] guide to help you get started with ApiKit.
+An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and can define a URL as well as global request headers and query parameters.
 
-In ApiKit, you can either fetch raw `URLRequest`s and handle the raw data, or create custom `ApiEnvironment` and `ApiRoute` types to model various APIs and return typed results.
-
-For instance, with this TheMovieDb-specific `ApiEnvironment`:
+For instance, this is how you would specify a Yelp v3 API environment, which requires that all request sends an API token as header:
 
 ```swift
-enum TheMovieDbEnvironment: ApiEnvironment {
+import ApiKit
 
-    case production(apiKey: String)
+enum YelpEnvironment: ApiEnvironment {
 
-    public var url: String {
-        switch self {
-        case .production: return "https://api.themoviedb.org/3"
-        }
-    }
-
-    public var headers: [String: String]? { nil }
-
-    public var queryParams: [String: String]? {
-        switch self {
-        case .production(let key): return ["api_key": key]
-        }
-    }
-}
-```
-
-and this TheMovieDb-specific `ApiRoute`:
-
-```swift
-enum Route: ApiRoute {
-
-    case movie(id: Int)
+    case v3(apiToken: String)
     
-    public var path: String {
+    var url: String {
         switch self {
-        case .movie(let id): return "movie/\(id)"
+        case .v3: return "https://api.yelp.com/v3/"
         }
     }
-
-    public var queryParams: [String: String]? {
+ 
+    var headers: [String: String]? {
         switch self {
-        case .movie: return nil
+        case .v3(let apiToken):
+            return ["Authorization": "Bearer \(apiToken)"]
         }
     }
-
-    public var httpMethod: HttpMethod { .get }
-    public var headers: [String: String]? { nil }
-    public var formParams: [String: String]? { nil }
-    public var postData: Data? { nil }
+    
+    var queryParams: [String: String]? {
+        [:]
+    }
 }
 ```
 
-we can now fetch movies like this:   
+An ``ApiRoute`` refers to endpoints within an API, and can define HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
 
-```
-let session = URLSession.shared
-let environment = TheMovieDb.Environment.production("API_KEY") 
-let route = TheMovieDb.Route.movie(id: 123) 
-let movie: TheMovieDb.Movie = try await session.fetchItem(at: route, in: environment)
+For instance, this is how you would specify some Yelp v3 API routes:
+
+```swift
+import ApiKit
+
+public enum YelpRoute: ApiRoute {
+
+    case restaurant(id: String)
+    case restaurantReviews(restaurantId: String)
+    case search(params: Yelp.SearchParams)
+
+    var path: String {
+        switch self {
+        case .restaurant(let id): return "businesses/\(id)"
+        case .restaurantReviews(let id): return "businesses/\(id)/reviews"
+        case .search: return "businesses/search"
+        }
+    }
+
+    var httpMethod: HttpMethod { .get }
+
+    var headers: [String: String]? { nil }
+
+    var formParams: [String: String]? { nil }
+
+    var postData: Data? { nil }
+    
+    var queryParams: [String: String]? {
+        switch self {
+        case .restaurant: return nil
+        case .restaurantReviews: return nil
+        case .search(let params): return params.queryParams
+        }
+    }
+}
 ```
 
-For more information, please see the [online documentation][Documentation] and [getting started guide][Getting-Started] guide. 
+We also have to define `Codable` Yelp-specific models to be able to map data from the API.
+
+For instance, this is a super lightweight model that just parses the ID, name and image URL for a restaurant:
+
+```swift
+struct YelpRestaurant: Codable {
+    
+    public let id: String
+    public let name: String?
+    public let imageUrl: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case imageUrl = "image_url"
+    }
+}
+```
+
+With the environment, routes and models in place, we can now fetch data from the Yelp API.
+
+We can use `URLSession.shared` directly, or any custom ``ApiClient`` implementation:
+
+```swift
+let client = URLSession.shared
+let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
+let route = YelpRoute.restaurant(id: "abc123") 
+let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: environment)
+```
+
+The client will fetch the raw data and either return the mapped result, or throw an error.
 
 
 
@@ -121,11 +152,11 @@ The demo app lets you explore the library on iOS and macOS. To try it out, just 
 
 
 
-## Support this library
+## Support my work
 
-I manage my various open-source projects in my free time and am really thankful for any help I can get from the community. 
+I manage many open-source projects on my spare time and am very thankful for any help to keep my work going. 
 
-You can sponsor this project on [GitHub Sponsors][Sponsors] or get in touch for paid support.
+You can sponsor my work on [GitHub Sponsors][Sponsors] or get in touch for paid support.
 
 
 

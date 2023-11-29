@@ -11,22 +11,20 @@ import Foundation
 /**
  This protocol can be implemented to define API routes.
 
- An ``ApiRoute`` should define a relative ``path`` within an
- ``ApiEnvironment`` and an ``httpMethod`` to use when making
- the request. You can use enums to group related routes in a
- single enum, and use associated values to define route data
- such as id, name, search queries etc. and use the data when
- defining request data.
+ An ``ApiRoute`` must define an ``httpMethod`` as well as an
+ environment-relative path, headers, query params, post data,
+ etc. You can use an enum to define multiple routes, and use
+ associated values to provide route-specific parameters.
 
  When a route defines ``formParams``, the URL request should
  use `application/x-www-form-urlencoded` as content type and
  ignore the ``postData``. The two are mutually exclusive and
  ``formParams`` should take precedence when both are defined.
-
+ 
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
- and query parameters that should be merged when the request
- is created. The environment can use this to define api keys,
- secrets etc. while the route can define route-specific data.
+ and query parameters, which are then merged. An environment
+ can use this to define global data, while routes can define
+ route-specific data. 
  */
 public protocol ApiRoute: ApiRequestData {
 

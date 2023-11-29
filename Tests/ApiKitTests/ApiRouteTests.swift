@@ -47,6 +47,18 @@ final class ApiRouteTests: XCTestCase {
         XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/search?p=1&q=movies%26+&api-key=APIKEY")
     }
 
+    func testUrlRequestIsPropertyConfiguredForGetRequestsWithArrayQueryParameters() throws {
+        let route = TestRoute.searchWithArrayParams(years: [2021,2022,2023])
+        let request = request(for: route)
+        XCTAssertEqual(request?.allHTTPHeaderFields, [
+            "Content-Type": "application/json",
+            "locale": "sv-SE",
+            "api-secret": "APISECRET"
+        ])
+        XCTAssertEqual(request?.httpMethod, "GET")
+        XCTAssertEqual(request?.url?.absoluteString, "https://api.imdb.com/search?years=%5B2021,2022,2023%5D&api-key=APIKEY")
+    }
+
     func testUrlRequestIsPropertyConfiguredForFormRequests() throws {
         let route = TestRoute.formLogin(userName: "danielsaidi", password: "let's code, shall we? & do more stuff +")
         let request = request(for: route)

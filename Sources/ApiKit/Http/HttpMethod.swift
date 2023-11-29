@@ -23,13 +23,9 @@ public enum HttpMethod: String, CaseIterable, Identifiable {
     case put
     case trace
 
-    /**
-     The unique identifier of the HTTP method.
-     */
+    /// The unique HTTP method identifier.
     public var id: String { rawValue }
 
-    /**
-     The uppercased name of the HTTP method.
-     */
+    /// The uppercased HTTP method name.
     public var method: String { id.uppercased() }
 }

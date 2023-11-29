@@ -1,5 +1,5 @@
 //
-//  TheMovieDb+Environment.swift
+//  TheMovieDb+Route.swift
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-08-17.
@@ -10,7 +10,7 @@ import Foundation
 
 public extension TheMovieDb {
 
-    enum ApiRoute: ApiKit.ApiRoute {
+    enum Route: ApiRoute {
 
         case discoverMovies(page: Int)
         case movie(id: Int)
@@ -19,7 +19,7 @@ public extension TheMovieDb {
     }
 }
 
-public extension TheMovieDb.ApiRoute {
+public extension TheMovieDb.Route {
 
     var path: String {
         switch self {

@@ -57,6 +57,7 @@ enum TestRoute: ApiRoute {
     case movie(id: String)
     case postLogin(userName: String, password: String)
     case search(query: String, page: Int)
+    case searchWithArrayParams(years: [Int])
 
     var httpMethod: HttpMethod {
         switch self {
@@ -64,6 +65,7 @@ enum TestRoute: ApiRoute {
         case .movie: return .get
         case .postLogin: return .post
         case .search: return .get
+        case .searchWithArrayParams: return .get
         }
     }
 
@@ -73,6 +75,7 @@ enum TestRoute: ApiRoute {
         case .movie(let id): return "movie/\(id)"
         case .postLogin: return "postLogin"
         case .search: return "search"
+        case .searchWithArrayParams: return "search"
         }
     }
 
@@ -99,12 +102,19 @@ enum TestRoute: ApiRoute {
             let encoder = JSONEncoder()
             return try? encoder.encode(request)
         case .search: return nil
+        case .searchWithArrayParams: return nil
         }
     }
 
     var queryParams: [String: String]? {
         switch self {
-        case .search(let query, let page): return ["q": query, "p": "\(page)"]
+        case .search(let query, let page): return [
+            "q": query,
+            "p": "\(page)"
+        ]
+        case .searchWithArrayParams(let years): return [
+            "years": "[\(years.map { "\($0)"}.joined(separator: ","))]"
+        ]
         default: return nil
         }
     }

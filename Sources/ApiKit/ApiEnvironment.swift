@@ -9,19 +9,18 @@
 import Foundation
 
 /**
- This protocol can be implemented to define API environments.
+ This protocol can be implemented to define API environments
+ or specific API versions.
 
- An ``ApiEnvironment`` should define the root ``url`` of the
- environment, to which then the ``ApiRoute/path`` of a route
- can be applied. You can use an enum to define multiple ones
- with a single enum and use associated values to define data
- for a certain environment, such as api keys and secrets etc.
- and use the data when defining request data.
+ An ``ApiEnvironment`` must define a root ``url`` to which a
+ route ``ApiRoute/path`` can be applied. You can use an enum
+ to define multiple environments, then use associated values
+ to provide environment-specific data like keys, secrets etc.
 
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
- and query parameters that should be merged when the request
- is created. The environment can use this to define api keys,
- secrets etc. while the route can define route-specific data.
+ and query parameters, which are then merged. An environment
+ can use this to define global data, while routes can define
+ route-specific data.
  */
 public protocol ApiEnvironment: ApiRequestData {
 
@@ -31,10 +30,7 @@ public protocol ApiEnvironment: ApiRequestData {
 
 public extension ApiEnvironment {
 
-    /**
-     This function returns a `URLRequest` that is configured
-     for the given `httpMethod` and the route's `queryItems`.
-     */
+    /// Get a `URLRequest` for the provided `route`.
     func urlRequest(for route: ApiRoute) throws -> URLRequest {
         try route.urlRequest(for: self)
     }

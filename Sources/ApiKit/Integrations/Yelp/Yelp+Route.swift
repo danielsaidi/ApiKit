@@ -1,5 +1,5 @@
 //
-//  Yelp+Environment.swift
+//  Yelp+Route.swift
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-08-17.
@@ -11,7 +11,7 @@ import Foundation
 public extension Yelp {
 
     /// This enum defines the currently supported API routes.
-    enum ApiRoute: ApiKit.ApiRoute {
+    enum Route: ApiRoute {
 
         case restaurant(id: String)
         case restaurantReviews(restaurantId: String)
@@ -19,7 +19,7 @@ public extension Yelp {
     }
 }
 
-public extension Yelp.ApiRoute {
+public extension Yelp.Route {
 
     var path: String {
         switch self {

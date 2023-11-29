@@ -5,77 +5,119 @@ This article explains how to get started with ApiKit.
 
 ## Overview
 
-ApiKit aims to make it easy to integrate with any external REST API. 
+ApiKit provides lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs.
 
-With ApiKit, you can either fetch raw `URLRequest`s and handle the raw data, or create custom ``ApiEnvironment`` and ``ApiRoute`` types to model various APIs.
+With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation. 
 
-For instance, this code defines  ``ApiEnvironment`` and ``ApiRoute``, where the environment defines how to send the API key as a query parameter, and the route defines how to fetch movies:
 
-```
-struct TheMovieDb {
+## How to define API environments
 
-    enum Environment: ApiEnvironment {
+An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and can define a URL as well as global request headers and query parameters.
 
-        case production(apiKey: String)
+For instance, this is how you would specify a Yelp v3 API environment, which requires that all request sends an API token as header:
 
-        public var url: String {
-            switch self {
-            case .production: return "https://api.themoviedb.org/3"
-            }
-        }
+```swift
+import ApiKit
 
-        public var headers: [String : String]? { nil }
+enum YelpEnvironment: ApiEnvironment {
 
-        public var queryParams: [String : String]? {
-            switch self {
-            case .production(let key): return ["api_key": key]
-            }
+    case v3(apiToken: String)
+    
+    var url: String {
+        switch self {
+        case .v3: return "https://api.yelp.com/v3/"
         }
     }
-
-    enum Route: ApiRoute {
-
-        case movie(id: Int)
-        
-        public var path: String {
-            switch self {
-            case .movie(let id): return "movie/\(id)"
-            }
+ 
+    var headers: [String: String]? {
+        switch self {
+        case .v3(let apiToken):
+            return ["Authorization": "Bearer \(apiToken)"]
         }
-
-        public var queryParams: [String : String]? {
-            switch self {
-            case .movie: return nil
-            }
-        }
-
-        public var httpMethod: HttpMethod {
-            switch self {
-                case .movie: return .get
-            }
-        }
-
-        public var headers: [String : String]? { nil }
-
-        public var formParams: [String : String]? { nil }
-
-        public var postData: Data? { nil }
     }
-
-    struct Movie: Codable, Identifiable {
-        public let id: Int
-        public let title: String
+    
+    var queryParams: [String: String]? {
+        [:]
     }
 }
 ```
 
-We can then use `URLSession.shared` (or any ``ApiClient``) to fetch and parse movies by ID:
+
+## How to define API routes
+
+An ``ApiRoute`` refers to endpoints within an API, and can define HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
+
+For instance, this is how you would specify some Yelp v3 API routes:
+
+```swift
+import ApiKit
+
+public enum YelpRoute: ApiRoute {
+
+    case restaurant(id: String)
+    case restaurantReviews(restaurantId: String)
+    case search(params: Yelp.SearchParams)
+
+    var path: String {
+        switch self {
+        case .restaurant(let id): return "businesses/\(id)"
+        case .restaurantReviews(let id): return "businesses/\(id)/reviews"
+        case .search: return "businesses/search"
+        }
+    }
+
+    var httpMethod: HttpMethod { .get }
+
+    var headers: [String: String]? { nil }
+
+    var formParams: [String: String]? { nil }
+
+    var postData: Data? { nil }
+    
+    var queryParams: [String: String]? {
+        switch self {
+        case .restaurant: return nil
+        case .restaurantReviews: return nil
+        case .search(let params): return params.queryParams
+        }
+    }
+}
+```
+
+
+## How to define API models
+
+We also have to define `Codable` Yelp-specific models to be able to map data from the API.
+
+For instance, this is a super lightweight model that just parses the ID, name and image URL for a restaurant:
+
+```swift
+struct YelpRestaurant: Codable {
+    
+    public let id: String
+    public let name: String?
+    public let imageUrl: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case imageUrl = "image_url"
+    }
+}
+```
+
+
+## How to fetch data from an API
+
+With the environment, routes and models in place, we can now fetch data from the Yelp API.
+
+We can use `URLSession.shared` directly, or any custom ``ApiClient`` implementation:
 
 ```swift
 let client = URLSession.shared
-let environment = TheMovieDb.Environment.production("API_KEY") 
-let route = TheMovieDb.Route.movie(id: 123) 
-let movie: TheMovieDb.Movie = try await client.fetchItem(at: route, in: environment)
+let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
+let route = YelpRoute.restaurant(id: "abc123") 
+let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: environment)
 ```
 
-Future versions may improve this further to make it even easier.
+The client will fetch the raw data and either return the mapped result, or throw an error.

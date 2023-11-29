@@ -7,13 +7,9 @@ ApiKit helps you integrate with external REST APIs.
 
 ![Library logotype](Logo.png)
 
-ApiKit has an ``ApiClient`` protocol that can fetch any `URLRequest` and decode the response to any `Decodable` type. It's implemented by `URLSession` so you can either use `URLSession.shared` or create your own service.
+ApiKit provides lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs.
 
-ApiKit has ``ApiEnvironment`` and ``ApiRoute`` models that can be used to model any REST API, such as the base URL of a certain API environment, the URL of a certain route, which parameters and headers to send etc. 
-
-An ``ApiClient`` can then be used to fetch any ``ApiRoute`` from any ``ApiEnvironment`` and return a typed result.
-
-ApiKit supports `iOS 13`, `macOS 11`, `tvOS 13` and `watchOS 6`.
+With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation. 
 
 
 
@@ -31,7 +27,7 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 ## Getting started
 
-The <doc:Getting-Started> article has a guide to help you get started with RichTextKit.
+The <doc:Getting-Started> article has a guide to help you get started with ApiKit.
 
 
 
@@ -58,6 +54,7 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 ### Essentials
 
 - <doc:Getting-Started>
+
 - ``ApiClient``
 - ``ApiEnvironment``
 - ``ApiRoute``
