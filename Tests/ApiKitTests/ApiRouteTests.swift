@@ -48,7 +48,7 @@ final class ApiRouteTests: XCTestCase {
     }
 
     func testUrlRequestIsPropertyConfiguredForGetRequestsWithArrayQueryParameters() throws {
-        let route = TestRoute.searchWithArrayParams(years: [2021,2022,2023])
+        let route = TestRoute.searchWithArrayParams(years: [2021, 2022, 2023])
         let request = request(for: route)
         XCTAssertEqual(request?.allHTTPHeaderFields, [
             "Content-Type": "application/json",

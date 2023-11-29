@@ -15,30 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios documentation
-
-```sh
-[bundle exec] fastlane ios documentation
-```
-
-Generate documentation
-
-### ios lint
-
-```sh
-[bundle exec] fastlane ios lint
-```
-
-Run SwiftLint
-
-### ios test
-
-```sh
-[bundle exec] fastlane ios test
-```
-
-Run unit tests
-
 ### ios ensure_release_ready
 
 ```sh
@@ -78,14 +54,6 @@ Build documentation for a single platform
 ```
 
 Delete documentation derived data (may be historic duplicates)
-
-### ios docc_web
-
-```sh
-[bundle exec] fastlane ios docc_web
-```
-
-Build static documentation websites for all platforms
 
 ### ios docc_web_platform
 
