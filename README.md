@@ -13,9 +13,9 @@
 
 ## About ApiKit
 
-ApiKit provides lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs.
+ApiKit helps you integrate with any external REST API.
 
-With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation.
+ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs using the standard `URLSession` or a custom client implementation.
 
 
 
@@ -33,9 +33,14 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 ## Getting Started
 
-An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and can define a URL as well as global request headers and query parameters.
+ApiKit builds on a basic concept of API environments and routes.
 
-For instance, this is how you would specify a Yelp v3 API environment, which requires that all request sends an API token as header:
+
+### API Environments 
+
+An ``ApiEnvironment`` refers to a specific API version or environment, and defines a URL as well as optional, global request headers and query parameters.
+
+For instance, the [Yelp](https://yelp.com) v3 API, which requires an API token header, can be defined like this:
 
 ```swift
 import ApiKit
@@ -63,9 +68,11 @@ enum YelpEnvironment: ApiEnvironment {
 }
 ```
 
-An ``ApiRoute`` refers to endpoints within an API, and can define HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
+### API Routes
 
-For instance, this is how you would specify some Yelp v3 API routes:
+An ``ApiRoute`` refers to endpoints within an API, and defines an HTTP method and path, as well as any optional, custom headers, query parameters, post data, etc.:
+
+For instance, here are some [Yelp](https://yelp.com) v3 restaurant, review and search routes:
 
 ```swift
 import ApiKit
@@ -102,9 +109,11 @@ public enum YelpRoute: ApiRoute {
 }
 ```
 
+### API models
+
 We also have to define `Codable` Yelp-specific models to be able to map data from the API.
 
-For instance, this is a super lightweight model that just parses the ID, name and image URL for a restaurant:
+For instance, this is a super lightweight Yelp restaurant model:
 
 ```swift
 struct YelpRestaurant: Codable {
@@ -121,6 +130,11 @@ struct YelpRestaurant: Codable {
 }
 ```
 
+The `id` and `name` parameters use the same name as in the API, while the `imageUrl` requires custom mapping.
+
+
+### How to fetch data
+
 With the environment, routes and models in place, we can now fetch data from the Yelp API.
 
 We can use `URLSession.shared` directly, or any custom ``ApiClient`` implementation:
@@ -134,11 +148,13 @@ let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: envir
 
 The client will fetch the raw data and either return the mapped result, or throw an error.
 
+For more information, please see the [getting started guide][Getting-Started].
+
 
 
 ## Documentation
 
-The [online documentation][Documentation] has more information, code examples, etc., and lets you overview the various parts of the library.
+The [online documentation][Documentation] has more information, code examples, etc.
 
 
 
@@ -148,17 +164,15 @@ The demo app lets you explore the library on iOS and macOS. To try it out, just 
 
 
 
-## Support my work
+## Support my work 
 
-I manage many open-source projects on my spare time and am very thankful for any help to keep my work going. 
-
-You can sponsor my work on [GitHub Sponsors][Sponsors] or get in touch for paid support.
+You can [sponsor me][Sponsors] on GitHub Sponsors or [reach out][Email] for paid support, to help support my [open-source projects][GitHub].
 
 
 
 ## Contact
 
-Feel free to reach out if you have questions or if you want to contribute in any way:
+Feel free to reach out if you have questions or want to contribute in any way:
 
 * Website: [danielsaidi.com][Website]
 * Mastodon: [@danielsaidi@mastodon.social][Mastodon]
@@ -175,6 +189,7 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 
 [Email]: mailto:daniel.saidi@gmail.com
 [Website]: https://www.danielsaidi.com
+[GitHub]: https://www.github.com/danielsaidi
 [Twitter]: https://www.twitter.com/danielsaidi
 [Mastodon]: https://mastodon.social/@danielsaidi
 [Sponsors]: https://github.com/sponsors/danielsaidi

@@ -5,16 +5,16 @@ This article explains how to get started with ApiKit.
 
 ## Overview
 
-ApiKit provides lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs.
+ApiKit builds on the basic concept of API environments and routes and provides lightweight ``ApiEnvironment`` and ``ApiRoute`` types that make it easy to integrate with any REST-based APIs.
 
 With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation. 
 
 
-## How to define API environments
+## API environments
 
-An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and can define a URL as well as global request headers and query parameters.
+An ``ApiEnvironment`` refers to a specific API version or environment, and can define a URL as well as global request headers and query parameters.
 
-For instance, this is how you would specify a Yelp v3 API environment, which requires that all request sends an API token as header:
+For instance, the [Yelp](https://yelp.com) v3 API could be defined like this:
 
 ```swift
 import ApiKit
@@ -42,12 +42,14 @@ enum YelpEnvironment: ApiEnvironment {
 }
 ```
 
+The environment above requires that all request sends an API token as header, while other APIs may require them to be sent as query parameters instead. This type is flexible to support different requirements.
 
-## How to define API routes
 
-An ``ApiRoute`` refers to endpoints within an API, and can define HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
+## API routes
 
-For instance, this is how you would specify some Yelp v3 API routes:
+An ``ApiRoute`` refers to endpoints within an API, and can define an HTTP method and path, custom headers, query parameters, post data, etc.
+
+For instance, the [Yelp](https://yelp.com) v3 API routes can be specified like this:
 
 ```swift
 import ApiKit
@@ -84,12 +86,14 @@ public enum YelpRoute: ApiRoute {
 }
 ```
 
+The routes above use associated values to provide an item ID in the path, and search parameters as query parameters.  
+
 
 ## How to define API models
 
 We also have to define `Codable` Yelp-specific models to be able to map data from the API.
 
-For instance, this is a super lightweight model that just parses the ID, name and image URL for a restaurant:
+For instance, this is a super lightweight Yelp restaurant model:
 
 ```swift
 struct YelpRestaurant: Codable {
@@ -105,6 +109,8 @@ struct YelpRestaurant: Codable {
     }
 }
 ```
+
+The `id` and `name` parameters use the same name as in the API, while the `imageUrl` requires custom mapping.
 
 
 ## How to fetch data from an API
