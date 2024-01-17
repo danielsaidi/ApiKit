@@ -10,7 +10,7 @@ import Foundation
 
 /**
  This protocol can be implemented by types that can make api
- requests and return the raw data.
+ requests and return raw resoonse data.
  
  Use ``fetch(_:)`` to fetch raw data, and ``fetchItem(with:)``
  or ``fetchItem(at:in:)`` to fetch typed data.
@@ -39,6 +39,14 @@ public extension URLSession {
         let response = result.1
         return ApiResult(data: data, response: response)
     }
+    
+    func fetch(
+        _ route: ApiRoute,
+        in environment: ApiEnvironment
+    ) async throws -> ApiResult {
+        let request = try route.urlRequest(for: environment)
+        return try await fetch(request)
+    }
 }
 
 public extension ApiClient {
@@ -51,7 +59,7 @@ public extension ApiClient {
         with request: URLRequest
     ) async throws -> T {
         let result = try await fetch(request)
-        guard let data = result.data else { throw ApiError.noDataInResponse(result.response) }
+        let data = result.data
         return try JSONDecoder().decode(T.self, from: data)
     }
 

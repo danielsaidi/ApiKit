@@ -12,14 +12,14 @@ import Foundation
 class TestClient: ApiClient {
 
     init(
-        data: Data?,
+        data: Data,
         error: Error?
     ) {
         self.data = data
         self.error = error
     }
 
-    let data: Data?
+    let data: Data
     let error: Error?
 
     func fetch(
@@ -143,14 +143,4 @@ struct TestPerson: Codable {
     var id: String
     var firstName: String
     var lastName: String
-}
-
-extension ApiError {
-
-    var isNoDataInResponse: Bool {
-        switch self {
-        case .noDataInResponse: return true
-        default: return false
-        }
-    }
 }

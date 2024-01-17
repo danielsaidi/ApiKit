@@ -6,6 +6,19 @@ Until then, deprecated features may be removed in any minor version.
 
 
 
+## 0.5
+
+### ✨ New Features
+
+* `ApiClient` has a new `fetch(_:in:)` for fetching routes.
+
+### 💥 Breaking Changes
+
+* `ApiError.noDataInResponse` has been removed.
+* `ApiResult` properties are no longer optional.
+
+
+
 ## 0.4
 
 This version uses Swift 5.9 and renames some integration types.
