@@ -15,14 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios ensure_release_ready
-
-```sh
-[bundle exec] fastlane ios ensure_release_ready
-```
-
-Ensure that the repo is valid for release
-
 ### ios version
 
 ```sh
@@ -30,6 +22,14 @@ Ensure that the repo is valid for release
 ```
 
 Create a new version
+
+### ios version_validate
+
+```sh
+[bundle exec] fastlane ios version_validate
+```
+
+Validate that the repo is valid for release
 
 ### ios docc
 

@@ -7,7 +7,9 @@ This article explains how to get started with ApiKit.
 
 ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
 
-With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation. 
+ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type, for even easier use.
+
+Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment.
 
 
 ## API environments
@@ -87,7 +89,7 @@ enum YelpRoute: ApiRoute {
 The routes above use associated values to provide item ID to the paths, and search parameters as query parameters.  
 
 
-## How to define API models
+## API models
 
 We also have to define `Codable` Yelp-specific models to be able to map data from the API.
 
