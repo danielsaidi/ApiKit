@@ -31,6 +31,7 @@ extension URLSession: ApiClient {}
 
 public extension URLSession {
 
+    /// Try to fetch the provided URL request.
     func fetch(
         _ request: URLRequest
     ) async throws -> ApiResult {
@@ -39,7 +40,11 @@ public extension URLSession {
         let response = result.1
         return ApiResult(data: data, response: response)
     }
+}
+
+public extension ApiClient {
     
+    /// Try to fetch the provided route from the environment.
     func fetch(
         _ route: ApiRoute,
         in environment: ApiEnvironment
@@ -47,14 +52,8 @@ public extension URLSession {
         let request = try route.urlRequest(for: environment)
         return try await fetch(request)
     }
-}
 
-public extension ApiClient {
-
-    /**
-     Try to perform a `URLRequest` and return a result where
-     the raw `Data` is mapped to a certain type.
-     */
+    /// Try to fetch a decodable type with a URL request.
     func fetchItem<T: Decodable>(
         with request: URLRequest
     ) async throws -> T {
@@ -63,10 +62,7 @@ public extension ApiClient {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    /**
-     Try to perform a `URLRequest` and return a result where
-     the raw `Data` is mapped to a certain type.
-     */
+    /// Try to fetch a decodable type from an api route.
     func fetchItem<T: Decodable>(
         at route: ApiRoute,
         in environment: ApiEnvironment

@@ -5,16 +5,16 @@ This article explains how to get started with ApiKit.
 
 ## Overview
 
-ApiKit builds on the basic concept of API environments and routes and provides lightweight ``ApiEnvironment`` and ``ApiRoute`` types that make it easy to integrate with any REST-based APIs.
+ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
 
 With ApiKit, you just have to define one or multiple environments and routes, and can then start fetching data with the standard `URLSession` or a custom client implementation. 
 
 
 ## API environments
 
-An ``ApiEnvironment`` refers to a specific API version or environment, and can define a URL as well as global request headers and query parameters.
+An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and defines a URL as well as global request headers and query parameters.
 
-For instance, the [Yelp](https://yelp.com) v3 API could be defined like this:
+For instance, this is a [Yelp](https://yelp.com) v3 API environment, which requires an API token:
 
 ```swift
 import ApiKit
@@ -25,14 +25,13 @@ enum YelpEnvironment: ApiEnvironment {
     
     var url: String {
         switch self {
-        case .v3: return "https://api.yelp.com/v3/"
+        case .v3: "https://api.yelp.com/v3/"
         }
     }
  
     var headers: [String: String]? {
         switch self {
-        case .v3(let apiToken):
-            return ["Authorization": "Bearer \(apiToken)"]
+        case .v3(let token): ["Authorization": "Bearer \(token)"]
         }
     }
     
@@ -42,29 +41,29 @@ enum YelpEnvironment: ApiEnvironment {
 }
 ```
 
-The environment above requires that all request sends an API token as header, while other APIs may require them to be sent as query parameters instead. This type is flexible to support different requirements.
+The Yelp API requires that all requests send the API token as a custom header. Other APIs may require it to be sent as a query parameter, or have no token requirement at all. 
+
+ApiKit is flexible and supports many different requirements.
 
 
 ## API routes
 
-An ``ApiRoute`` refers to endpoints within an API, and can define an HTTP method and path, custom headers, query parameters, post data, etc.
+An ``ApiRoute`` refers to an endpoint within an API, and defines a HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
 
-For instance, the [Yelp](https://yelp.com) v3 API routes can be specified like this:
+For instance, this is a [Yelp](https://yelp.com) v3 API route, which defines how to fetch and search for restaurants:
 
 ```swift
 import ApiKit
 
-public enum YelpRoute: ApiRoute {
+enum YelpRoute: ApiRoute {
 
     case restaurant(id: String)
-    case restaurantReviews(restaurantId: String)
     case search(params: Yelp.SearchParams)
 
     var path: String {
         switch self {
-        case .restaurant(let id): return "businesses/\(id)"
-        case .restaurantReviews(let id): return "businesses/\(id)/reviews"
-        case .search: return "businesses/search"
+        case .restaurant(let id): "businesses/\(id)"
+        case .search: "businesses/search"
         }
     }
 
@@ -78,15 +77,14 @@ public enum YelpRoute: ApiRoute {
     
     var queryParams: [String: String]? {
         switch self {
-        case .restaurant: return nil
-        case .restaurantReviews: return nil
-        case .search(let params): return params.queryParams
+        case .restaurant: nil
+        case .search(let params): params.queryParams
         }
     }
 }
 ```
 
-The routes above use associated values to provide an item ID in the path, and search parameters as query parameters.  
+The routes above use associated values to provide item ID to the paths, and search parameters as query parameters.  
 
 
 ## How to define API models
@@ -110,14 +108,12 @@ struct YelpRestaurant: Codable {
 }
 ```
 
-The `id` and `name` parameters use the same name as in the API, while the `imageUrl` requires custom mapping.
+The `id` and `name` parameters use the same name as in the API, while `imageUrl` requires custom mapping.
 
 
 ## How to fetch data from an API
 
-With the environment, routes and models in place, we can now fetch data from the Yelp API.
-
-We can use `URLSession.shared` directly, or any custom ``ApiClient`` implementation:
+We can now fetch data from the Yelp API, using `URLSession` or any custom ``ApiClient``:
 
 ```swift
 let client = URLSession.shared
@@ -127,3 +123,33 @@ let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: envir
 ```
 
 The client will fetch the raw data and either return the mapped result, or throw an error.
+
+
+## How to fetch data even easier
+
+We can also define a ``ApiRequest`` to avoid having to define routes and return types every time:
+
+```swift
+struct YelpRestaurantRequest: ApiRequest {
+
+    typealias ResponseType = YelpRestaurant
+
+    let id: String
+
+    var route: ApiRoute { 
+        YelpRoute.restaurant(id: id)
+    }
+}
+```
+
+We can use `URLSession` or any custom ``ApiClient`` to fetch requests as well:
+
+```swift
+let client = URLSession.shared
+let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
+let request = YelpRestaurantRequest(id: "abc123") 
+let restaurant = try await client.fetch(
+    at: request, in: environment)
+```
+
+As you can see, we don't have to define route and return type when we use requests. 

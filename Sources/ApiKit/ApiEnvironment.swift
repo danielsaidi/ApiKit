@@ -13,9 +13,10 @@ import Foundation
  or specific API versions.
 
  An ``ApiEnvironment`` must define a root ``url`` to which a
- route ``ApiRoute/path`` can be applied. You can use an enum
- to define multiple environments, then use associated values
- to provide environment-specific data like keys, secrets etc.
+ route ``ApiRoute/path`` can be applied.
+ 
+ You can use enums to define environments and use associated
+ values to provide environment-specific parameters.
 
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
  and query parameters. An environment can use this to define

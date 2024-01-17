@@ -7,7 +7,11 @@ ApiKit helps you integrate with any external REST API.
 
 ![Library logotype](Logo.png)
 
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs using the standard `URLSession` or a custom client implementation. 
+ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API.
+
+ApiKit also has an ``ApiRequest`` that can be used to define a `route` and its response type, for even easier usage. 
+
+Once you have your environment and routes defined, you can use a regular `URLSession` or custom client to fetch any route from any environment. 
 
 
 

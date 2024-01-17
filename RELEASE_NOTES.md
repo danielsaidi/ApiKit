@@ -11,6 +11,7 @@ Until then, deprecated features may be removed in any minor version.
 ### ✨ New Features
 
 * `ApiClient` has a new `fetch(_:in:)` for fetching routes.
+* `ApiRequest` is a new type that simplifies fetching data.
 
 ### 💥 Breaking Changes
 

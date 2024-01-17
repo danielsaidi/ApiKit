@@ -13,9 +13,11 @@
 
 ## About ApiKit
 
-ApiKit helps you integrate with any external REST API.
+ApiKit has lightweight `ApiEnvironment` and `ApiRoute` protocols that make it easy to model any REST-based API.
 
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to integrate with any REST-based APIs using the standard `URLSession` or a custom client implementation.
+ApiKit also has an `ApiRequest` that can be used to define a `route` and its response type, for even easier usage. 
+
+Once you have your environment and routes defined, you can use a regular `URLSession` or custom client to fetch any route from any environment.
 
 
 
@@ -33,14 +35,9 @@ If you prefer to not have external dependencies, you can also just copy the sour
 
 ## Getting Started
 
-ApiKit builds on a basic concept of API environments and routes.
+ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
 
-
-### API Environments 
-
-An ``ApiEnvironment`` refers to a specific API version or environment, and defines a URL as well as optional, global request headers and query parameters.
-
-For instance, the [Yelp](https://yelp.com) v3 API, which requires an API token header, can be defined like this:
+In short, this is how you could model the [Yelp](https://yelp.com) v3 API evironment, as well as a restaurant fetch route:
 
 ```swift
 import ApiKit
@@ -51,14 +48,14 @@ enum YelpEnvironment: ApiEnvironment {
     
     var url: String {
         switch self {
-        case .v3: return "https://api.yelp.com/v3/"
+        case .v3: "https://api.yelp.com/v3/"
         }
     }
  
     var headers: [String: String]? {
         switch self {
-        case .v3(let apiToken):
-            return ["Authorization": "Bearer \(apiToken)"]
+        case .v3(let token):
+            ["Authorization": "Bearer \(token)"]
         }
     }
     
@@ -66,54 +63,31 @@ enum YelpEnvironment: ApiEnvironment {
         [:]
     }
 }
-```
 
-### API Routes
-
-An ``ApiRoute`` refers to endpoints within an API, and defines an HTTP method and path, as well as any optional, custom headers, query parameters, post data, etc.:
-
-For instance, here are some [Yelp](https://yelp.com) v3 restaurant, review and search routes:
-
-```swift
-import ApiKit
-
-public enum YelpRoute: ApiRoute {
+enum YelpRoute: ApiRoute {
 
     case restaurant(id: String)
-    case restaurantReviews(restaurantId: String)
-    case search(params: Yelp.SearchParams)
 
     var path: String {
         switch self {
-        case .restaurant(let id): return "businesses/\(id)"
-        case .restaurantReviews(let id): return "businesses/\(id)/reviews"
-        case .search: return "businesses/search"
+        case .restaurant(let id): "businesses/\(id)"
         }
     }
 
     var httpMethod: HttpMethod { .get }
-
     var headers: [String: String]? { nil }
-
     var formParams: [String: String]? { nil }
-
     var postData: Data? { nil }
     
     var queryParams: [String: String]? {
         switch self {
-        case .restaurant: return nil
-        case .restaurantReviews: return nil
-        case .search(let params): return params.queryParams
+        case .restaurant: nil
         }
     }
 }
 ```
 
-### API models
-
-We also have to define `Codable` Yelp-specific models to be able to map data from the API.
-
-For instance, this is a super lightweight Yelp restaurant model:
+We must also define `Codable` models to map data from the API:
 
 ```swift
 struct YelpRestaurant: Codable {
@@ -130,23 +104,40 @@ struct YelpRestaurant: Codable {
 }
 ```
 
-The `id` and `name` parameters use the same name as in the API, while the `imageUrl` requires custom mapping.
-
-
-### How to fetch data
-
-With the environment, routes and models in place, we can now fetch data from the Yelp API.
-
-We can use `URLSession.shared` directly, or any custom ``ApiClient`` implementation:
+We can now fetch data from the Yelp API, using `URLSession` or any custom ``ApiClient``:
 
 ```swift
 let client = URLSession.shared
 let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
 let route = YelpRoute.restaurant(id: "abc123") 
-let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: environment)
+let restaurant: YelpRestaurant = try await client.fetchItem(
+    at: route, 
+    in: environment
+)
 ```
 
-The client will fetch the raw data and either return the mapped result, or throw an error.
+We can also define a `ApiRequest` to avoid having to define routes and return types:
+
+```swift
+struct YelpRestaurantRequest: ApiRequest {
+
+    typealias ResponseType = YelpRestaurant
+
+    let id: String
+
+    var route: ApiRoute { 
+        YelpRoute.restaurant(id: id)
+    }
+}
+``` 
+
+With this request, fetching data is even easier:
+
+```swift
+let request = YelpRestaurantRequest(id: "abc123") 
+let restaurant = try await client.fetch(
+    at: request, in: environment)
+```
 
 For more information, please see the [getting started guide][Getting-Started].
 
