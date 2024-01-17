@@ -18,20 +18,11 @@ import Foundation
  to provide environment-specific data like keys, secrets etc.
 
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
- and query parameters, which are then merged. An environment
- can use this to define global data, while routes can define
- route-specific data.
+ and query parameters. An environment can use this to define
+ global data, while a route defines route-specific data.
  */
 public protocol ApiEnvironment: ApiRequestData {
 
     /// The base URL of the environment.
     var url: String { get }
-}
-
-public extension ApiEnvironment {
-
-    /// Get a `URLRequest` for the provided `route`.
-    func urlRequest(for route: ApiRoute) throws -> URLRequest {
-        try route.urlRequest(for: self)
-    }
 }

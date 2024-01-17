@@ -6,8 +6,8 @@
 //  Copyright © 2023 Daniel Saidi. All rights reserved.
 //
 
+import ApiKit
 import XCTest
-@testable import ApiKit
 
 final class HttpMethodTests: XCTestCase {
 
@@ -32,7 +32,7 @@ final class HttpMethodTests: XCTestCase {
         XCTAssertEqual(method(for: .trace), "TRACE")
     }
 
-    func testIdIsUniqueForAllCases() throws {
+    func testMethodUsesRawNameAsId() throws {
         HttpMethod.allCases.forEach { method in
             XCTAssertEqual(method.id, method.rawValue)
         }

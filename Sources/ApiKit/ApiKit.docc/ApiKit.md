@@ -43,18 +43,17 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 
 ## Topics
 
-### Essentials
+### Articles
 
 - <doc:Getting-Started>
 
-- ``ApiClient``
+### Essentials
+
 - ``ApiEnvironment``
 - ``ApiRoute``
-
-### Foundation
-
-- ``ApiRequestData``
+- ``ApiClient``
 - ``ApiError``
+- ``ApiRequestData``
 - ``ApiResult``
 
 ### HTTP

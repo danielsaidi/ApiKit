@@ -15,7 +15,7 @@ final class ApiClientTests: XCTestCase {
     private let env = TestEnvironment.production
 
     func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceThrowsError() async {
-        let client = TestClient(data: nil, error: TestError.baboooom)
+        let client = TestClient(data: .init(), error: TestError.baboooom)
         do {
             let _: TestMovie? = try await client.fetchItem(at: route, in: env)
             XCTFail("Should fail")
@@ -25,20 +25,9 @@ final class ApiClientTests: XCTestCase {
         }
     }
 
-    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceDoesNotReturnAnyData() async {
-        let client = TestClient(data: nil, error: nil)
-        do {
-            let _: TestMovie? = try await client.fetchItem(at: route, in: env)
-            XCTFail("Should fail")
-        } catch {
-            let err = error as? ApiError
-            XCTAssertTrue(err?.isNoDataInResponse ?? false)
-        }
-    }
-
-    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceReturnsInvalidData() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteFailsIfServiceReturnsInvalidData() async throws {
         let person = TestPerson(id: "", firstName: "Al", lastName: "Pacino")
-        let data = try? JSONEncoder().encode(person)
+        let data = try JSONEncoder().encode(person)
         let client = TestClient(data: data, error: nil)
         do {
             let _: TestMovie? = try await client.fetchItem(at: route, in: env)
@@ -48,9 +37,9 @@ final class ApiClientTests: XCTestCase {
         }
     }
 
-    func testFetchingItemtestFetchingItemAtEnvironmentRouteSucceedsIfServiceReturnsValidData() async {
+    func testFetchingItemtestFetchingItemAtEnvironmentRouteSucceedsIfServiceReturnsValidData() async throws {
         let movie = TestMovie(id: "", name: "Godfather")
-        let data = try? JSONEncoder().encode(movie)
+        let data = try JSONEncoder().encode(movie)
         let client = TestClient(data: data, error: nil)
         do {
             let movie: TestMovie = try await client.fetchItem(at: route, in: env)

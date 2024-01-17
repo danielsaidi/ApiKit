@@ -12,9 +12,10 @@ import Foundation
  This protocol can be implemented to define API routes.
 
  An ``ApiRoute`` must define an ``httpMethod`` as well as an
- environment-relative path, headers, query params, post data,
- etc. You can use an enum to define multiple routes, and use
- associated values to provide route-specific parameters.
+ environment-relative path, headers, query params, data, etc.
+ 
+ You can use an enum to define routes, and associated values
+ to provide route-specific parameters.
 
  When a route defines ``formParams``, the URL request should
  use `application/x-www-form-urlencoded` as content type and
@@ -22,9 +23,8 @@ import Foundation
  ``formParams`` should take precedence when both are defined.
  
  Both ``ApiEnvironment`` and ``ApiRoute`` can define headers
- and query parameters, which are then merged. An environment
- can use this to define global data, while routes can define
- route-specific data.
+ and query parameters. An environment can use this to define
+ global data, while a route defines route-specific data.
  */
 public protocol ApiRoute: ApiRequestData {
 
@@ -75,6 +75,14 @@ public extension ApiRoute {
         let contentType = isFormRequest ? "application/x-www-form-urlencoded" : "application/json"
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return request
+    }
+}
+
+public extension ApiEnvironment {
+
+    /// Get a `URLRequest` for a certain ``ApiRoute``.
+    func urlRequest(for route: ApiRoute) throws -> URLRequest {
+        try route.urlRequest(for: self)
     }
 }
 
