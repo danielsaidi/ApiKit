@@ -2,7 +2,24 @@
 
 ApiKit will use semver after 1.0. 
 
-Until then, deprecated features may be removed in any minor version.
+Until then, breaking changes can happen in any version, and deprecated features may be removed in any minor version bump.
+
+
+
+## 0.6
+
+### ✨ New Features
+
+* `ApiClient` implementations can perform more operations.
+* `ApiError` has a new `invalidResponseStatusCode` error.
+
+### 💡 Behavior Changes
+
+* `ApiClient` now auto-validates the response status code.
+
+### 💥 Breaking Changes
+
+* The `ApiClient` protocol has been simplified.
 
 
 

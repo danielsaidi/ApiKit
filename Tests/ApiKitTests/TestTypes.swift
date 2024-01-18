@@ -21,12 +21,12 @@ class TestClient: ApiClient {
 
     let data: Data
     let error: Error?
-
-    func fetch(
-        _ request: URLRequest
-    ) async throws -> ApiResult {
+    
+    func fetchData(
+        for request: URLRequest
+    ) async throws -> (Data, URLResponse) {
         if let error { throw error }
-        return ApiResult(data: data, response: .init())
+        return (data, .init())
     }
 }
 

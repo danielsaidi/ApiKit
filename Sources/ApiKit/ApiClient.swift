@@ -22,29 +22,37 @@ import Foundation
  have to implement ``fetch(_:)`` if you need to customize it.
  */
 public protocol ApiClient: AnyObject {
-
-    /// Perform a `URLRequest` and return the raw result.
-    func fetch(_ request: URLRequest) async throws -> ApiResult
+    
+    /// Fetch data with the provided `URLRequest`.
+    func fetchData(
+        for request: URLRequest
+    ) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: ApiClient {}
 
 public extension URLSession {
 
-    /// Try to fetch the provided URL request.
-    func fetch(
-        _ request: URLRequest
-    ) async throws -> ApiResult {
-        let result = try await data(for: request)
-        let data = result.0
-        let response = result.1
-        return ApiResult(data: data, response: response)
+    func fetchData(
+        for request: URLRequest
+    ) async throws -> (Data, URLResponse) {
+        try await data(for: request)
     }
 }
 
 public extension ApiClient {
     
-    /// Try to fetch the provided route from the environment.
+    /// Fetch an API result with the provided request.
+    func fetch(
+        _ request: URLRequest
+    ) async throws -> ApiResult {
+        let result = try await fetchData(for: request)
+        let data = result.0
+        let response = result.1
+        return ApiResult(data: data, response: response)
+    }
+    
+    /// Fetch an API result from the provided route.
     func fetch(
         _ route: ApiRoute,
         in environment: ApiEnvironment
@@ -53,7 +61,7 @@ public extension ApiClient {
         return try await fetch(request)
     }
 
-    /// Try to fetch a decodable type with a URL request.
+    /// Fetch a decodable item with the provided request.
     func fetchItem<T: Decodable>(
         with request: URLRequest
     ) async throws -> T {
@@ -62,12 +70,25 @@ public extension ApiClient {
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    /// Try to fetch a decodable type from an api route.
+    /// Fetch a decodable item from the provided route.
     func fetchItem<T: Decodable>(
         at route: ApiRoute,
         in environment: ApiEnvironment
     ) async throws -> T {
         let request = try route.urlRequest(for: environment)
         return try await fetchItem(with: request)
+    }
+    
+    /// Validate the provided request, response and data.
+    func validate(
+        request: URLRequest,
+        response: URLResponse,
+        data: Data
+    ) throws {
+        guard let httpResponse = response as? HTTPURLResponse else { return }
+        let status = httpResponse.statusCode
+        let isValidStatus = status >= 200 && status < 300
+        if isValidStatus { return }
+        throw ApiError.invalidResponseStatusCode(status, request, response, data)
     }
 }

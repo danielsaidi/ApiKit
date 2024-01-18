@@ -57,6 +57,7 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 - ``ApiRoute``
 - ``ApiClient``
 - ``ApiError``
+- ``ApiRequest``
 - ``ApiRequestData``
 - ``ApiResult``
 

@@ -17,6 +17,10 @@ public enum ApiError: Error, Equatable, LocalizedError {
     /// This error should be thrown when an ``ApiEnvironment``
     /// has a url that can't be used to generate a `URL`.
     case invalidEnvironmentUrl(String)
+    
+    /// This error should be thrown when a URL request fails
+    /// because of an invalid response status code.
+    case invalidResponseStatusCode(Int, URLRequest, URLResponse, Data)
 
     /// This error should be thrown when a `URLRequest` will
     /// fail to be created due to invalid `URLComponents`.
