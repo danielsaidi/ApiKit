@@ -49,6 +49,7 @@ public extension ApiClient {
         let result = try await fetchData(for: request)
         let data = result.0
         let response = result.1
+        try validate(request: request, response: response, data: data)
         return ApiResult(data: data, response: response)
     }
     
@@ -87,8 +88,13 @@ public extension ApiClient {
     ) throws {
         guard let httpResponse = response as? HTTPURLResponse else { return }
         let status = httpResponse.statusCode
-        let isValidStatus = status >= 200 && status < 300
-        if isValidStatus { return }
+        if validateStatusCode(status) { return }
         throw ApiError.invalidResponseStatusCode(status, request, response, data)
+    }
+    
+    func validateStatusCode(
+        _ code: Int
+    ) -> Bool {
+        code >= 200 && code < 300
     }
 }

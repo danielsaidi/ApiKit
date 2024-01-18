@@ -10,16 +10,13 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 ### ✨ New Features
 
-* `ApiClient` implementations can perform more operations.
+* `ApiClient` now validates the response status code.
+* `ApiClient` can perform even more fetch operations.
 * `ApiError` has a new `invalidResponseStatusCode` error.
-
-### 💡 Behavior Changes
-
-* `ApiClient` now auto-validates the response status code.
 
 ### 💥 Breaking Changes
 
-* The `ApiClient` protocol has been simplified.
+* `ApiClient` now only requires a data fetch implementation.
 
 
 

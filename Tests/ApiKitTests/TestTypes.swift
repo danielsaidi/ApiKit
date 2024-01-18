@@ -12,21 +12,44 @@ import Foundation
 class TestClient: ApiClient {
 
     init(
-        data: Data,
-        error: Error?
+        data: Data = .init(),
+        response: HTTPURLResponse = TestResponse.withStatusCode(200),
+        error: Error? = nil
     ) {
         self.data = data
+        self.response = response
         self.error = error
     }
 
     let data: Data
+    let response: HTTPURLResponse
     let error: Error?
     
     func fetchData(
         for request: URLRequest
     ) async throws -> (Data, URLResponse) {
         if let error { throw error }
-        return (data, .init())
+        return (data, response)
+    }
+}
+
+class TestResponse: HTTPURLResponse {
+    
+    var testStatusCode = 200
+    
+    override var statusCode: Int { testStatusCode }
+    
+    static func withStatusCode(
+        _ code: Int
+    ) -> TestResponse {
+        let response = TestResponse(
+            url: URL(string: "https://kankoda.com")!,
+            mimeType: nil,
+            expectedContentLength: 0,
+            textEncodingName: nil
+        )
+        response.testStatusCode = code
+        return response
     }
 }
 

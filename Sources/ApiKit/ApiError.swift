@@ -30,3 +30,13 @@ public enum ApiError: Error, Equatable, LocalizedError {
     /// fail to be created due to an invalid `URL`.
     case failedToCreateComponentsFromUrl(URL)
 }
+
+public extension ApiError {
+    
+    var isInvalidResponseStatusCode: Bool {
+        switch self {
+        case .invalidResponseStatusCode: true
+        default: false
+        }
+    }
+}
