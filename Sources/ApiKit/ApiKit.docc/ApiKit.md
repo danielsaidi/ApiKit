@@ -33,7 +33,7 @@ The <doc:Getting-Started> article helps you get started with ApiKit.
 
 ## Repository
 
-For more information, source code, etc., visit the [project repository][https://github.com/danielsaidi/ApiKit].
+For more information, source code, etc., visit the [project repository](https://github.com/danielsaidi/ApiKit).
 
 
 
