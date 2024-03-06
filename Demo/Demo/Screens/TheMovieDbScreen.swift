@@ -120,8 +120,10 @@ extension TheMovieDbScreen {
 
 
 
-struct TheMovieDbScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        TheMovieDbScreen()
-    }
+#Preview {
+    
+    TheMovieDbScreen()
+        #if os(macOS)
+        .frame(minWidth: 500)
+        #endif
 }
