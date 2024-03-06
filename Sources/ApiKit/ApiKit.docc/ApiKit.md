@@ -23,8 +23,6 @@ ApiKit can be installed with the Swift Package Manager:
 https://github.com/danielsaidi/ApiKit.git
 ```
 
-If you prefer to not have external dependencies, you can also just copy the source code into your app.
-
 
 
 ## Getting started
