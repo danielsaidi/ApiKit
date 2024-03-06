@@ -6,11 +6,15 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
-## 0.6.1
+## 0.7
 
 ### ✨ New Features
 
 * ApiKit now supports visionOS.
+
+### 💥 Breaking changes
+
+* SystemNotification now requires Swift 5.9.
 
 
 

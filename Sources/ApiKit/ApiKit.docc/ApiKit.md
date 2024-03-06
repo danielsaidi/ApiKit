@@ -33,13 +33,13 @@ The <doc:Getting-Started> article helps you get started with ApiKit.
 
 ## Repository
 
-For more information, source code, etc., visit the [project repository][Repository].
+For more information, source code, etc., visit the [project repository][https://github.com/danielsaidi/ApiKit].
 
 
 
 ## License
 
-ApiKit is available under the MIT license. See the [LICENSE][License] file for more info.
+ApiKit is available under the MIT license.
 
 
 
@@ -67,8 +67,3 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 
 - ``TheMovieDb``
 - ``Yelp``
-
-
-
-[License]: https://github.com/danielsaidi/ApiKit/blob/master/LICENSE
-[Repository]: https://github.com/danielsaidi/ApiKit
