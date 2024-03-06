@@ -6,6 +6,14 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 0.6.1
+
+### ✨ New Features
+
+* ApiKit now supports visionOS.
+
+
+
 ## 0.6
 
 ### ✨ New Features
