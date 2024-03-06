@@ -1,15 +1,15 @@
 # ``ApiKit``
 
-ApiKit helps you integrate with any external REST API.
+ApiKit is a Swift SDK that helps you integrate with external REST APIs.
 
 
 ## Overview
 
 ![Library logotype](Logo.png)
 
-ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
+ApiKit is a Swift SDK that helps you integrate with external REST APIs.
 
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type, for even easier use.
+ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type for even easier use.
 
 Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment.
 

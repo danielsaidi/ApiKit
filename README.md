@@ -11,11 +11,12 @@
 </p>
 
 
+
 ## About ApiKit
 
-ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
+ApiKit is a Swift SDK that helps you integrate with external REST APIs.
 
-ApiKit has lightweight `ApiEnvironment` and `ApiRoute` protocols that make it easy to model any REST-based API. It also has an `ApiRequest` that can define a route and response type, for even easier use.
+ApiKit has lightweight `ApiEnvironment` and `ApiRoute` protocols that make it easy to model any REST-based API. It also has an `ApiRequest` that can define a route and response type for even easier use.
 
 Once you have an environment and routes, you can use a regular `URLSession` or a custom `ApiClient` to fetch any route or request from any environment.
 
@@ -29,112 +30,19 @@ ApiKit can be installed with the Swift Package Manager:
 https://github.com/danielsaidi/ApiKit.git
 ```
 
-If you prefer to not have external dependencies, you can also just copy the source code into your app.
-
 
 
 ## Getting Started
 
-In short, this is how you could model the [Yelp](https://yelp.com) v3 API evironment, as well as a restaurant fetch route:
+You can use `ApiEnvironment`s and `ApiRoute`s to model any API, and create `Codable` models that automatically map response data from the API.
 
-```swift
-import ApiKit
-
-enum YelpEnvironment: ApiEnvironment {
-
-    case v3(apiToken: String)
-    
-    var url: String {
-        switch self {
-        case .v3: "https://api.yelp.com/v3/"
-        }
-    }
- 
-    var headers: [String: String]? {
-        switch self {
-        case .v3(let token):
-            ["Authorization": "Bearer \(token)"]
-        }
-    }
-    
-    var queryParams: [String: String]? {
-        [:]
-    }
-}
-
-enum YelpRoute: ApiRoute {
-
-    case restaurant(id: String)
-
-    var path: String {
-        switch self {
-        case .restaurant(let id): "businesses/\(id)"
-        }
-    }
-
-    var httpMethod: HttpMethod { .get }
-    var headers: [String: String]? { nil }
-    var formParams: [String: String]? { nil }
-    var postData: Data? { nil }
-    
-    var queryParams: [String: String]? {
-        switch self {
-        case .restaurant: nil
-        }
-    }
-}
-```
-
-We must also define `Codable` models to map data from the API:
-
-```swift
-struct YelpRestaurant: Codable {
-    
-    public let id: String
-    public let name: String?
-    public let imageUrl: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case imageUrl = "image_url"
-    }
-}
-```
-
-We can now fetch data from the Yelp API, using `URLSession` or any custom ``ApiClient``:
+Once you have created your API-specific types, you can use a plain `URLSession` or any custom `ApiClient` to fetch data. 
 
 ```swift
 let client = URLSession.shared
 let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
 let route = YelpRoute.restaurant(id: "abc123") 
-let restaurant: YelpRestaurant = try await client.fetchItem(
-    at: route, 
-    in: environment
-)
-```
-
-We can also define a `ApiRequest` to avoid having to define routes and return types:
-
-```swift
-struct YelpRestaurantRequest: ApiRequest {
-
-    typealias ResponseType = YelpRestaurant
-
-    let id: String
-
-    var route: ApiRoute { 
-        YelpRoute.restaurant(id: id)
-    }
-}
-``` 
-
-With this request, fetching data is even easier:
-
-```swift
-let request = YelpRestaurantRequest(id: "abc123") 
-let restaurant = try await client.fetch(
-    at: request, in: environment)
+let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: environment)
 ```
 
 For more information, please see the [getting started guide][Getting-Started].
@@ -143,7 +51,7 @@ For more information, please see the [getting started guide][Getting-Started].
 
 ## Documentation
 
-The [online documentation][Documentation] has more information, code examples, etc.
+The [online documentation][Documentation] has more information, articles, code examples, etc.
 
 
 
@@ -155,7 +63,9 @@ The demo app lets you explore the library on iOS and macOS. To try it out, just 
 
 ## Support my work 
 
-You can [sponsor me][Sponsors] on GitHub Sponsors or [reach out][Email] for paid support, to help support my [open-source projects][GitHub].
+You can [sponsor me][Sponsors] on GitHub Sponsors or [reach out][Email] for paid support, to help support my [open-source projects][OpenSource].
+
+Your support makes it possible for me to put more work into these projects and make them the best they can be.
 
 
 
@@ -182,6 +92,7 @@ ApiKit is available under the MIT license. See the [LICENSE][License] file for m
 [Twitter]: https://www.twitter.com/danielsaidi
 [Mastodon]: https://mastodon.social/@danielsaidi
 [Sponsors]: https://github.com/sponsors/danielsaidi
+[OpenSource]: https://www.danielsaidi.com/opensource
 
 [Documentation]: https://danielsaidi.github.io/ApiKit/documentation/apikit/
 [Getting-Started]: https://danielsaidi.github.io/ApiKit/documentation/apikit/getting-started

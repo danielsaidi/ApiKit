@@ -3,13 +3,13 @@
 This article explains how to get started with ApiKit.
 
 
+
 ## Overview
 
-ApiKit builds on the basic concept of environments and routes and provides lightweight types that make it easy to integrate with any REST-based APIs.
-
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type, for even easier use.
+ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type for even easier use.
 
 Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment.
+
 
 
 ## API environments
@@ -43,16 +43,15 @@ enum YelpEnvironment: ApiEnvironment {
 }
 ```
 
-The Yelp API requires that all requests send the API token as a custom header. Other APIs may require it to be sent as a query parameter, or have no token requirement at all. 
+This API requires that all requests send the API token as a custom header. Other APIs may require it to be sent as a query parameter, or have no such requirements at all. ApiKit is flexible to support all different kinds of requirements.
 
-ApiKit is flexible and supports many different requirements.
 
 
 ## API routes
 
-An ``ApiRoute`` refers to an endpoint within an API, and defines a HTTP method, an environment-relative path, custom headers, query parameters, post data, etc.
+An ``ApiRoute`` refers to an endpoint within an API. It defines an HTTP method, an environment-relative path, custom headers, query parameters, post data, etc. and will generate a proper URL request for a certain ``ApiEnvironment``.
 
-For instance, this is a [Yelp](https://yelp.com) v3 API route, which defines how to fetch and search for restaurants:
+For instance, this is a [Yelp](https://yelp.com) v3 API route that defines how to fetch and search for restaurants:
 
 ```swift
 import ApiKit
@@ -70,11 +69,8 @@ enum YelpRoute: ApiRoute {
     }
 
     var httpMethod: HttpMethod { .get }
-
     var headers: [String: String]? { nil }
-
     var formParams: [String: String]? { nil }
-
     var postData: Data? { nil }
     
     var queryParams: [String: String]? {
@@ -86,14 +82,15 @@ enum YelpRoute: ApiRoute {
 }
 ```
 
-The routes above use associated values to provide item ID to the paths, and search parameters as query parameters.  
+The routes above use associated values to apply a restaurant ID to the request path, and search parameters as query parameters.  
+
 
 
 ## API models
 
-We also have to define `Codable` Yelp-specific models to be able to map data from the API.
+We also have to define `Codable` API-specific models, to automatically map response data from any API that we fetch data from.
 
-For instance, this is a super lightweight Yelp restaurant model:
+For instance, this is a lightweight Yelp restaurant model:
 
 ```swift
 struct YelpRestaurant: Codable {
@@ -113,7 +110,8 @@ struct YelpRestaurant: Codable {
 The `id` and `name` parameters use the same name as in the API, while `imageUrl` requires custom mapping.
 
 
-## How to fetch data from an API
+
+## How to fetch data
 
 We can now fetch data from the Yelp API, using `URLSession` or any custom ``ApiClient``:
 
@@ -127,9 +125,10 @@ let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: envir
 The client will fetch the raw data and either return the mapped result, or throw an error.
 
 
+
 ## How to fetch data even easier
 
-We can also define a ``ApiRequest`` to avoid having to define routes and return types every time:
+We can define an ``ApiRequest`` to avoid having to define routes and return types every time:
 
 ```swift
 struct YelpRestaurantRequest: ApiRequest {
@@ -144,14 +143,13 @@ struct YelpRestaurantRequest: ApiRequest {
 }
 ```
 
-We can use `URLSession` or any custom ``ApiClient`` to fetch requests as well:
+We can then use `URLSession` or a custom ``ApiClient`` to fetch requests without having to specify the route or return type:
 
 ```swift
 let client = URLSession.shared
 let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
 let request = YelpRestaurantRequest(id: "abc123") 
-let restaurant = try await client.fetch(
-    at: request, in: environment)
+let restaurant = try await client.fetch(request, in: environment)
 ```
 
-As you can see, we don't have to define route and return type when we use requests. 
+This involves creating more types, but is easier to manage in larger projects. 
