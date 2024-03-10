@@ -1,6 +1,15 @@
 # Getting Started
 
-This article explains how to get started with ApiKit.
+This article explains how to get started with ApiKit.@Metadata {
+
+@PageImage(
+    purpose: card,
+    source: "Page",
+    alt: "Page icon"
+)
+
+@PageColor(blue)
+}
 
 
 
