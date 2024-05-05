@@ -19,7 +19,16 @@ This article explains how to get started with ApiKit.
 
 ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type for even easier use.
 
-Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment.
+Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment:
+
+```swift
+let client = URLSession.shared
+let environment = MyEnvironment.production(apiToken: "TOKEN")
+let route = MyRoutes.user(id: "abc123") 
+let user: ApiUser = try await client.fetchItem(at: route, in: environment)
+```
+
+You can create as many environments and routes as you want, and define requests that specify both a route and its return type, for even cleaner code at the call site. 
 
 
 
