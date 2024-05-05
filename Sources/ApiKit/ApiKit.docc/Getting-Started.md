@@ -160,7 +160,7 @@ We can then use `URLSession` or a custom ``ApiClient`` to fetch requests without
 let client = URLSession.shared
 let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
 let request = YelpRestaurantRequest(id: "abc123") 
-let restaurant = try await client.fetch(request, in: environment)
+let restaurant = try await client.fetch(request, from: environment)
 ```
 
 This involves creating more types, but is easier to manage in larger projects. 
