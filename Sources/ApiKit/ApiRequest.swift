@@ -27,14 +27,11 @@ public protocol ApiRequest: Codable {
 
 public extension URLSession {
     
-    /// Try to fetch a certain ES API request from its route.
+    /// Try to request a certain ``ApiRequest``.
     func fetch<RequestType: ApiRequest>(
         _ request: RequestType,
         from env: ApiEnvironment
     ) async throws -> RequestType.ResponseType {
-        try await fetchItem(
-            at: request.route,
-            in: env
-        )
+        try await self.request(at: request.route, in: env)
     }
 }

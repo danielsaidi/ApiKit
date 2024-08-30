@@ -8,76 +8,66 @@
 
 import Foundation
 
-/**
- This protocol can be implemented by types that can make api
- requests and return raw resoonse data.
- 
- Use ``fetch(_:)`` to fetch raw data, and ``fetchItem(with:)``
- or ``fetchItem(at:in:)`` to fetch typed data.
- 
- The protocol is implemented by `URLSession`, so you can use
- it without having to create a custom client implementation.
- 
- If you must create a custom client implementation, you only
- have to implement ``fetch(_:)`` if you need to customize it.
- */
+/// This protocol can be implemented by any type that can be
+/// used to perform API requests.
+///
+/// Use ``data(for:)`` to request raw data and ``request(_:)``
+/// to request validated ``ApiResult``. You can also use the
+/// generic ``request(with:)`` & ``request(at:in:)`` methods
+/// to request generic, typed data.
+///
+/// This protocol is implemented by `URLSession`, so you can
+/// use `URLSession` directly, without having to implement a
+/// client class. But you can do it if you want to customize
+/// how it performs certain operations.
 public protocol ApiClient: AnyObject {
     
     /// Fetch data with the provided `URLRequest`.
-    func fetchData(
+    func data(
         for request: URLRequest
     ) async throws -> (Data, URLResponse)
 }
 
 extension URLSession: ApiClient {}
 
-public extension URLSession {
-
-    func fetchData(
-        for request: URLRequest
-    ) async throws -> (Data, URLResponse) {
-        try await data(for: request)
-    }
-}
-
 public extension ApiClient {
     
-    /// Fetch an API result with the provided request.
-    func fetch(
+    /// Request an ``ApiResult`` with the provided request.
+    func request(
         _ request: URLRequest
     ) async throws -> ApiResult {
-        let result = try await fetchData(for: request)
+        let result = try await data(for: request)
         let data = result.0
         let response = result.1
         try validate(request: request, response: response, data: data)
         return ApiResult(data: data, response: response)
     }
     
-    /// Fetch an API result from the provided route.
-    func fetch(
+    /// Request an ``ApiResult`` from the provided route.
+    func request(
         _ route: ApiRoute,
         in environment: ApiEnvironment
     ) async throws -> ApiResult {
         let request = try route.urlRequest(for: environment)
-        return try await fetch(request)
+        return try await self.request(request)
     }
 
-    /// Fetch a decodable item with the provided request.
-    func fetchItem<T: Decodable>(
+    /// Request a typed result with the provided request.
+    func request<T: Decodable>(
         with request: URLRequest
     ) async throws -> T {
-        let result = try await fetch(request)
+        let result = try await self.request(request)
         let data = result.data
         return try JSONDecoder().decode(T.self, from: data)
     }
 
-    /// Fetch a decodable item from the provided route.
-    func fetchItem<T: Decodable>(
+    /// Request a typed result from the provided route.
+    func request<T: Decodable>(
         at route: ApiRoute,
         in environment: ApiEnvironment
     ) async throws -> T {
         let request = try route.urlRequest(for: environment)
-        return try await fetchItem(with: request)
+        return try await self.request(with: request)
     }
     
     /// Validate the provided request, response and data.
@@ -92,6 +82,8 @@ public extension ApiClient {
         throw ApiError.invalidResponseStatusCode(status, request, response, data)
     }
     
+    /// Validate that the provided status code is within the
+    /// 200-299 range.
     func validateStatusCode(
         _ code: Int
     ) -> Bool {

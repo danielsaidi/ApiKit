@@ -80,10 +80,7 @@ extension TheMovieDbScreen {
     func fetchDiscoverData() {
         Task {
             do {
-                let result: MovieResult = try await session.fetchItem(
-                    at: Route.discoverMovies(page: 1),
-                    in: environment
-                )
+                let result = try await fetchDiscoverData()
                 updateDiscoverResult(with: result)
             } catch {
                 print(error)
@@ -91,18 +88,29 @@ extension TheMovieDbScreen {
         }
     }
 
+    func fetchDiscoverData() async throws -> MovieResult {
+        try await session.request<MovieResult>(
+            at: Route.discoverMovies(page: 1),
+            in: environment
+        )
+    }
+
     func search(with query: String) {
         Task {
             do {
-                let result: MovieResult = try await session.fetchItem(
-                    at: Route.searchMovies(query: query, page: 1),
-                    in: environment
-                )
+                let result = try await search(with: query)
                 updateSearchResult(with: result)
             } catch {
                 print(error)
             }
         }
+    }
+
+    func search(with query: String) async throws -> MovieResult {
+        try await session.request(
+            at: Route.searchMovies(query: query, page: 1),
+            in: environment
+        )
     }
 }
 

@@ -1,6 +1,6 @@
 # ``ApiKit``
 
-ApiKit is a Swift SDK that helps you integrate with external REST APIs.
+ApiKit is a Swift SDK that helps you integrate with any REST API.
 
 
 
@@ -8,11 +8,9 @@ ApiKit is a Swift SDK that helps you integrate with external REST APIs.
 
 ![Library logotype](Logo.png)
 
-ApiKit is a Swift SDK that helps you integrate with external REST APIs.
+ApiKit defines an ``ApiClient`` protocol that describes how to request raw and typed data from any REST-based API. This protocol is implemented by ``Foundation/URLSession``, so you can use the shared session without having to create a custom client.    
 
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type for even easier use.
-
-Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment.
+ApiKit defines ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model and integrate with any REST-based API, as well as an ``ApiRequest`` that can define a route and response type for even easier use.
 
 
 
@@ -28,7 +26,18 @@ https://github.com/danielsaidi/ApiKit.git
 
 ## Getting started
 
-The <doc:Getting-Started> article helps you get started with ApiKit.
+Once you have one or several ``ApiEnvironment`` and ``ApiRoute`` values for the API you want to integrate with, you can easily perform requests with any ``ApiClient`` or ``Foundation/URLSession``:
+
+```swift
+let client = URLSession.shared
+let environment = MyEnvironment.production(apiToken: "TOKEN")
+let route = MyRoutes.user(id: "abc123") 
+let user: ApiUser = try await client.request(at: route, in: environment)
+```
+
+The generic, typed functions will automatically map the raw response to the type you requested, and throw any raw errors that occur. There are also non-generic variants that can be used if you want to provide custom error handling.
+
+See the <doc:Getting-Started> article for more information on how to define environments and routes.
 
 
 

@@ -17,22 +17,22 @@ This article explains how to get started with ApiKit.
 
 ## Overview
 
-ApiKit has lightweight ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model any REST-based API. It also has an ``ApiRequest`` that can define a route and response type for even easier use.
+ApiKit defines an ``ApiClient`` protocol that describes how to request raw and typed data from any REST-based API. This protocol is implemented by ``Foundation/URLSession``, so you can use the shared session without having to create a custom client.
 
-Once you have an environment and routes, you can use a regular `URLSession` or a custom ``ApiClient`` to fetch any route or request from any environment:
+Once you have one or several ``ApiEnvironment`` and ``ApiRoute`` values for the API you want to integrate with, you can easily perform requests with any ``ApiClient`` or ``Foundation/URLSession``:
 
 ```swift
 let client = URLSession.shared
 let environment = MyEnvironment.production(apiToken: "TOKEN")
 let route = MyRoutes.user(id: "abc123") 
-let user: ApiUser = try await client.fetchItem(at: route, in: environment)
+let user: ApiUser = try await client.request(at: route, in: environment)
 ```
 
-You can create as many environments and routes as you want, and define requests that specify both a route and its return type, for even cleaner code at the call site. 
+The generic, typed functions will automatically map the raw response to the type you requested, and throw any raw errors that occur. There are also non-generic variants that can be used if you want to provide custom error handling. 
 
 
 
-## API environments
+## API Environments
 
 An ``ApiEnvironment`` refers to a specific API version or environment (prod, staging, etc.), and defines a URL as well as global request headers and query parameters.
 
@@ -67,7 +67,7 @@ This API requires that all requests send the API token as a custom header. Other
 
 
 
-## API routes
+## API Routes
 
 An ``ApiRoute`` refers to an endpoint within an API. It defines an HTTP method, an environment-relative path, custom headers, query parameters, post data, etc. and will generate a proper URL request for a certain ``ApiEnvironment``.
 
@@ -108,7 +108,7 @@ The routes above use associated values to apply a restaurant ID to the request p
 
 ## API models
 
-We also have to define `Codable` API-specific models, to automatically map response data from any API that we fetch data from.
+We can also define codable API-specific value types to let the ``ApiClient`` automatically map the raw response data to these types.
 
 For instance, this is a lightweight Yelp restaurant model:
 
@@ -133,13 +133,13 @@ The `id` and `name` parameters use the same name as in the API, while `imageUrl`
 
 ## How to fetch data
 
-We can now fetch data from the Yelp API, using `URLSession` or any custom ``ApiClient``:
+We can now fetch data from the Yelp API, using ``Foundation/URLSession`` or any custom ``ApiClient``:
 
 ```swift
 let client = URLSession.shared
 let environment = YelpEnvironment.v3(apiToken: "TOKEN") 
 let route = YelpRoute.restaurant(id: "abc123") 
-let restaurant: YelpRestaurant = try await client.fetchItem(at: route, in: environment)
+let restaurant: YelpRestaurant = try await client.request(at: route, in: environment)
 ```
 
 The client will fetch the raw data and either return the mapped result, or throw an error.

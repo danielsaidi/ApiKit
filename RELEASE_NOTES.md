@@ -6,6 +6,20 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 0.8
+
+This version renames client functions to use the "request" terminology for more consistent naming. 
+
+### 🗑️ Deprecations
+
+* `ApiClient` has renamed all `fetch` operations to `request`.
+
+### 💥 Breaking changes
+
+* `ApiClient` `fetchData` is renamed to `data` to match `URLSession`.
+
+
+
 ## 0.7
 
 ### ✨ New Features
