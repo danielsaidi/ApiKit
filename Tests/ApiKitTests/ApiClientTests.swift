@@ -22,7 +22,7 @@ final class ApiClientTests: XCTestCase {
     func testFetchingItemAtRouteFailsIfServiceThrowsError() async {
         let client = TestClient(error: TestError.baboooom)
         do {
-            let _: TestMovie? = try await client.fetchItem(at: route, in: env)
+            let _: TestMovie? = try await client.request(at: route, in: env)
             XCTFail("Should fail")
         } catch {
             let err = error as? TestError
@@ -33,7 +33,7 @@ final class ApiClientTests: XCTestCase {
     func testFetchingItemAtRouteFailsForInvalidData() async throws {
         let client = TestClient()
         do {
-            let _: TestMovie? = try await client.fetchItem(at: route, in: env)
+            let _: TestMovie? = try await client.request(at: route, in: env)
             XCTFail("Should fail")
         } catch {
             XCTAssertNotNil(error as? DecodingError)
@@ -44,7 +44,7 @@ final class ApiClientTests: XCTestCase {
         let response = TestResponse.withStatusCode(100)
         let client = TestClient(response: response)
         do {
-            let _: TestMovie? = try await client.fetchItem(at: route, in: env)
+            let _: TestMovie? = try await client.request(at: route, in: env)
             XCTFail("Should fail")
         } catch {
             let error = error as? ApiError
@@ -57,7 +57,7 @@ final class ApiClientTests: XCTestCase {
         let data = try JSONEncoder().encode(movie)
         let client = client(withData: data)
         do {
-            let movie: TestMovie = try await client.fetchItem(at: route, in: env)
+            let movie: TestMovie = try await client.request(at: route, in: env)
             XCTAssertEqual(movie.name, "Godfather")
         } catch {
             XCTFail("Should fail")

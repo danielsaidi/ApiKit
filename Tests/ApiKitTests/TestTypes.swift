@@ -25,7 +25,7 @@ class TestClient: ApiClient {
     let response: HTTPURLResponse
     let error: Error?
     
-    func fetchData(
+    func data(
         for request: URLRequest
     ) async throws -> (Data, URLResponse) {
         if let error { throw error }
