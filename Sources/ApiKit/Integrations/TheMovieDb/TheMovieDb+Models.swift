@@ -3,7 +3,7 @@
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-08-17.
-//  Copyright © 2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2023-2024 Daniel Saidi. All rights reserved.
 //
 
 import Foundation
@@ -11,8 +11,8 @@ import Foundation
 public extension TheMovieDb {
 
     /// This type represents a TheMovieDb movie.
-    struct Movie: Codable, Identifiable {
-        
+    struct Movie: ApiModel, Identifiable {
+
         public let id: Int
         public let imdbId: String?
         public let title: String
@@ -75,15 +75,15 @@ public extension TheMovieDb {
     }
 
     /// This type represents a TheMovieDb movie genre.
-    struct MovieGenre: Codable, Identifiable {
-        
+    struct MovieGenre: ApiModel, Identifiable {
+
         public let id: Int
         public let name: String
     }
 
     /// This type represents a TheMovieDb pagination result.
-    struct MoviesPaginationResult: Codable {
-        
+    struct MoviesPaginationResult: ApiModel {
+
         public let page: Int
         public let results: [Movie]
         public let totalPages: Int

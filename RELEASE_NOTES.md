@@ -6,6 +6,12 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 0.9.2
+
+This version adds an `ApiModel` protocol that simplifies conforming to `Codable` and `Sendable`.
+
+
+
 ## 0.9.1
 
 This version adjusts HTTP status code terminology.

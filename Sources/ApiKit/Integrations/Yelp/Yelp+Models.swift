@@ -3,7 +3,7 @@
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-08-17.
-//  Copyright © 2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2023-2024 Daniel Saidi. All rights reserved.
 //
 
 import Foundation
@@ -11,8 +11,8 @@ import Foundation
 public extension Yelp {
 
     /// This type represents a Yelp restaurant (business).
-    struct Restaurant: Codable {
-        
+    struct Restaurant: ApiModel {
+
         public let id: String
         public let alias: String?
         public let name: String?
@@ -54,21 +54,21 @@ public extension Yelp {
 
 
     /// This type represents a Yelp restaurant category.
-    struct RestaurantCategory: Codable {
-        
+    struct RestaurantCategory: ApiModel {
+
         public let title: String
     }
 
     /// This type represents Yelp restaurant coordinates.
-    struct RestaurantCoordinates: Codable {
-        
+    struct RestaurantCoordinates: ApiModel {
+
         public let latitude: Double?
         public let longitude: Double?
     }
 
     /// This type represents a Yelp restaurant opening hours.
-    struct RestaurantHour: Codable {
-        
+    struct RestaurantHour: ApiModel {
+
         public let isOvernight: Bool
         public let start: String
         public let end: String
@@ -83,8 +83,8 @@ public extension Yelp {
     }
 
     /// This type represents a Yelp restaurant opening hour.
-    struct RestaurantHours: Codable {
-        
+    struct RestaurantHours: ApiModel {
+
         public let type: String
         public let isOpenNow: Bool
         public let open: [RestaurantHour]
@@ -97,8 +97,8 @@ public extension Yelp {
     }
 
     /// This type represents a Yelp restaurant location.
-    struct RestaurantLocation: Codable {
-        
+    struct RestaurantLocation: ApiModel {
+
         public let displayAddress: [String]
         
         enum CodingKeys: String, CodingKey {
@@ -107,8 +107,8 @@ public extension Yelp {
     }
 
     /// This type represents a Yelp restaurant review.
-    struct RestaurantReview: Codable {
-        
+    struct RestaurantReview: ApiModel {
+
         public let id: String
         public let url: String?
         public let text: String?
@@ -117,8 +117,8 @@ public extension Yelp {
     }
 
     /// This type represents a Yelp restaurant review user.
-    struct RestaurantReviewUser: Codable {
-        
+    struct RestaurantReviewUser: ApiModel {
+
         public let id: String
         public let name: String?
         public let imageUrl: String?
@@ -137,8 +137,8 @@ public extension Yelp {
     }
 
     /// This type represents Yelp search parameters.
-    struct SearchParams {
-        
+    struct SearchParams: Sendable {
+
         public init(
             skip: Int,
             take: Int,
@@ -155,14 +155,14 @@ public extension Yelp {
             self.openingHours = openingHours
         }
         
-        public enum BudgetLevel: String {
+        public enum BudgetLevel: String, Sendable {
             case level1 = "1"
             case level2 = "2"
             case level3 = "3"
             case level4 = "4"
         }
         
-        public enum OpeningHours: String {
+        public enum OpeningHours: String, Sendable {
             case openNow
             case showAll
         }

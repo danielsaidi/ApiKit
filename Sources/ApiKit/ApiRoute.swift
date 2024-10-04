@@ -3,7 +3,7 @@
 //  ApiKit
 //
 //  Created by Daniel Saidi on 2023-03-24.
-//  Copyright © 2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2023-2024 Daniel Saidi. All rights reserved.
 //
 
 import Foundation
@@ -27,7 +27,7 @@ import Foundation
 /// headers and query parameters they need. Environments can
 /// define global headers and query parameters, while routes
 /// can define route-specific ones. 
-public protocol ApiRoute: ApiRequestData {
+public protocol ApiRoute: Sendable, ApiRequestData {
 
     /// The HTTP method to use for the route.
     var httpMethod: HttpMethod { get }
