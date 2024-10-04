@@ -8,9 +8,6 @@ on:
   push:
     branches: ["main"]
 
-env:
-  SCHEME: ApiKit
-
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -39,11 +36,11 @@ jobs:
         with:
           xcode-version: '16.0'
       - name: Build DocC
-        run: bash scripts/docc.sh $SCHEME
+        run: bash scripts/docc.sh ${{ github.event.repository.name }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './build/docs'
+          path: '.build/docs'
       - id: deployment
         name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
