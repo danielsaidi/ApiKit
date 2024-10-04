@@ -11,15 +11,13 @@
 </p>
 
 
-
 ## About ApiKit
 
 ApiKit is a Swift SDK that helps you integrate with any REST API.
 
-ApiKit defines an ``ApiClient`` protocol that describes how to request raw and typed data from any REST-based API. This protocol is implemented by ``Foundation/URLSession``, so you can use the shared session without having to create a custom client.    
+ApiKit defines an ``ApiClient`` protocol that describes how to request raw and typed data from any REST API. The protocol is implemented by ``URLSession``, so you can use the shared session without having to create a client.
 
-ApiKit defines ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model and integrate with any REST-based API, as well as an ``ApiRequest`` that can define a route and response type for even easier use.
-
+ApiKit defines ``ApiEnvironment`` & ``ApiRoute`` protocols that make it easy to model API environments and routes, as well as an ``ApiRequest`` that can define a route and response type for even easier use.
 
 
 
@@ -35,30 +33,83 @@ https://github.com/danielsaidi/ApiKit.git
 
 ## Getting Started
 
-Once you have one or several ``ApiEnvironment`` and ``ApiRoute`` values for the API you want to integrate with, you can easily perform requests with any ``ApiClient`` or ``URLSession``:
+Consider that you want to integrate with the Yelp API, which can return restaurants, reviews, etc.
+
+You would first define the various API environments you want to integrate with. In this case, let's just integrate with the `v3` environment, which requires an API header token for all requests:
+
+```swift
+import ApiKit
+
+enum YelpEnvironment: ApiEnvironment {
+
+    case v3(apiToken: String)
+    
+    var url: String {
+        switch self {
+        case .v3: "https://api.yelp.com/v3/"
+        }
+    }
+ 
+    var headers: [String: String]? {
+        switch self {
+        case .v3(let token): ["Authorization": "Bearer \(token)"]
+        }
+    }
+}
+```
+
+We can then define the routes to request from the Yelp API. In this case, let's just fetch a business by ID:
+
+```swift
+import ApiKit
+
+enum YelpRoute: ApiRoute {
+
+    case business(id: String)
+
+    var path: String {
+        switch self {
+        case .business(let id): "businesses/\(id)"
+        }
+    }
+
+    var httpMethod: HttpMethod { .get }
+    var headers: [String: String]? { nil }
+    var formParams: [String: String]? { nil }
+    var postData: Data? { nil }
+    
+    var queryParams: [String: String]? {
+        switch self {
+        case .business: nil
+        }
+    }
+}
+``` 
+
+With the environment and route in place, we can fetch a `YelpBusiness` with any ``ApiClient`` or ``URLSession``:
 
 ```swift
 let client = URLSession.shared
-let environment = MyEnvironment.production(apiToken: "TOKEN")
-let route = MyRoutes.user(id: "abc123") 
-let user: ApiUser = try await client.request(at: route, in: environment)
+let environment = YelpEnvironment.v3(apiToken: "YOUR_TOKEN")
+let route = YelpRoute.business(id: "abc123") 
+let business: YelpBusiness = try await client.request(route, in: environment)
 ```
 
-The generic, typed functions will automatically map the raw response to the type you requested, and throw any raw errors that occur. There are also non-generic variants that can be used if you want to provide custom error handling.
+The generic request functions will automatically map the raw response to the requested type, and throw any raw errors that occur. There are also non-generic variants if you want to get the raw data or use custom error handling.
 
-See the [getting started guide][Getting-Started] for more information on how to define environments and routes.
+See the online [getting started guide][Getting-Started] for more information.
 
 
 
 ## Documentation
 
-The [online documentation][Documentation] has more information, articles, code examples, etc.
+The online [documentation][Documentation] has more information, articles, code examples, etc.
 
 
 
 ## Demo Application
 
-The demo app lets you explore the library. To try it out, just open and run the `Demo` project.
+The `Demo` folder has an app that lets you explore the library and integrate with a few APIs.
 
 
 
