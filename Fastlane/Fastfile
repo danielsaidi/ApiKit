@@ -16,7 +16,7 @@ platform :ios do
     sh("cd .. && xcodebuild -scheme " + name + " -derivedDataPath .build -destination 'generic/platform=" + platform + "';")
   end
   
-  lane :build_all do
+  lane :build do
     build(platform: "iOS")
     build(platform: "OS X")
     build(platform: "tvOS")
@@ -43,6 +43,10 @@ platform :ios do
   lane :version do |options|
     version_validate
 
+    swiftlint(strict: true)
+    build_all
+    test_all
+
     type = options[:type]
     version = version_bump_podspec(path: 'Version', bump_type: type)
     git_commit(path: "*", message: "Bump to #{version}")
@@ -55,9 +59,7 @@ platform :ios do
   lane :version_validate do
     ensure_git_status_clean
     ensure_git_branch(branch: main_branch)
-    swiftlint(strict: true)
-    build_all
-    test_all
+
   end
 
 end
