@@ -33,6 +33,9 @@ extension URLSession: ApiClient {}
 public extension ApiClient {
     
     /// Request an ``ApiResult`` with the provided request.
+    ///
+    /// This function returns an ``ApiResult`` with raw data
+    /// and response properties.
     func request(
         _ request: URLRequest
     ) async throws -> ApiResult {
@@ -44,6 +47,9 @@ public extension ApiClient {
     }
     
     /// Request an ``ApiResult`` from the provided route.
+    ///
+    /// This function returns an ``ApiResult`` with raw data
+    /// and response properties.
     func request(
         _ route: ApiRoute,
         in environment: ApiEnvironment
@@ -53,21 +59,30 @@ public extension ApiClient {
     }
 
     /// Request a typed result with the provided request.
+    ///
+    /// This function returns a typed response instead of an
+    /// ``ApiResult`` with raw data and response properties.
     func request<T: Decodable>(
-        with request: URLRequest
+        with request: URLRequest,
+        decoder: JSONDecoder? = nil
     ) async throws -> T {
         let result = try await self.request(request)
         let data = result.data
-        return try JSONDecoder().decode(T.self, from: data)
+        let decoder = decoder ?? JSONDecoder()
+        return try decoder.decode(T.self, from: data)
     }
 
     /// Request a typed result from the provided route.
+    ///
+    /// This function returns a typed response instead of an
+    /// ``ApiResult`` with raw data and response properties. 
     func request<T: Decodable>(
         at route: ApiRoute,
-        in environment: ApiEnvironment
+        in environment: ApiEnvironment,
+        decoder: JSONDecoder? = nil
     ) async throws -> T {
         let request = try route.urlRequest(for: environment)
-        return try await self.request(with: request)
+        return try await self.request(with: request, decoder: decoder)
     }
     
     /// Validate the provided request, response and data.

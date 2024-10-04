@@ -8,17 +8,19 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 ## 0.9.1
 
+This version adjusts HTTP status code terminology.
+
 ### ✨ New Features
 
-* `ApiError` has a new `invalidHttpStatusCode`
-* `ApiError` has a new `unsuccessfulHttpStatusCode`
+* `ApiClient` lets you provide a custom decoder.
+* `ApiError` has a new `invalidHttpStatusCode` error.
+* `ApiError` has a new `unsuccessfulHttpStatusCode` error.
 
 ### 💡 Adjustments
 
-This version adjusts some HTTP status terminology.
-
-* `100-199` and `300-599` HTTP status codes are unsuccessful, not invalid.
-* `-99` and `600-` HTTP status codes are invalid. 
+* `100-599` is valid.
+* `100-199` and `300-599` is unsuccessful, not invalid.
+* All other status codes are invalid, since they're not in the spec. 
 
 
 
