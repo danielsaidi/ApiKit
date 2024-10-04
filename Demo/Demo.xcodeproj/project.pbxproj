@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,9 @@
 		A9C026AF29D2CEFB00371AE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */; };
 		A9C026B329D2CEFB00371AE0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C026B229D2CEFB00371AE0 /* Preview Assets.xcassets */; };
 		A9C026C029D3228100371AE0 /* ApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9C026BF29D3228100371AE0 /* ApiKit */; };
+		A9E31BB62CB030D300D1A3AA /* ApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9E31BB52CB030D300D1A3AA /* ApiKit */; };
+		A9E31BB92CB030F000D1A3AA /* ApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9E31BB82CB030F000D1A3AA /* ApiKit */; };
+		A9E31BBC2CB0310600D1A3AA /* ApiKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9E31BBB2CB0310600D1A3AA /* ApiKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +30,6 @@
 		A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9C026B029D2CEFB00371AE0 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		A9C026B229D2CEFB00371AE0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A9C026BD29D3225300371AE0 /* apikit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = apikit; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +37,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9E31BBC2CB0310600D1A3AA /* ApiKit in Frameworks */,
+				A9E31BB62CB030D300D1A3AA /* ApiKit in Frameworks */,
 				A9C026C029D3228100371AE0 /* ApiKit in Frameworks */,
+				A9E31BB92CB030F000D1A3AA /* ApiKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +58,6 @@
 		A9C0269E29D2CEFA00371AE0 = {
 			isa = PBXGroup;
 			children = (
-				A9C026BB29D2D01300371AE0 /* Packages */,
 				A9C026A929D2CEFA00371AE0 /* Demo */,
 				A9C026A829D2CEFA00371AE0 /* Products */,
 				A9C026BE29D3228100371AE0 /* Frameworks */,
@@ -91,14 +95,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		A9C026BB29D2D01300371AE0 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				A9C026BD29D3225300371AE0 /* apikit */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
 		A9C026BE29D3228100371AE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +120,9 @@
 			name = Demo;
 			packageProductDependencies = (
 				A9C026BF29D3228100371AE0 /* ApiKit */,
+				A9E31BB52CB030D300D1A3AA /* ApiKit */,
+				A9E31BB82CB030F000D1A3AA /* ApiKit */,
+				A9E31BBB2CB0310600D1A3AA /* ApiKit */,
 			);
 			productName = Demo;
 			productReference = A9C026A729D2CEFA00371AE0 /* Demo.app */;
@@ -154,6 +153,9 @@
 				Base,
 			);
 			mainGroup = A9C0269E29D2CEFA00371AE0;
+			packageReferences = (
+				A9E31BBA2CB0310600D1A3AA /* XCLocalSwiftPackageReference "../../apikit" */,
+			);
 			productRefGroup = A9C026A829D2CEFA00371AE0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -413,8 +415,27 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		A9E31BBA2CB0310600D1A3AA /* XCLocalSwiftPackageReference "../../apikit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../apikit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		A9C026BF29D3228100371AE0 /* ApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApiKit;
+		};
+		A9E31BB52CB030D300D1A3AA /* ApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApiKit;
+		};
+		A9E31BB82CB030F000D1A3AA /* ApiKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ApiKit;
+		};
+		A9E31BBB2CB0310600D1A3AA /* ApiKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ApiKit;
 		};

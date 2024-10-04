@@ -3,7 +3,7 @@
 //  Demo
 //
 //  Created by Daniel Saidi on 2023-03-28.
-//  Copyright © 2023 Daniel Saidi. All rights reserved.
+//  Copyright © 2023-2024 Daniel Saidi. All rights reserved.
 //
 
 import ApiKit
@@ -91,7 +91,8 @@ extension TheMovieDbScreen {
     func fetchDiscoverData() async throws -> MovieResult {
         try await session.request<MovieResult>(
             at: Route.discoverMovies(page: 1),
-            in: environment
+            in: environment,
+            decoder: nil
         )
     }
 
@@ -125,8 +126,6 @@ extension TheMovieDbScreen {
         model.searchMovies = result.results
     }
 }
-
-
 
 #Preview {
     
