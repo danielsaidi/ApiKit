@@ -10,7 +10,7 @@ import Foundation
 
 public extension Yelp {
 
-    /// This enum defines the currently supported API routes.
+    /// This type defines supported Yelp API routes.
     enum Route: ApiRoute {
 
         case restaurant(id: String)

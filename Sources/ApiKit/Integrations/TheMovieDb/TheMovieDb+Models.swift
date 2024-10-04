@@ -10,6 +10,7 @@ import Foundation
 
 public extension TheMovieDb {
 
+    /// This type represents a TheMovieDb movie.
     struct Movie: Codable, Identifiable {
         
         public let id: Int
@@ -73,12 +74,14 @@ public extension TheMovieDb {
         }
     }
 
+    /// This type represents a TheMovieDb movie genre.
     struct MovieGenre: Codable, Identifiable {
         
         public let id: Int
         public let name: String
     }
 
+    /// This type represents a TheMovieDb pagination result.
     struct MoviesPaginationResult: Codable {
         
         public let page: Int

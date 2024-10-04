@@ -8,14 +8,8 @@
 
 import Foundation
 
-/**
- This protocol can be implemented by types that will provide
- request data when creating a `URLRequest`.
-
- Make sure to specify raw data values, then encode them when
- creating the request. This is automatically done when using
- an ``ApiClient`` to perform requests.
- */
+/// This protocol can be implemented by any types that could
+/// be used to provide request data for a `URLRequest`.
 public protocol ApiRequestData {
 
     /// Optional header parameters.

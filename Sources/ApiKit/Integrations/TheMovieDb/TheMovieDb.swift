@@ -8,11 +8,8 @@
 
 import Foundation
 
-/**
- This namespace contains a TMDB-specific set of environments,
- routes and data types.
- 
- You can setup an api account at `https://themoviedb.org` to
- start using these types with ApiKit.
- */
+/// This namespace contains a TheMovieDb-specific types.
+///
+/// You can read more on how to set up a test API account at
+/// `https://themoviedb.org`.
 public struct TheMovieDb {}

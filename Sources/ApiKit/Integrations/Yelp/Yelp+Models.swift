@@ -10,6 +10,7 @@ import Foundation
 
 public extension Yelp {
 
+    /// This type represents a Yelp restaurant (business).
     struct Restaurant: Codable {
         
         public let id: String
@@ -50,18 +51,22 @@ public extension Yelp {
             case distance
         }
     }
-    
+
+
+    /// This type represents a Yelp restaurant category.
     struct RestaurantCategory: Codable {
         
         public let title: String
     }
-    
+
+    /// This type represents Yelp restaurant coordinates.
     struct RestaurantCoordinates: Codable {
         
         public let latitude: Double?
         public let longitude: Double?
     }
 
+    /// This type represents a Yelp restaurant opening hours.
     struct RestaurantHour: Codable {
         
         public let isOvernight: Bool
@@ -76,7 +81,8 @@ public extension Yelp {
             case day
         }
     }
-    
+
+    /// This type represents a Yelp restaurant opening hour.
     struct RestaurantHours: Codable {
         
         public let type: String
@@ -89,7 +95,8 @@ public extension Yelp {
             case open
         }
     }
-    
+
+    /// This type represents a Yelp restaurant location.
     struct RestaurantLocation: Codable {
         
         public let displayAddress: [String]
@@ -98,7 +105,8 @@ public extension Yelp {
             case displayAddress = "display_address"
         }
     }
-    
+
+    /// This type represents a Yelp restaurant review.
     struct RestaurantReview: Codable {
         
         public let id: String
@@ -107,7 +115,8 @@ public extension Yelp {
         public let rating: Double?
         public let user: RestaurantReviewUser
     }
-    
+
+    /// This type represents a Yelp restaurant review user.
     struct RestaurantReviewUser: Codable {
         
         public let id: String
@@ -120,12 +129,14 @@ public extension Yelp {
             case imageUrl = "image_url"
         }
     }
-    
+
+    /// This type represents a Yelp review result.
     struct ReviewResult: Codable {
         
         public let reviews: [RestaurantReview]
     }
-    
+
+    /// This type represents Yelp search parameters.
     struct SearchParams {
         
         public init(
@@ -189,7 +200,8 @@ public extension Yelp {
             return params
         }
     }
-    
+
+    /// This type represents a Yelp search result.
     struct SearchResult: Codable {
         
         public let businesses: [Restaurant]

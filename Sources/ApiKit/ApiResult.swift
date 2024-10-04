@@ -8,10 +8,7 @@
 
 import Foundation
 
-/**
- This type can be returned by an ``ApiClient`` when a client
- requests data from an external API.
- */
+/// This type can be returned by an ``ApiClient``.
 public struct ApiResult {
 
     public init(

@@ -6,6 +6,22 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 0.9.1
+
+### ✨ New Features
+
+* `ApiError` has a new `invalidHttpStatusCode`
+* `ApiError` has a new `unsuccessfulHttpStatusCode`
+
+### 💡 Adjustments
+
+This version adjusts some HTTP status terminology.
+
+* `100-199` and `300-599` HTTP status codes are unsuccessful, not invalid.
+* `-99` and `600-` HTTP status codes are invalid. 
+
+
+
 ## 0.9
 
 This version removes all deprecated code and makes the SDK use Swift 6. 

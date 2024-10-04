@@ -10,6 +10,7 @@ import Foundation
 
 public extension TheMovieDb {
 
+    /// This type defines supported TheMovieDb environments.
     enum Environment: ApiEnvironment {
 
         case production(apiKey: String)

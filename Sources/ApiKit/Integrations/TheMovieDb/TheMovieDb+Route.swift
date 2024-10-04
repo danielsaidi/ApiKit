@@ -10,6 +10,7 @@ import Foundation
 
 public extension TheMovieDb {
 
+    /// This type defines supported TheMovieDb routes.
     enum Route: ApiRoute {
 
         case discoverMovies(page: Int)

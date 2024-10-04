@@ -10,6 +10,7 @@ import Foundation
 
 public extension Yelp {
 
+    /// This type defines supported Yelp API environments.
     enum Environment: ApiEnvironment {
 
         case v3(apiToken: String)

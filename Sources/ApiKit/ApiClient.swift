@@ -75,15 +75,18 @@ public extension ApiClient {
         request: URLRequest,
         response: URLResponse,
         data: Data
-    ) throws {
+    ) throws(ApiError) {
         guard let httpResponse = response as? HTTPURLResponse else { return }
-        let status = httpResponse.statusCode
-        if validateStatusCode(status) { return }
-        throw ApiError.invalidResponseStatusCode(status, request, response, data)
+        let statusCode = httpResponse.statusCode
+        guard statusCode.isValidHttpStatusCode else {
+            throw ApiError.invalidHttpStatusCode(statusCode, request, response, data)
+        }
+        guard statusCode.isSuccessfulHttpStatusCode else {
+            throw ApiError.unsuccessfulHttpStatusCode(statusCode, request, response, data)
+        }
     }
     
-    /// Validate that the provided status code is within the
-    /// 200-299 range.
+    @available(*, deprecated, message: "This is no longer used and will be removed in 1.0.")
     func validateStatusCode(
         _ code: Int
     ) -> Bool {

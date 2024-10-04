@@ -8,9 +8,7 @@
 
 import Foundation
 
-/**
- This enum defines various HTTP methods.
- */
+/// This enum defines various HTTP methods.
 public enum HttpMethod: String, CaseIterable, Identifiable {
 
     case connect
