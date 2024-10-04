@@ -3,11 +3,7 @@
 /.build
 /Packages
 .swiftpm/
-
-# Documentation
-Docs
-documentation
-downloads
-videos
+xcuserdata/
+DerivedData/
 
 **/*.xcuserstate
