@@ -6,6 +6,12 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 0.9
+
+This version removes all deprecated code and makes the SDK use Swift 6. 
+
+
+
 ## 0.8
 
 This version renames client functions to use the "request" terminology for more consistent naming. 
