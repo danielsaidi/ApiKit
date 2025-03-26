@@ -27,14 +27,9 @@ struct TheMovieDbScreen: View {
 
     class ViewModel: ObservableObject {
 
-        @Published
-        var discoverMovies = [Movie]()
-
-        @Published
-        var searchMovies = [Movie]()
-
-        @Published
-        var searchQuery = ""
+        @Published var discoverMovies = [Movie]()
+        @Published var searchMovies = [Movie]()
+        @Published var searchQuery = ""
     }
 
     var body: some View {
