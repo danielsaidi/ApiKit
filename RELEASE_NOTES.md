@@ -13,6 +13,7 @@ This major version bump removes deprecated code.
 ### 💥 Breaking changes
 
 * The `ApiRequestData` protocol has been removed.
+* All previously deprecated code has been removed.
 
 
 

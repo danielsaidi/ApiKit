@@ -12,15 +12,14 @@ import Foundation
 /// specific API versions.
 ///
 /// An ``ApiEnvironment`` must define a ``url``, to which an
-/// environment-relative ``ApiRoute/path`` can be appended.
+/// environment-relative ``ApiRoute/path`` can be added. You
+/// can use an enum to define multiple environments.
 ///
-/// You can use enums to define environments, and associated
-/// values to provide environment-specific parameters.
-///
-/// Both ``ApiEnvironment`` and ``ApiRoute`` can specify any
-/// headers and query parameters they need. Environments can
-/// define global headers and query parameters, while routes
-/// can define route-specific ones.
+/// Both the ``ApiEnvironment`` and ``ApiRoute`` can specify
+/// headers and query parameters that they need. Environment
+/// specific headers and query parameters will be applied to
+/// all requests, while a route specific value will override
+/// a value that is defined by the environment.
 public protocol ApiEnvironment: Sendable {
     
     /// Optional header parameters to apply to all requests.

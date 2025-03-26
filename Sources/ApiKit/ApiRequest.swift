@@ -8,16 +8,13 @@
 
 import Foundation
 
-/// This protocol represents an API request that specifies a
-/// route and a response type.
+/// This protocol can be used to define a API route, and its
+/// expected return type.
 ///
-/// You can implement this type to avoid having to specify a
-/// route and a response type when using an ``ApiClient`` to
-/// fetch data.
-///
-/// To fetch data with an ``ApiRequest`` value, just use the
-/// request-based `fetch` function. It automatically selects
-/// the request route and specifies the proper response type.
+/// You can use this protocol to avoid having to specify the
+/// return type when fetching data for a route. Just use the
+/// ``ApiClient/fetch(_:from:)`` to automatically map an API
+/// route's response to the expected ``ResponseType``.
 public protocol ApiRequest: Codable {
     
     associatedtype ResponseType: Codable
@@ -25,7 +22,7 @@ public protocol ApiRequest: Codable {
     var route: ApiRoute { get }
 }
 
-public extension URLSession {
+public extension ApiClient {
     
     /// Try to request a certain ``ApiRequest``.
     func fetch<RequestType: ApiRequest>(

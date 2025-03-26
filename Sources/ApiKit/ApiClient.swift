@@ -32,10 +32,7 @@ extension URLSession: ApiClient {}
 
 public extension ApiClient {
     
-    /// Request an ``ApiResult`` with the provided request.
-    ///
-    /// This function returns an ``ApiResult`` with raw data
-    /// and response properties.
+    /// Request a raw ``ApiResult`` for the provided request.
     func request(
         _ request: URLRequest
     ) async throws -> ApiResult {
@@ -46,10 +43,7 @@ public extension ApiClient {
         return ApiResult(data: data, response: response)
     }
     
-    /// Request an ``ApiResult`` from the provided route.
-    ///
-    /// This function returns an ``ApiResult`` with raw data
-    /// and response properties.
+    /// Request a raw ``ApiResult`` for the provided route.
     func request(
         _ route: ApiRoute,
         in environment: ApiEnvironment
@@ -58,10 +52,7 @@ public extension ApiClient {
         return try await self.request(request)
     }
 
-    /// Request a typed result with the provided request.
-    ///
-    /// This function returns a typed response instead of an
-    /// ``ApiResult`` with raw data and response properties.
+    /// Request a typed result for the provided request.
     func request<T: Decodable>(
         with request: URLRequest,
         decoder: JSONDecoder? = nil
@@ -72,10 +63,7 @@ public extension ApiClient {
         return try decoder.decode(T.self, from: data)
     }
 
-    /// Request a typed result from the provided route.
-    ///
-    /// This function returns a typed response instead of an
-    /// ``ApiResult`` with raw data and response properties. 
+    /// Request a typed result for the provided route.
     func request<T: Decodable>(
         at route: ApiRoute,
         in environment: ApiEnvironment,

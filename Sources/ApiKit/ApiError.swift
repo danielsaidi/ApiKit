@@ -15,9 +15,6 @@ public enum ApiError: Error, Equatable, LocalizedError {
     /// This error should be thrown when an ``ApiEnvironment``
     /// has a url that can't be used to generate a `URL`.
     case invalidEnvironmentUrl(String)
-    
-    @available(*, deprecated, renamed: "unsuccessfulHttpStatusCode")
-    case invalidResponseStatusCode(Int, URLRequest, URLResponse, Data)
 
     /// This error should be thrown when a URL request fails
     /// due to an invalid status code (outside of 100-599).
@@ -35,15 +32,4 @@ public enum ApiError: Error, Equatable, LocalizedError {
     /// due to an unsuccessful status code (100-199, as well
     /// as 300-599).
     case unsuccessfulHttpStatusCode(Int, URLRequest, URLResponse, Data)
-}
-
-public extension ApiError {
-
-    @available(*, deprecated, message: "This will be removed in 1.0. Switch over the error and use `unsuccessfulHttpStatusCode` instead.")
-    var isInvalidResponseStatusCode: Bool {
-        switch self {
-        case .unsuccessfulHttpStatusCode: true
-        default: false
-        }
-    }
 }

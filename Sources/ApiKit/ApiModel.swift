@@ -9,6 +9,5 @@
 /// This protocol can be implemented by API-specific models.
 ///
 /// This protocol makes a type conform to both `Codable` and
-/// `Sendable`, which simplifies conforming to both when you
-/// create your API models.
+/// `Sendable`, which simplifies defining model types.
 public protocol ApiModel: Codable, Sendable {}
