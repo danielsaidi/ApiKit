@@ -92,14 +92,17 @@ public extension ApiEnvironment {
     }
 }
 
-private extension ApiRoute {
+extension ApiRoute {
     
     var encodedQueryItems: [URLQueryItem]? {
         queryParams?
             .map { URLQueryItem(name: $0.key, value: $0.value) }
             .sorted { $0.name < $1.name }
     }
+}
 
+private extension ApiRoute {
+    
     func headers(for env: ApiEnvironment) -> [String: String] {
         var result = env.headers ?? [:]
         headers?.forEach {

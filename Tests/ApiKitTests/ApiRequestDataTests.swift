@@ -6,8 +6,9 @@
 //  Copyright © 2023-2024 Daniel Saidi. All rights reserved.
 //
 
-import ApiKit
 import XCTest
+
+@testable import ApiKit
 
 final class ApiRequestDataTests: XCTestCase {
 

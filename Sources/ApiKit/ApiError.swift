@@ -33,3 +33,22 @@ public enum ApiError: Error, Equatable, LocalizedError {
     /// as 300-599).
     case unsuccessfulHttpStatusCode(Int, URLRequest, URLResponse, Data)
 }
+
+public extension ApiError {
+    
+    /// Whether the error is a ``ApiError/invalidHttpStatusCode(_:_:_:_:)``
+    var isInvalidHttpStatusCodeError: Bool {
+        switch self {
+        case .invalidHttpStatusCode: true
+        default: false
+        }
+    }
+    
+    /// Whether the error is a ``ApiError/invalidHttpStatusCode(_:_:_:_:)``
+    var isUnsuccessfulHttpStatusCodeError: Bool {
+        switch self {
+        case .unsuccessfulHttpStatusCode: true
+        default: false
+        }
+    }
+}

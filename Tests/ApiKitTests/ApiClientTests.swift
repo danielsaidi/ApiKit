@@ -40,7 +40,19 @@ final class ApiClientTests: XCTestCase {
         }
     }
     
-    func testFetchingItemAtRouteFailsForInvalidResponse() async throws {
+    func testFetchingItemAtRouteFailsForInvalidStatusCode() async throws {
+        let response = TestResponse.withStatusCode(-1)
+        let client = TestClient(response: response)
+        do {
+            let _: TestMovie? = try await client.request(at: route, in: env)
+            XCTFail("Should fail")
+        } catch {
+            let error = error as? ApiError
+            XCTAssertTrue(error?.isInvalidHttpStatusCodeError == true)
+        }
+    }
+    
+    func testFetchingItemAtRouteFailsForUnsuccessfulStatusCode() async throws {
         let response = TestResponse.withStatusCode(100)
         let client = TestClient(response: response)
         do {
@@ -48,7 +60,7 @@ final class ApiClientTests: XCTestCase {
             XCTFail("Should fail")
         } catch {
             let error = error as? ApiError
-            XCTAssertTrue(error?.isInvalidResponseStatusCode == true)
+            XCTAssertTrue(error?.isUnsuccessfulHttpStatusCodeError == true)
         }
     }
     
@@ -62,13 +74,5 @@ final class ApiClientTests: XCTestCase {
         } catch {
             XCTFail("Should fail")
         }
-    }
-    
-    func testCanValidateResponseStatusCode() async throws {
-        let client = client(withData: .init())
-        XCTAssertFalse(client.validateStatusCode(199))
-        XCTAssertTrue(client.validateStatusCode(200))
-        XCTAssertTrue(client.validateStatusCode(299))
-        XCTAssertFalse(client.validateStatusCode(300))
     }
 }
