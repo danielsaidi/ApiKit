@@ -3,11 +3,10 @@
 This article explains how to get started with ApiKit.
 
 @Metadata {
-
+    
     @PageImage(
         purpose: card,
-        source: "Page",
-        alt: "Page icon"
+        source: "Page"
     )
 
     @PageColor(blue)

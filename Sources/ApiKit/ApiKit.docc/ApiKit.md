@@ -3,7 +3,6 @@
 ApiKit is a Swift SDK that helps you integrate with any REST API.
 
 
-
 ## Overview
 
 ![Library logotype](Logo.png)

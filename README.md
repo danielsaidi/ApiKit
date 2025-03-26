@@ -1,5 +1,5 @@
 <p align="center">
-    <img src ="Resources/Logo_Rounded.png" alt="ApiKit Logo" title="ApiKit" />
+    <img src ="Resources/Icon.png" alt="ApiKit Logo"  width="350" />
 </p>
 
 <p align="center">
