@@ -66,7 +66,6 @@ ApiKit is available under the MIT license.
 - ``ApiClient``
 - ``ApiError``
 - ``ApiRequest``
-- ``ApiRequestData``
 - ``ApiResult``
 
 ### HTTP

@@ -10,6 +10,10 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 This major version bump removes deprecated code.
 
+### 💥 Breaking changes
+
+* The `ApiRequestData` protocol has been removed.
+
 
 
 ## 0.9.2

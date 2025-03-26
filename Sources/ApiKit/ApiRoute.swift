@@ -27,13 +27,19 @@ import Foundation
 /// headers and query parameters they need. Environments can
 /// define global headers and query parameters, while routes
 /// can define route-specific ones. 
-public protocol ApiRoute: Sendable, ApiRequestData {
+public protocol ApiRoute: Sendable {
+    
+    /// Optional header parameters to apply to the route.
+    var headers: [String: String]? { get }
 
     /// The HTTP method to use for the route.
     var httpMethod: HttpMethod { get }
 
     /// The route's ``ApiEnvironment`` relative path.
     var path: String { get }
+    
+    /// Optional query params to apply to the route.
+    var queryParams: [String: String]? { get }
 
     /// Optional form data, which is sent as request body.
     var formParams: [String: String]? { get }
@@ -88,6 +94,12 @@ public extension ApiEnvironment {
 }
 
 private extension ApiRoute {
+    
+    var encodedQueryItems: [URLQueryItem]? {
+        queryParams?
+            .map { URLQueryItem(name: $0.key, value: $0.value) }
+            .sorted { $0.name < $1.name }
+    }
 
     func headers(for env: ApiEnvironment) -> [String: String] {
         var result = env.headers ?? [:]
