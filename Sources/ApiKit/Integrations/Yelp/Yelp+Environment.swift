@@ -31,7 +31,5 @@ public extension Yelp.Environment {
         }
     }
     
-    var queryParams: [String: String]? {
-        [:]
-    }
+    var queryParams: [String: String]? { [:] }
 }

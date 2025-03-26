@@ -12,10 +12,14 @@ public extension Yelp {
 
     /// This type defines supported Yelp API routes.
     enum Route: ApiRoute {
+        
+        public typealias Restaurant = Yelp.Restaurant
+        public typealias RestaurantReviewsResult = Yelp.RestaurantReviewsResult
+        public typealias RestaurantSearchResult = Yelp.RestaurantSearchResult
 
         case restaurant(id: String)
         case restaurantReviews(restaurantId: String)
-        case search(params: Yelp.SearchParams)
+        case search(params: Yelp.RestaurantSearchParams)
     }
 }
 
@@ -42,6 +46,14 @@ public extension Yelp.Route {
         case .restaurant: nil
         case .restaurantReviews: nil
         case .search(let params): params.queryParams
+        }
+    }
+    
+    var returnType: Any? {
+        switch self {
+        case .restaurant: Restaurant.self
+        case .restaurantReviews: RestaurantReviewsResult.self
+        case .search: RestaurantSearchResult.self
         }
     }
 }

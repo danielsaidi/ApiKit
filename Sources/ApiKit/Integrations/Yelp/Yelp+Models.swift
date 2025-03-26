@@ -115,6 +115,12 @@ public extension Yelp {
         public let rating: Double?
         public let user: RestaurantReviewUser
     }
+    
+    /// This type represents a Yelp restaurant review result.
+    struct RestaurantReviewsResult: Codable {
+        
+        public let reviews: [RestaurantReview]
+    }
 
     /// This type represents a Yelp restaurant review user.
     struct RestaurantReviewUser: ApiModel {
@@ -130,14 +136,8 @@ public extension Yelp {
         }
     }
 
-    /// This type represents a Yelp review result.
-    struct ReviewResult: Codable {
-        
-        public let reviews: [RestaurantReview]
-    }
-
     /// This type represents Yelp search parameters.
-    struct SearchParams: Sendable {
+    struct RestaurantSearchParams: Sendable {
 
         public init(
             skip: Int,
@@ -202,7 +202,7 @@ public extension Yelp {
     }
 
     /// This type represents a Yelp search result.
-    struct SearchResult: Codable {
+    struct RestaurantSearchResult: Codable {
         
         public let businesses: [Restaurant]
     }
