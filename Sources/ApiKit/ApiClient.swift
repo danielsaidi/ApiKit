@@ -100,11 +100,4 @@ public extension ApiClient {
             throw ApiError.unsuccessfulHttpStatusCode(statusCode, request, response, data)
         }
     }
-    
-    @available(*, deprecated, message: "This is no longer used and will be removed in 1.0.")
-    func validateStatusCode(
-        _ code: Int
-    ) -> Bool {
-        code >= 200 && code < 300
-    }
 }

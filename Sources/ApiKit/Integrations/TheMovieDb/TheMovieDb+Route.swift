@@ -12,10 +12,12 @@ public extension TheMovieDb {
 
     /// This type defines supported TheMovieDb routes.
     enum Route: ApiRoute {
+        
+        public typealias Movie = TheMovieDb.Movie
+        public typealias MoviesPaginationResult = TheMovieDb.MoviesPaginationResult
 
-        case discoverMovies(page: Int)
+        case discoverMovies(page: Int, sortBy: String = "popularity")
         case movie(id: Int)
-        case movieVideos(id: Int)
         case searchMovies(query: String, page: Int)
     }
 }
@@ -26,7 +28,6 @@ public extension TheMovieDb.Route {
         switch self {
         case .discoverMovies: "discover/movie"
         case .movie(let id): "movie/\(id)"
-        case .movieVideos(let id): "movie/\(id)/movies"
         case .searchMovies: "search/movie"
         }
     }
@@ -41,10 +42,24 @@ public extension TheMovieDb.Route {
     
     var queryParams: [String: String]? {
         switch self {
-        case .discoverMovies(let page): ["language": "en-US", "sort-by": "popularity", "page": "\(page)"]
+        case .discoverMovies(let page, let sortBy): [
+            "language": "en-US",
+            "sort-by": sortBy,
+            "page": "\(page)"
+        ]
         case .movie: nil
-        case .movieVideos: nil
-        case .searchMovies(let query, let page): ["query": query, "page": "\(page)"]
+        case .searchMovies(let query, let page): [
+            "query": query,
+            "page": "\(page)"
+        ]
+        }
+    }
+    
+    var returnType: Any? {
+        switch self {
+        case .discoverMovies: [Movie].self
+        case .movie: Movie.self
+        case .searchMovies: MoviesPaginationResult.self
         }
     }
 }

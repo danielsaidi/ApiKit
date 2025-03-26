@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// This namespace contains a TheMovieDb-specific types.
+/// This namespace defines an API integration for TheMovieDb.
 ///
 /// You can read more on how to set up a test API account at
 /// `https://themoviedb.org`.

@@ -6,6 +6,12 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 1.0
+
+This major version bump removes deprecated code.
+
+
+
 ## 0.9.2
 
 This version adds an `ApiModel` protocol that simplifies conforming to `Codable` and `Sendable`.
