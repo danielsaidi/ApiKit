@@ -35,6 +35,20 @@ public enum ApiError: Error, Equatable, LocalizedError {
 }
 
 public extension ApiError {
+
+    /// A custom localized description.
+    var localizedDescription: String {
+        switch self {
+        case .invalidEnvironmentUrl: "Invalid Environment Url"
+        case .invalidHttpStatusCode: "Invalid HTTP Status Code"
+        case .noUrlInComponents: "No URL In Components"
+        case .failedToCreateComponentsFromUrl: "Failed To Create Components From Url"
+        case .unsuccessfulHttpStatusCode: "Unsuccessful HTTP Status Code"
+        }
+    }
+}
+
+public extension ApiError {
     
     /// Whether the error is a ``ApiError/invalidHttpStatusCode(_:_:_:_:)``
     var isInvalidHttpStatusCodeError: Bool {

@@ -122,7 +122,7 @@ Your support makes it possible for me to put more work into these projects and m
 
 ## Contact
 
-Feel free to reach out if you have questions or want to contribute in any way:
+Feel free to reach out if you have questions, or want to contribute in any way:
 
 * Website: [danielsaidi.com][Website]
 * E-mail: [daniel.saidi@gmail.com][Email]
