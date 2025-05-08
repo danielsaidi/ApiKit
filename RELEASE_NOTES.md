@@ -6,6 +6,14 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 1.0.2
+
+### ✨ Features
+
+* `ApiError` now includes the status code in some errors.
+
+
+
 ## 1.0.1
 
 ### ✨ Features

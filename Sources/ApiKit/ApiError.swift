@@ -40,10 +40,10 @@ public extension ApiError {
     var localizedDescription: String {
         switch self {
         case .invalidEnvironmentUrl: "Invalid Environment Url"
-        case .invalidHttpStatusCode: "Invalid HTTP Status Code"
+        case .invalidHttpStatusCode(let code, _, _, _): "Invalid HTTP Status Code \(code)"
         case .noUrlInComponents: "No URL In Components"
         case .failedToCreateComponentsFromUrl: "Failed To Create Components From Url"
-        case .unsuccessfulHttpStatusCode: "Unsuccessful HTTP Status Code"
+        case .unsuccessfulHttpStatusCode(let code, _, _, _): "Unsuccessful HTTP Status Code \(code)"
         }
     }
 }

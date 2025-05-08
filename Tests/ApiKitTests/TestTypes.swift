@@ -33,7 +33,7 @@ class TestClient: ApiClient {
     }
 }
 
-class TestResponse: HTTPURLResponse {
+class TestResponse: HTTPURLResponse, @unchecked Sendable {
     
     var testStatusCode = 200
     
