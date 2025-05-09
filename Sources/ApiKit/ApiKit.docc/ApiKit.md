@@ -7,9 +7,9 @@ ApiKit is a Swift SDK that helps you integrate with any REST API.
 
 ![Library logotype](Logo.png)
 
-ApiKit defines an ``ApiClient`` protocol that describes how to request raw and typed data from any REST-based API. This protocol is implemented by ``Foundation/URLSession``, so you can use the shared session without having to create a custom client.    
+ApiKit is a Swift SDK that can integrate with any REST API and automatically map responses to Swift models. It defines an ``ApiClient`` that can request data from any API, as well as ``ApiEnvironment`` & ``ApiRoute`` protocols that make it easy to model any API. 
 
-ApiKit defines ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model and integrate with any REST-based API, as well as an ``ApiRequest`` that can define a route and response type for even easier use.
+The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly, without having to create a custom client implementation.
 
 
 
@@ -21,6 +21,10 @@ ApiKit can be installed with the Swift Package Manager:
 https://github.com/danielsaidi/ApiKit.git
 ```
 
+
+## Support My Work
+
+By [becoming a sponsor][Sponsors], you directly support the development & improvement of my various [open-source projects][OpenSource].
 
 
 ## Getting started
@@ -39,17 +43,14 @@ The generic, typed functions will automatically map the raw response to the type
 See the <doc:Getting-Started> article for more information on how to define environments and routes.
 
 
-
 ## Repository
 
 For more information, source code, etc., visit the [project repository](https://github.com/danielsaidi/ApiKit).
 
 
-
 ## License
 
 ApiKit is available under the MIT license.
-
 
 
 ## Topics
@@ -75,3 +76,10 @@ ApiKit is available under the MIT license.
 
 - ``TheMovieDb``
 - ``Yelp``
+
+
+[Email]: mailto:daniel.saidi@gmail.com
+[Website]: https://danielsaidi.com
+[GitHub]: https://github.com/danielsaidi
+[OpenSource]: https://danielsaidi.com/opensource
+[Sponsors]: https://github.com/sponsors/danielsaidi

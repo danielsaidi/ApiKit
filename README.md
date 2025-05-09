@@ -3,20 +3,21 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/github/v/release/danielsaidi/ApiKit?color=%2300550&sort=semver" alt="Version" title="Version" />
+    <img src="https://img.shields.io/github/v/release/danielsaidi/ApiKit?color=%2300550&sort=semver" alt="Version" />
     <img src="https://img.shields.io/badge/swift-6.0-orange.svg" alt="Swift 6.0" />
     <a href="https://danielsaidi.github.io/ApiKit"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
-    <img src="https://img.shields.io/github/license/danielsaidi/ApiKit" alt="MIT License" title="MIT License" />
+    <a href="https://github.com/danielsaidi/ApiKit/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/ApiKit" alt="MIT License" /></a>
+    <a href="https://github.com/sponsors/danielsaidi"><img src="https://img.shields.io/badge/sponsor-GitHub-red.svg" alt="Sponsor my work" /></a>
 </p>
 
 
 # ApiKit
 
-ApiKit is a Swift SDK that helps you integrate with any REST API, and automatically map responses to Swift types.
+ApiKit is a Swift SDK that helps you integrate with any REST API and automatically map responses to Swift models.
 
-ApiKit defines an ``ApiClient`` protocol that can request raw and typed data from any REST API. This protocol is implemented by ``URLSession``, so you can use ``URLSession.shared`` without having to create a client.
+ApiKit defines an ``ApiClient`` protocol that can be used to request raw & typed data from any REST API, as well as ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model environments and routes 
 
-ApiKit defines ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model environments and routes, as well as an ``ApiRequest`` that can define a route and a response type.
+The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly.
 
 
 
@@ -27,6 +28,13 @@ ApiKit can be installed with the Swift Package Manager:
 ```
 https://github.com/danielsaidi/ApiKit.git
 ```
+
+
+## Support My Work
+
+By [becoming a sponsor][Sponsors], you directly support the development & improvement of my various [open-source projects][OpenSource]. 
+
+Every sponsor makes a real difference. Thank you for considering [supporting my work][Sponsors]!
 
 
 
@@ -109,14 +117,6 @@ The online [documentation][Documentation] has more information, articles, code e
 ## Demo Application
 
 The `Demo` folder has a demo app that lets you explore the library and integrate with a few APIs.
-
-
-
-## Support my work 
-
-You can [sponsor me][Sponsors] on GitHub Sponsors or [reach out][Email] for paid support, to help support my [open-source projects][OpenSource].
-
-Your support makes it possible for me to put more work into these projects and make them the best they can be.
 
 
 
