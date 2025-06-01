@@ -7,10 +7,9 @@ ApiKit is a Swift SDK that helps you integrate with any REST API.
 
 ![Library logotype](Logo.png)
 
-ApiKit is a Swift SDK that can integrate with any REST API and automatically map responses to Swift models. It defines an ``ApiClient`` that can request data from any API, as well as ``ApiEnvironment`` & ``ApiRoute`` protocols that make it easy to model any API. 
+ApiKit is a Swift library that makes it easy to integrate with any REST API and map its response models to Swift types. It defines an ``ApiClient`` that can request data from any API, as well as ``ApiEnvironment`` & ``ApiRoute`` protocols that make it easy to model any API. 
 
 The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly, without having to create a custom client implementation.
-
 
 
 ## Installation
@@ -24,7 +23,7 @@ https://github.com/danielsaidi/ApiKit.git
 
 ## Support My Work
 
-By [becoming a sponsor][Sponsors], you directly support the development & improvement of my various [open-source projects][OpenSource].
+By [becoming a sponsor][Sponsors], you directly support the development and continuous improvements of my various [open-source projects][OpenSource].
 
 
 ## Getting started
