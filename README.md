@@ -32,7 +32,7 @@ https://github.com/danielsaidi/ApiKit.git
 
 ## Support My Work
 
-By [becoming a sponsor][Sponsors], you directly support the development and continuous improvements of my various [open-source projects][OpenSource].
+By [becoming a sponsor][Sponsors], you directly support the development & improvement of my various [open-source projects][OpenSource].
 
 
 
