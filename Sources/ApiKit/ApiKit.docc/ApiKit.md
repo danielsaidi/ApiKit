@@ -1,6 +1,6 @@
 # ``ApiKit``
 
-ApiKit is a Swift SDK that helps you integrate with any REST API.
+ApiKit is a Swift library that helps you integrate with any REST API.
 
 
 ## Overview
@@ -10,6 +10,7 @@ ApiKit is a Swift SDK that helps you integrate with any REST API.
 ApiKit is a Swift library that makes it easy to integrate with any REST API and map its response models to Swift types. It defines an ``ApiClient`` that can request data from any API, as well as ``ApiEnvironment`` & ``ApiRoute`` protocols that make it easy to model any API. 
 
 The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly, without having to create a custom client implementation.
+
 
 
 ## Installation
@@ -24,6 +25,7 @@ https://github.com/danielsaidi/ApiKit.git
 ## Support My Work
 
 You can [become a sponsor][Sponsors] to help me dedicate more time on my various [open-source tools][OpenSource]. Every contribution, no matter the size, makes a real difference in keeping these tools free and actively developed.
+
 
 
 ## Getting started
@@ -42,14 +44,17 @@ The generic, typed functions will automatically map the raw response to the type
 See the <doc:Getting-Started> article for more information on how to define environments and routes.
 
 
+
 ## Repository
 
 For more information, source code, etc., visit the [project repository](https://github.com/danielsaidi/ApiKit).
 
 
+
 ## License
 
 ApiKit is available under the MIT license.
+
 
 
 ## Topics
@@ -75,6 +80,7 @@ ApiKit is available under the MIT license.
 
 - ``TheMovieDb``
 - ``Yelp``
+
 
 
 [Email]: mailto:daniel.saidi@gmail.com

@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// This enum defines api-specific errors that can be thrown
 /// when an ``ApiClient`` communicates with any external API.
-public enum ApiError: Error, Equatable, LocalizedError {
+public enum ApiError: Equatable, LocalizedError {
     
     /// This error should be thrown when an ``ApiEnvironment``
     /// has a url that can't be used to generate a `URL`.
@@ -36,14 +37,24 @@ public enum ApiError: Error, Equatable, LocalizedError {
 
 public extension ApiError {
 
-    /// A custom localized description.
-    var localizedDescription: String {
+    /// A user-friendly error description.
+    var errorDescription: String? {
         switch self {
-        case .invalidEnvironmentUrl: "Invalid Environment Url"
-        case .invalidHttpStatusCode(let code, _, _, _): "Invalid HTTP Status Code \(code)"
-        case .noUrlInComponents: "No URL In Components"
-        case .failedToCreateComponentsFromUrl: "Failed To Create Components From Url"
-        case .unsuccessfulHttpStatusCode(let code, _, _, _): "Unsuccessful HTTP Status Code \(code)"
+        case .invalidEnvironmentUrl: "Unable to connect to the service. Please check your network connection and try again."
+        case .invalidHttpStatusCode(let code, _, _, _): "An invalid status code was returned (Code: \(code)). Please try again later."
+        case .failedToCreateComponentsFromUrl: "Invalid request configuration."
+        case .noUrlInComponents: "Invalid request configuration."
+        case .unsuccessfulHttpStatusCode(let code, _, _, _):
+            switch code {
+            case 400: "The request was invalid. Please check your input and try again."
+            case 401: "Authentication failed. Please sign in again."
+            case 403: "You don't have permission to access this resource."
+            case 404: "The requested resource was not found."
+            case 408: "The request timed out. Please check your connection and try again."
+            case 429: "Too many requests. Please wait a moment and try again."
+            case 500...599: "The server is experiencing issues. Please try again later."
+            default: "A network error occurred. Please try again later."
+            }
         }
     }
 }
@@ -64,5 +75,16 @@ public extension ApiError {
         case .unsuccessfulHttpStatusCode: true
         default: false
         }
+    }
+}
+
+#Preview {
+
+    return List {
+        listItem(for: ApiError.invalidEnvironmentUrl("foo"))
+    }
+
+    func listItem(for error: Error) -> some View {
+        Text(error.localizedDescription)
     }
 }

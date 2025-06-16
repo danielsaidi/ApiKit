@@ -6,6 +6,14 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 1.0.3
+
+### 💡 Adjustments
+
+* `ApiError` now returns proper localized error descriptions.
+
+
+
 ## 1.0.2
 
 ### ✨ Features
