@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		A9B2328A29D346C700B85203 /* DemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328929D346C700B85203 /* DemoScreen.swift */; };
 		A9B2328D29D346F700B85203 /* TheMovieDbScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328C29D346F700B85203 /* TheMovieDbScreen.swift */; };
-		A9B2328F29D348F300B85203 /* DemoKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B2328E29D348F300B85203 /* DemoKeys.swift */; };
+		A9C008952E8A831600000CB6 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = A9C008942E8A831600000CB6 /* AppIcon.icon */; };
+		A9C008992E8A859C00000CB6 /* View+ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C008982E8A859C00000CB6 /* View+ApiKeys.swift */; };
 		A9C026AB29D2CEFA00371AE0 /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */; };
 		A9C026AD29D2CEFA00371AE0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C026AC29D2CEFA00371AE0 /* ContentView.swift */; };
 		A9C026AF29D2CEFB00371AE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */; };
@@ -23,7 +24,8 @@
 /* Begin PBXFileReference section */
 		A9B2328929D346C700B85203 /* DemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoScreen.swift; sourceTree = "<group>"; };
 		A9B2328C29D346F700B85203 /* TheMovieDbScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheMovieDbScreen.swift; sourceTree = "<group>"; };
-		A9B2328E29D348F300B85203 /* DemoKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoKeys.swift; sourceTree = "<group>"; };
+		A9C008942E8A831600000CB6 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		A9C008982E8A859C00000CB6 /* View+ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ApiKeys.swift"; sourceTree = "<group>"; };
 		A9C026A729D2CEFA00371AE0 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 		A9C026AC29D2CEFA00371AE0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +57,15 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		A9C008932E8A830000000CB6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A9C008942E8A831600000CB6 /* AppIcon.icon */,
+				A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A9C0269E29D2CEFA00371AE0 = {
 			isa = PBXGroup;
 			children = (
@@ -75,13 +86,13 @@
 		A9C026A929D2CEFA00371AE0 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				A9C008932E8A830000000CB6 /* Resources */,
 				A9B2328B29D346E900B85203 /* Screens */,
-				A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */,
-				A9B2328E29D348F300B85203 /* DemoKeys.swift */,
-				A9B2328929D346C700B85203 /* DemoScreen.swift */,
 				A9C026AC29D2CEFA00371AE0 /* ContentView.swift */,
-				A9C026AE29D2CEFB00371AE0 /* Assets.xcassets */,
 				A9C026B029D2CEFB00371AE0 /* Demo.entitlements */,
+				A9C026AA29D2CEFA00371AE0 /* DemoApp.swift */,
+				A9B2328929D346C700B85203 /* DemoScreen.swift */,
+				A9C008982E8A859C00000CB6 /* View+ApiKeys.swift */,
 				A9C026B129D2CEFB00371AE0 /* Preview Content */,
 			);
 			path = Demo;
@@ -172,6 +183,7 @@
 			files = (
 				A9C026B329D2CEFB00371AE0 /* Preview Assets.xcassets in Resources */,
 				A9C026AF29D2CEFB00371AE0 /* Assets.xcassets in Resources */,
+				A9C008952E8A831600000CB6 /* AppIcon.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,9 +196,9 @@
 			files = (
 				A9C026AD29D2CEFA00371AE0 /* ContentView.swift in Sources */,
 				A9B2328D29D346F700B85203 /* TheMovieDbScreen.swift in Sources */,
+				A9C008992E8A859C00000CB6 /* View+ApiKeys.swift in Sources */,
 				A9B2328A29D346C700B85203 /* DemoScreen.swift in Sources */,
 				A9C026AB29D2CEFA00371AE0 /* DemoApp.swift in Sources */,
-				A9B2328F29D348F300B85203 /* DemoKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,10 +346,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielsaidi.apikit.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -347,6 +359,9 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 26.0;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -376,10 +391,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielsaidi.apikit.Demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -389,6 +404,9 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 26.0;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};

@@ -11,17 +11,17 @@ import SwiftUI
 
 struct TheMovieDbScreen: View {
 
-    static let apiKey = DemoKeys.theMovieDb
+    init(apiKey: String) {
+        self.environment = .production(apiKey: apiKey)
+    }
 
     let session = URLSession.shared
-    let environment = Environment.production(apiKey: Self.apiKey)
+    let environment: TheMovieDb.Environment
     let gridColumns = [GridItem(.adaptive(minimum: 100), alignment: .top)]
 
     @StateObject
     private var model = ViewModel()
 
-    typealias Environment = TheMovieDb.Environment
-    typealias Route = TheMovieDb.Route
     typealias Movie = TheMovieDb.Movie
     typealias MovieResult = TheMovieDb.MoviesPaginationResult
 
@@ -42,7 +42,9 @@ struct TheMovieDbScreen: View {
         }
         .task { fetchDiscoverData() }
         .searchable(text: $model.searchQuery)
-        .onReceive(model.$searchQuery.throttle(for: 1, scheduler: RunLoop.main, latest: true), perform: search)
+        .onReceive(model.$searchQuery
+            .throttle(for: 1, scheduler: RunLoop.main, latest: true), perform: search
+        )
         .navigationTitle("The Movie DB")
     }
 }
@@ -85,9 +87,8 @@ extension TheMovieDbScreen {
 
     func fetchDiscoverData() async throws -> MovieResult {
         try await session.request<MovieResult>(
-            at: Route.discoverMovies(page: 1),
-            in: environment,
-            decoder: nil
+            at: TheMovieDb.Route.discoverMovies(page: 1),
+            in: environment
         )
     }
 
@@ -104,7 +105,7 @@ extension TheMovieDbScreen {
 
     func search(with query: String) async throws -> MovieResult {
         try await session.request(
-            at: Route.searchMovies(query: query, page: 1),
+            at: TheMovieDb.Route.searchMovies(query: query, page: 1),
             in: environment
         )
     }
@@ -124,7 +125,7 @@ extension TheMovieDbScreen {
 
 #Preview {
     
-    TheMovieDbScreen()
+    TheMovieDbScreen(apiKey: "c9237ef2809ed01e64d7b37b0f951c7b")
         #if os(macOS)
         .frame(minWidth: 500)
         #endif

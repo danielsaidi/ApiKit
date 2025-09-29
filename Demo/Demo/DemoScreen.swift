@@ -8,7 +8,16 @@
 
 import SwiftUI
 
-enum DemoScreen {
+enum DemoScreen: Hashable, View {
 
-    case theMovieDb
+    case theMovieDb(apiKey: String)
+}
+
+extension DemoScreen {
+
+    var body: some View {
+        switch self {
+        case .theMovieDb(let apiKey): TheMovieDbScreen(apiKey: apiKey)
+        }
+    }
 }

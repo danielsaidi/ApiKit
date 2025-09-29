@@ -11,27 +11,46 @@ import SwiftUI
 
 struct ContentView: View {
 
+    @AppStorage(Self.movieDbApiKey) var movieDbApiKey = ""
+    @AppStorage(Self.yelpApiKey) var yelpApiKey = ""
+
     var body: some View {
         NavigationStack {
             List {
-                NavigationLink("The Movie DB", value: DemoScreen.theMovieDb)
+                screenSection(
+                    title: "The Movie DB",
+                    icon: "popcorn",
+                    apiKey: $movieDbApiKey,
+                    screen: .theMovieDb(apiKey: movieDbApiKey)
+                )
             }
             .navigationTitle("ApiKit")
-            .navigationDestination(for: DemoScreen.self, destination: view)
+            .navigationDestination(for: DemoScreen.self) { $0.body }
         }
     }
 }
 
-extension ContentView {
+private extension ContentView {
 
-    @ViewBuilder
-    func view(for screen: DemoScreen) -> some View {
-        switch screen {
-        case .theMovieDb: TheMovieDbScreen()
+    func screenSection(
+        title: String,
+        icon: String,
+        apiKey: Binding<String>,
+        screen: DemoScreen
+    ) -> some View {
+        Section {
+            NavigationLink(value: screen) {
+                Text("Explore")
+            }
+            TextField("Enter your API Key", text: apiKey)
+        } header: {
+            HStack {
+                Image(systemName: icon)
+                Text(title)
+            }
         }
     }
 }
-
 #Preview {
     
     ContentView()
