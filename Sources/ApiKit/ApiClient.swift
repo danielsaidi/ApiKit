@@ -8,18 +8,15 @@
 
 import Foundation
 
-/// This protocol can be implemented by any type that can be
-/// used to perform API requests.
+/// This protocol can be implemented by any type that can be used to perform API requests.
 ///
-/// Use ``data(for:)`` to request raw data and ``request(_:)``
-/// to request validated ``ApiResult``. You can also use the
-/// generic ``request(with:)`` & ``request(at:in:)`` methods
-/// to request generic, typed data.
+/// You can use ``data(for:)`` to request raw data from any route and ``request(_:)``
+/// to request a validated ``ApiResult``. You can also use ``request(with:)`` and
+/// ``request(at:in:)`` to request and parse any decodable data.
 ///
-/// This protocol is implemented by `URLSession`, so you can
-/// use `URLSession` directly, without having to implement a
-/// client class. But you can do it if you want to customize
-/// how it performs certain operations.
+/// This protocol is implemented by `URLSession`, so you can use `URLSession` directly,
+/// without having to implement a client class. But you can do it if you want to customize how it
+/// performs certain operations.
 public protocol ApiClient: AnyObject {
     
     /// Fetch data with the provided `URLRequest`.

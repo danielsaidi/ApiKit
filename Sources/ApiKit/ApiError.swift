@@ -9,29 +9,22 @@
 import Foundation
 import SwiftUI
 
-/// This enum defines api-specific errors that can be thrown
-/// when an ``ApiClient`` communicates with any external API.
+/// This enum defines api-specific errors that can be thrown by an ``ApiClient``.
 public enum ApiError: Equatable, LocalizedError {
     
-    /// This error should be thrown when an ``ApiEnvironment``
-    /// has a url that can't be used to generate a `URL`.
+    /// This error is thrown when an ``ApiEnvironment`` has an invalid ``ApiEnvironment/url``.
     case invalidEnvironmentUrl(String)
 
-    /// This error should be thrown when a URL request fails
-    /// due to an invalid status code (outside of 100-599).
+    /// This error is thrown when a URL request fails due to an invalid status code (outside of 100-599).
     case invalidHttpStatusCode(Int, URLRequest, URLResponse, Data)
 
-    /// This error should be thrown when a `URLRequest` will
-    /// fail to be created due to invalid `URLComponents`.
+    /// This error is thrown when a `URLRequest` will fail to be created due to invalid `URLComponents`.
     case noUrlInComponents(URLComponents)
 
-    /// This error should be thrown when a `URLRequest` will
-    /// fail to be created due to an invalid `URL`.
+    /// This error is thrown when a `URLRequest` will fail to be created due to an invalid `URL`.
     case failedToCreateComponentsFromUrl(URL)
 
-    /// This error should be thrown when a URL request fails
-    /// due to an unsuccessful status code (100-199, as well
-    /// as 300-599).
+    /// This error is thrown when a URL request fails due to an unsuccessful status code (100-199, 300-599).
     case unsuccessfulHttpStatusCode(Int, URLRequest, URLResponse, Data)
 }
 

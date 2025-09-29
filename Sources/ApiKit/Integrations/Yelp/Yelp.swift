@@ -10,6 +10,5 @@ import Foundation
 
 /// This namespace defines an API integration for Yelp's API.
 ///
-/// You can read more on how to set up a test API account at
-/// `https://yelp.com/developers`.
+/// You can set up an API account at `https://yelp.com/developers`.
 public struct Yelp {}

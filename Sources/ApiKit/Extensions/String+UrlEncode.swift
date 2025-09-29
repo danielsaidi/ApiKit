@@ -14,8 +14,7 @@ extension String {
 
     /// Encode the string to work for `x-www-form-urlencoded`.
     ///
-    /// This will first call `urlEncoded()` and replace each
-    /// `+` with `%2B`.
+    /// This will first call `urlEncoded()` and replace each `+` with `%2B`.
     func formEncoded() -> String? {
         self.urlEncoded()?
             .replacingOccurrences(of: "+", with: "%2B")
@@ -23,9 +22,8 @@ extension String {
     
     /// Encode the string for quary parameters.
     ///
-    /// This will first call `addingPercentEncoding` using a
-    /// `.urlPathAllowed` character set then replace each `&`
-    /// with `%26`.
+    /// This will first `addingPercentEncoding` with a `.urlPathAllowed` character
+    /// set, then replace every `&` with `%26`.
     func urlEncoded() -> String? {
         self.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)?
             .replacingOccurrences(of: "&", with: "%26")

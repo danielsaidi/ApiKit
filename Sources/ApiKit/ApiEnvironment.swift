@@ -8,18 +8,14 @@
 
 import Foundation
 
-/// This protocol can be used to define API environments, or
-/// specific API versions.
+/// This protocol can be used to define API environments, or specific API versions.
 ///
-/// An ``ApiEnvironment`` must define a ``url``, to which an
-/// environment-relative ``ApiRoute/path`` can be added. You
-/// can use an enum to define multiple environments.
+/// An ``ApiEnvironment`` must define a ``url``, to which an ``ApiRoute``-specific
+/// path can be appended. You can use enums to define multiple environments.
 ///
-/// Both the ``ApiEnvironment`` and ``ApiRoute`` can specify
-/// headers and query parameters that they need. Environment
-/// specific headers and query parameters will be applied to
-/// all requests, while a route specific value will override
-/// a value that is defined by the environment.
+/// The ``ApiEnvironment`` can define headers and query parameters it needs, which will
+/// be applied to all requests to that environment. An ``ApiRoute`` can override any values
+/// that are defined by the environment.
 public protocol ApiEnvironment: Sendable {
     
     /// Optional header parameters to apply to all requests.
