@@ -11,13 +11,16 @@ import SwiftUI
 enum DemoScreen: Hashable, View {
 
     case theMovieDb(apiKey: String)
+    case yelp(apiKey: String)
 }
 
 extension DemoScreen {
 
+    @ViewBuilder
     var body: some View {
         switch self {
         case .theMovieDb(let apiKey): TheMovieDbScreen(apiKey: apiKey)
+        case .yelp(let apiKey): YelpScreen(apiKey: apiKey)
         }
     }
 }

@@ -1,29 +1,29 @@
 //
-//  TheMovieDbScreen.swift
+//  YelpScreen.swift
 //  Demo
 //
-//  Created by Daniel Saidi on 2023-03-28.
-//  Copyright © 2023-2025 Daniel Saidi. All rights reserved.
+//  Created by Daniel Saidi on 2025-09-29.
+//  Copyright © 2025 Daniel Saidi. All rights reserved.
 //
 
 import ApiKit
 import SwiftUI
 
-struct TheMovieDbScreen: View {
+struct YelpScreen: View {
 
     init(apiKey: String) {
-        self.environment = .production(apiKey: apiKey)
+        self.environment = .v3(apiToken: apiKey)
     }
 
     let session = URLSession.shared
-    let environment: TheMovieDb.Environment
+    let environment: Yelp.Environment
     let gridColumns = [GridItem(.adaptive(minimum: 100), alignment: .top)]
 
     @StateObject
     private var model = ViewModel()
 
-    typealias Item = TheMovieDb.Movie
-    typealias ItemResult = TheMovieDb.MoviesPaginationResult
+    typealias Item = Yelp.Restaurant
+    typealias ItemResult = Yelp.RestaurantSearchResult
 
     class ViewModel: ObservableObject {
 
@@ -38,26 +38,25 @@ struct TheMovieDbScreen: View {
                 ForEach(items) {
                     gridItem(for: $0)
                 }
-            }
-            .padding()
+            }.padding()
         }
         .task { fetchDefaultItems() }
-        .searchable(text: $model.searchQuery)
-        .onReceive(model.$searchQuery.throttle(
-            for: 1,
-            scheduler: RunLoop.main,
-            latest: true
-        ), perform: search)
-        .navigationTitle("The Movie DB")
+//        .searchable(text: $model.searchQuery)
+//        .onReceive(model.$searchQuery.throttle(
+//            for: 1,
+//            scheduler: RunLoop.main,
+//            latest: true
+//        ), perform: search)
+        .navigationTitle("Yelp")
     }
 }
 
-extension TheMovieDbScreen {
+extension YelpScreen {
 
     func gridItem(for item: Item) -> some View {
         VStack {
             AsyncImage(
-                url: item.posterUrl(width: 300),
+                url: item.imageUrl?.url,
                 content: { image in
                     image.resizable()
                         .cornerRadius(5)
@@ -67,12 +66,19 @@ extension TheMovieDbScreen {
                     ProgressView()
                 }
             )
-            .accessibilityLabel(item.title)
+            .accessibilityLabel(item.name ?? item.id)
         }
     }
 }
 
-extension TheMovieDbScreen {
+private extension String {
+
+    var url: URL? {
+        .init(string: self)
+    }
+}
+
+extension YelpScreen {
 
     var items: [Item] {
         model.searchItems.isEmpty ? model.defaultItems : model.searchItems
@@ -82,7 +88,14 @@ extension TheMovieDbScreen {
         Task {
             do {
                 let result: ItemResult = try await session.request(
-                    at: TheMovieDb.Route.discoverMovies(page: 1),
+                    at: Yelp.Route.search(
+                        params: .init(
+                            skip: 0,
+                            take: 25,
+                            radius: 5_000,
+                            coordinate: (lat: 59.3327, long: 18.0645)
+                        )
+                    ),
                     in: environment
                 )
                 updateDefaultItems(with: result)
@@ -91,35 +104,13 @@ extension TheMovieDbScreen {
             }
         }
     }
-
-    func search(with query: String) {
-        Task {
-            do {
-                let result = try await search(with: query)
-                updateSearchResult(with: result)
-            } catch {
-                print(error)
-            }
-        }
-    }
-
-    func search(with query: String) async throws -> ItemResult {
-        try await session.request(
-            at: TheMovieDb.Route.searchMovies(query: query, page: 1),
-            in: environment
-        )
-    }
 }
 
 @MainActor
-extension TheMovieDbScreen {
+extension YelpScreen {
 
     func updateDefaultItems(with result: ItemResult) {
-        model.defaultItems = result.results
-    }
-
-    func updateSearchResult(with result: ItemResult) {
-        model.searchItems = result.results
+        model.defaultItems = result.businesses
     }
 }
 
@@ -127,10 +118,10 @@ extension TheMovieDbScreen {
 
     struct Preview: View {
 
-        @AppStorage(Self.movieDbApiKey) var apiKey = ""
+        @AppStorage(Self.yelpApiKey) var apiKey = ""
 
         var body: some View {
-            TheMovieDbScreen(apiKey: apiKey)
+            YelpScreen(apiKey: apiKey)
                 #if os(macOS)
                 .frame(minWidth: 500)
                 #endif

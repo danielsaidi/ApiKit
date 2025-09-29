@@ -11,7 +11,7 @@ import Foundation
 public extension Yelp {
 
     /// This type represents a Yelp restaurant (business).
-    struct Restaurant: ApiModel {
+    struct Restaurant: ApiModel, Identifiable {
 
         public let id: String
         public let alias: String?
@@ -140,10 +140,10 @@ public extension Yelp {
     struct RestaurantSearchParams: Sendable {
 
         public init(
-            skip: Int,
-            take: Int,
+            skip: Int = 0,
+            take: Int = 25,
             radius: Int,
-            coordinate: (lat: Double, long: Double)? = nil,
+            coordinate: (lat: Double, long: Double),
             budgetLevels: [BudgetLevel] = [],
             openingHours: OpeningHours = .showAll
         ) {
@@ -170,7 +170,7 @@ public extension Yelp {
         public let skip: Int
         public let take: Int
         public let radius: Int
-        public let coordinate: (lat: Double, long: Double)?
+        public let coordinate: (lat: Double, long: Double)
         public let budgetLevels: [BudgetLevel]
         public let openingHours: OpeningHours
         
@@ -182,10 +182,8 @@ public extension Yelp {
                 "limit": "\(take)"
             ]
             
-            if let coord = coordinate {
-                params["latitude"] = "\(coord.lat)"
-                params["longitude"] = "\(coord.long)"
-            }
+            params["latitude"] = "\(coordinate.lat)"
+            params["longitude"] = "\(coordinate.long)"
             
             if !budgetLevels.isEmpty {
                 params["price"] = Set(budgetLevels)

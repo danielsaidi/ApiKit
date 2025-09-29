@@ -23,6 +23,12 @@ struct ContentView: View {
                     apiKey: $movieDbApiKey,
                     screen: .theMovieDb(apiKey: movieDbApiKey)
                 )
+                screenSection(
+                    title: "Yelp",
+                    icon: "fork.knife",
+                    apiKey: $yelpApiKey,
+                    screen: .yelp(apiKey: yelpApiKey)
+                )
             }
             .navigationTitle("ApiKit")
             .navigationDestination(for: DemoScreen.self) { $0.body }
