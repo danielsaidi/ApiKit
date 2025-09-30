@@ -10,15 +10,18 @@ import Foundation
 
 /// This protocol can be used to define API-specific routes.
 ///
-/// An ``ApiRoute`` must define an ``httpMethod`` as well as an environment-relative
-/// ``path``, which will be appended to an environment ``ApiEnvironment/url``.
+/// An ``ApiRoute`` must define an environment-relative``path``, which will
+/// be appended to an environment ``ApiEnvironment/url``
 ///
-/// When a route defines ``formParams``, the request should omit the ``postData`` and
-/// use `application/x-www-form-urlencoded` with the ``formParams``.
+/// You can use an enum to define several routes for a certain API, or use a struct
+/// if you want to allow for more extensibility.
 ///
-/// The ``ApiEnvironment`` can define headers and query parameters it needs, which will
-/// be applied to all requests to that environment. An ``ApiRoute`` can override any values
-/// that are defined by the environment. 
+/// When a route defines ``formParams``, the ``postData`` should not be
+/// used. Instead `application/x-www-form-urlencoded` should be used
+/// with the ``formParams`` value.
+///
+/// An ``ApiRoute`` can override any headers and query parameters that are
+/// defined by an ``ApiEnvironment``.
 public protocol ApiRoute: Sendable {
     
     /// Optional header parameters to apply to the route.

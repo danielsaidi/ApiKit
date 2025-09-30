@@ -10,9 +10,9 @@ import Foundation
 
 /// This protocol can be used to define a API route, and its expected return type.
 ///
-/// You can use this protocol to avoid having to specify the return type when fetching route data.
-/// Just use ``ApiClient/fetch(_:from:)`` to automatically decode the response data
-/// to the expected ``ResponseType``.
+/// You can use this protocol to avoid having to specify a type when fetching data
+/// from a route. Just use ``ApiClient/fetch(_:from:)`` to automatically
+/// decode the response data to the expected ``ResponseType``.
 public protocol ApiRequest: Codable {
     
     associatedtype ResponseType: Codable

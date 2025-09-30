@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-/// This enum defines api-specific errors that can be thrown by an ``ApiClient``.
+/// This enum defines errors that can be thrown by an ``ApiClient``.
 public enum ApiError: Equatable, LocalizedError {
     
     /// This error is thrown when an ``ApiEnvironment`` has an invalid ``ApiEnvironment/url``.

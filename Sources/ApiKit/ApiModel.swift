@@ -7,6 +7,4 @@
 //
 
 /// This protocol can be implemented by API-specific models.
-///
-/// This protocol makes all API models conform to both `Codable` and `Sendable`.
 public protocol ApiModel: Codable, Sendable {}
