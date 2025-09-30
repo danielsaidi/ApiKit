@@ -25,6 +25,8 @@ public protocol ApiClient: AnyObject {
     ) async throws -> (Data, URLResponse)
 }
 
+extension URLSession: ApiClient {}
+
 public extension ApiClient {
     
     /// Request a raw ``ApiResult`` for the provided request.
