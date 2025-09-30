@@ -18,8 +18,10 @@
   },
   "groups" : [
     {
+      "hidden" : false,
       "layers" : [
         {
+          "hidden" : false,
           "image-name" : "ApiKit-Cloud.png",
           "name" : "ApiKit-Cloud",
           "position" : {
@@ -42,8 +44,14 @@
       }
     },
     {
+      "blend-mode" : "normal",
+      "blur-material" : null,
+      "hidden" : false,
       "layers" : [
         {
+          "fill" : "automatic",
+          "glass" : true,
+          "hidden" : false,
           "image-name" : "ApiKit-Bolt.png",
           "name" : "ApiKit-Bolt",
           "position" : {
@@ -53,52 +61,16 @@
               0
             ]
           }
-        },
-        {
-          "hidden" : true,
-          "image-name" : "Icon-2.png",
-          "name" : "StandardActions",
-          "position" : {
-            "scale" : 0.75,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        },
-        {
-          "glass" : true,
-          "hidden" : true,
-          "image-name" : "Icon.png",
-          "name" : "ScanCodes",
-          "position" : {
-            "scale" : 0.92,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        },
-        {
-          "hidden" : true,
-          "image-name" : "Icon-3.png",
-          "name" : "VideoKit",
-          "position" : {
-            "scale" : 0.78,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
         }
       ],
-      "name" : "Middle",
+      "name" : "Accent",
       "shadow" : {
-        "kind" : "neutral",
+        "kind" : "layer-color",
         "opacity" : 0.5
       },
+      "specular" : false,
       "translucency" : {
-        "enabled" : true,
+        "enabled" : false,
         "value" : 0.5
       }
     },
