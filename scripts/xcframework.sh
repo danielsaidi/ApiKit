@@ -12,7 +12,8 @@ show_usage() {
     echo "Usage: $0 [TARGET] [-p|--platforms <PLATFORM1> <PLATFORM2> ...] [-d|--dSyms <0|1>]"
     echo "  [TARGET]              Optional. The target to build framework for (defaults to package name)"
     echo "  -p, --platforms       Optional. List of platforms (default: iOS macOS tvOS watchOS xrOS)"
-    echo "  -d, --dSyms           Optional. Include dSYMs (0 or 1, default: 0)"
+    echo "  -d, --dsyms           Optional. Include dSYMs (0 or 1, default: 0)"
+    echo "  -z, --zip             Optional. Generate zip files (0 or 1, default: 0)"
     
     echo
     echo "Important: This script doesn't work on packages, only on .xcproj projects that generate a framework."
@@ -24,8 +25,8 @@ show_usage() {
     echo "  $0 -p iOS macOS"
     echo "  $0 MyTarget -p iOS macOS"
     echo "  $0 MyTarget --platforms iOS macOS tvOS watchOS xrOS"
-    echo "  $0 MyTarget --dSyms 1"
-    echo "  $0 MyTarget -p iOS macOS -d 1"
+    echo "  $0 MyTarget --dsyms 1 --zip 1"
+    echo "  $0 MyTarget -p iOS macOS -d 1 -z 1"
     echo
 }
 
@@ -42,6 +43,7 @@ show_error_and_exit() {
 TARGET=""
 PLATFORMS="iOS macOS tvOS watchOS xrOS"  # Default platforms
 INCLUDE_DSYMS=0  # Default to not including dSYMs
+GENERATE_ZIPS=0   # Default to not generating zip files
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -62,13 +64,22 @@ while [[ $# -gt 0 ]]; do
                 show_error_and_exit "--platforms requires at least one platform"
             fi
             ;;
-        -d|--dSyms)
+        -d|--dsyms)
             shift
             if [[ "$1" == "0" || "$1" == "1" ]]; then
                 INCLUDE_DSYMS="$1"
                 shift
             else
-                show_error_and_exit "--dSyms requires 0 or 1"
+                show_error_and_exit "--dsyms requires 0 or 1"
+            fi
+            ;;
+        -z|--zip)
+            shift
+            if [[ "$1" == "0" || "$1" == "1" ]]; then
+                GENERATE_ZIPS="$1"
+                shift
+            else
+                show_error_and_exit "--zip requires 0 or 1"
             fi
             ;;
         -h|--help)
@@ -223,17 +234,19 @@ if ! eval "$XCFRAMEWORK_CMD"; then
     exit 1
 fi
 
-# Generate XCFramework zip
-echo "Generating XCFramework zip..."
-if ! zip -r $BUILD_ZIP $BUILD_FILE; then
-    echo "Failed to generate XCFramework zip"
-    exit 1
-fi
+# Generate XCFramework zip and checksum if requested
+if [ "$GENERATE_ZIPS" == "1" ]; then
+    echo "Generating XCFramework zip..."
+    if ! (cd $BUILD_FOLDER && zip -r $(basename $BUILD_ZIP) $(basename $BUILD_FILE)); then
+        echo "Failed to generate XCFramework zip"
+        exit 1
+    fi
 
-echo
-echo "***** FRAMEWORK CHECKSUM *****"
-swift package compute-checksum $BUILD_ZIP
-echo "******************************"
+    echo
+    echo "***** FRAMEWORK CHECKSUM *****"
+    swift package compute-checksum $BUILD_ZIP
+    echo "******************************"
+fi
 
 # Package dSYMs separately if requested
 if [ "$INCLUDE_DSYMS" == "1" ]; then
@@ -257,17 +270,15 @@ if [ "$INCLUDE_DSYMS" == "1" ]; then
         fi
     done
     
-    # Create dSYMs zip
-    if [ -d "$DSYM_FOLDER" ] && [ "$(ls -A $DSYM_FOLDER)" ]; then
+    # Create dSYMs zip only if zip generation is enabled
+    if [ "$GENERATE_ZIPS" == "1" ] && [ -d "$DSYM_FOLDER" ] && [ "$(ls -A $DSYM_FOLDER)" ]; then
+        echo "Generating dSYMs zip..."
         if ! (cd $BUILD_FOLDER && zip -r $(basename $DSYM_ZIP) $(basename $DSYM_FOLDER)); then
             echo "Failed to generate dSYMs zip"
             exit 1
         fi
-        
-        echo
-        echo "***** DSYMS CHECKSUM *****"
-        swift package compute-checksum $DSYM_ZIP
-        echo "**************************"
+    elif [ "$GENERATE_ZIPS" == "0" ] && [ -d "$DSYM_FOLDER" ] && [ "$(ls -A $DSYM_FOLDER)" ]; then
+        echo "dSYMs collected but not zipped (--zip not enabled)"
     else
         echo "Warning: No dSYMs found to package"
     fi
