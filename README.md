@@ -90,6 +90,7 @@ let client = URLSession.shared
 let env = YelpEnvironment.v3(apiToken: "YOUR_TOKEN")
 let route = YelpRoute.business(id: "abc123") 
 let business: YelpBusiness = try await client.request(route, in: env)
+// or...
 // let business = try await client.request(route, as: YelpBusiness.self, in: environment)
 ```
 

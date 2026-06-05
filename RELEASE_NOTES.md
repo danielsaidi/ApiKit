@@ -6,6 +6,18 @@ Until then, breaking changes can happen in any version, and deprecated features 
 
 
 
+## 1.2.0
+
+### ✨ Features
+
+* `ApiClient` has a new `request(_:as:in:decoder:)` request variant.
+
+### 💡 Adjustments
+
+* `ApiClient`'s `request(at:in:decoder:)` is renamed to `request(_:in:decoder:)`. 
+
+
+
 ## 1.1.0
 
 ### 💡 Adjustments

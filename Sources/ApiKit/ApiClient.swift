@@ -62,14 +62,34 @@ public extension ApiClient {
 
     /// Request a typed result for the provided route.
     func request<T: Decodable>(
-        at route: ApiRoute,
+        _ route: ApiRoute,
         in environment: ApiEnvironment,
         decoder: JSONDecoder? = nil
     ) async throws -> T {
         let request = try route.urlRequest(for: environment)
         return try await self.request(with: request, decoder: decoder)
     }
-    
+
+    /// Request a typed result for the provided route.
+    func request<T: Decodable>(
+        _ route: ApiRoute,
+        as type: T.Type,
+        in environment: ApiEnvironment,
+        decoder: JSONDecoder? = nil
+    ) async throws -> T {
+        let request = try route.urlRequest(for: environment)
+        return try await self.request(with: request, decoder: decoder)
+    }
+
+    @available(*, deprecated, renamed: "request(_:in:decoder:)")
+    func request<T: Decodable>(
+        at route: ApiRoute,
+        in environment: ApiEnvironment,
+        decoder: JSONDecoder? = nil
+    ) async throws -> T {
+        try await request(route, in: environment, decoder: decoder)
+    }
+
     /// Validate the provided request, response and data.
     func validate(
         request: URLRequest,
