@@ -6,7 +6,7 @@
     <img src="https://img.shields.io/github/v/release/danielsaidi/ApiKit?color=%2300550&sort=semver" alt="Version" />
     <img src="https://img.shields.io/badge/swift-6.1-orange.svg" alt="Swift 6.1" />
     <a href="https://danielsaidi.github.io/ApiKit"><img src="https://img.shields.io/badge/documentation-web-blue.svg" alt="Documentation" /></a>
-    <a href="https://github.com/danielsaidi/ApiKit/blob/master/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/ApiKit" alt="MIT License" /></a>
+    <a href="https://github.com/danielsaidi/ApiKit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/danielsaidi/ApiKit" alt="MIT License" /></a>
 </p>
 
 
@@ -16,7 +16,7 @@ ApiKit is a Swift library that makes it easy to integrate with any REST API and 
 
 ApiKit defines an ``ApiClient`` protocol that can be used to request raw & typed data from any REST API, as well as ``ApiEnvironment`` and ``ApiRoute`` protocols that make it easy to model environments and routes 
 
-The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly.
+The ``ApiClient`` protocol is already implemented by ``URLSession``, so you can use ``URLSession.shared`` directly. The protocol can be used to get an abstract reference to the session, or to mock a client in unit tests.
 
 
 ## Installation
@@ -87,12 +87,23 @@ With an environment and route in place, we can now fetch a `YelpBusiness` with a
 
 ```swift
 let client = URLSession.shared
-let environment = YelpEnvironment.v3(apiToken: "YOUR_TOKEN")
+let env = YelpEnvironment.v3(apiToken: "YOUR_TOKEN")
 let route = YelpRoute.business(id: "abc123") 
-let business: YelpBusiness = try await client.request(route, in: environment)
+let business: YelpBusiness = try await client.request(route, in: env)
+// let business = try await client.request(route, as: YelpBusiness.self, in: environment)
 ```
 
-The generic request functions will automatically map the raw response to the requested type, and throw any error that occurs. There are also non-generic variants if you want to get the raw data or use custom error handling.
+If you make this call in a function that defines the return type, you don't even have to define the type:
+
+```swift
+func fetchBusiness(
+    withId id: String
+) async throws -> YelpBusiness {
+    try await client.request(.business(id: id), in: env)
+}
+```
+
+The request will automatically map the raw response to the requested type, and throw any error that occurs. There are also non-generic variants if you want to get the raw data, or use custom error handling.
 
 See the online [getting started guide][Getting-Started] for more information.
 
